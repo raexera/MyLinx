@@ -28,3 +28,23 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker override
+docker-compose.override.yml
+
+# Laravel
+src/vendor/
+src/node_modules/
+src/.env
+src/.env.backup
+src/.env.production
