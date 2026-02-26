@@ -16,6 +16,8 @@ services:
         GID: "${GID:-1000}"
     container_name: mylinx-app
     restart: unless-stopped
+    ports:
+      - "5173:5173"
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
