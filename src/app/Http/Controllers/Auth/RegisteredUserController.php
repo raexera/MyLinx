@@ -36,10 +36,10 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'nama' => $request->name,       // maps form field 'name' → our 'nama' column
+            'nama' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'tenant_admin',        // default role for self-registration
+            'role' => 'tenant_admin',
         ]);
 
         event(new Registered($user));
