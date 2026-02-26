@@ -1,83 +1,87 @@
-# =============================================================================
-# MyLinx - PHP-FPM Application Container
-# =============================================================================
-FROM php:8.3-fpm-alpine AS base
+# ==============================================================================
+# MyLinx - PHP-FPM Development Container
+# Base: Debian Bookworm (cross-platform compatible)
+# ==============================================================================
 
+FROM php:8.3-fpm-bookworm
+
+LABEL maintainer="MyLinx Team"
+LABEL description="PHP 8.3 FPM with Laravel dependencies for MyLinx SaaS"
+
+# --------------------------------------------------------------------------
+# Build arguments for host UID/GID mapping (cross-platform)
+# --------------------------------------------------------------------------
 ARG UID=1000
 ARG GID=1000
 
-# ---- System dependencies & PHP extensions -----------------------------------
-RUN apk add --no-cache \
-        bash \
-        curl \
-        git \
-        unzip \
-        shadow \
-        icu-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        freetype-dev \
-        libzip-dev \
-        libxml2-dev \
-        postgresql-dev \
-        oniguruma-dev \
-        linux-headers \
-        nodejs \
-        npm \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j"$(nproc)" \
-        pdo \
+# --------------------------------------------------------------------------
+# Environment variables
+# --------------------------------------------------------------------------
+ENV DEBIAN_FRONTEND=noninteractive
+
+# --------------------------------------------------------------------------
+# 1. Install system dependencies
+# --------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    unzip \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libpq-dev \
+    libzip-dev \
+    libicu-dev \
+    libonig-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------------------------------------
+# 2. Install & configure PHP extensions
+# --------------------------------------------------------------------------
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
         pgsql \
         gd \
         zip \
-        bcmath \
         intl \
+        bcmath \
         opcache \
         mbstring \
-        exif \
-        pcntl \
-        xml \
-    && rm -rf /var/cache/apk/*
+        exif
 
-# ---- OPcache defaults (dev-friendly) ----------------------------------------
-RUN { \
-    echo 'opcache.memory_consumption=128'; \
-    echo 'opcache.interned_strings_buffer=8'; \
-    echo 'opcache.max_accelerated_files=4000'; \
-    echo 'opcache.revalidate_freq=0'; \
-    echo 'opcache.validate_timestamps=1'; \
-    echo 'opcache.fast_shutdown=1'; \
-    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+# --------------------------------------------------------------------------
+# 3. Install Composer (latest stable)
+# --------------------------------------------------------------------------
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# ---- PHP configuration overrides --------------------------------------------
-RUN { \
-    echo 'upload_max_filesize=64M'; \
-    echo 'post_max_size=64M'; \
-    echo 'memory_limit=256M'; \
-    echo 'max_execution_time=60'; \
-    } > /usr/local/etc/php/conf.d/custom.ini
+# --------------------------------------------------------------------------
+# 4. Install Node.js 20 LTS & npm
+# --------------------------------------------------------------------------
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
-# ---- Composer ----------------------------------------------------------------
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# ---- Create non-root user matching host UID/GID -----------------------------
-RUN deluser --remove-home www-data 2>/dev/null || true \
-    && delgroup www-data 2>/dev/null || true \
-    && addgroup -g ${GID} www-data \
-    && adduser -u ${UID} -G www-data -D -s /bin/bash www-data
-
-WORKDIR /var/www/html
-
-RUN mkdir -p \
-        storage/framework/sessions \
-        storage/framework/views \
-        storage/framework/cache \
-        storage/logs \
-        bootstrap/cache \
+# --------------------------------------------------------------------------
+# 5. Configure www-data user to match host UID/GID (prevents permission issues)
+# --------------------------------------------------------------------------
+RUN userdel -f www-data || true \
+    && groupdel www-data 2>/dev/null || true \
+    && if getent group ${GID} > /dev/null 2>&1; then groupmod -n www-data $(getent group ${GID} | cut -d: -f1); else groupadd -g ${GID} www-data; fi \
+    && useradd -l -u ${UID} -g www-data -m -s /bin/bash www-data \
+    && mkdir -p /var/www/html \
     && chown -R www-data:www-data /var/www/html
 
-USER www-data
+# --------------------------------------------------------------------------
+# 6. Custom PHP configuration for development
+# --------------------------------------------------------------------------
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+# --------------------------------------------------------------------------
+# 7. Set working directory
+# --------------------------------------------------------------------------
+WORKDIR /var/www/html
 
 EXPOSE 9000
+
 CMD ["php-fpm"]

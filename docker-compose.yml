@@ -1,68 +1,80 @@
-# =============================================================================
-# MyLinx - Docker Compose (Local Development)
-# =============================================================================
+# ==============================================================================
+# MyLinx - Docker Compose (Development)
+# Services: app (PHP-FPM), web (Nginx), db (PostgreSQL 16)
+# ==============================================================================
 
 services:
-
-  # --- PHP-FPM Application ---------------------------------------------------
+  # ----------------------------------------------------------------------------
+  # PHP-FPM Application Container
+  # ----------------------------------------------------------------------------
   app:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
     container_name: mylinx-app
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
+      - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+      - mylinx-network
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - mylinx
+    environment:
+      - PHP_OPCACHE_ENABLE=0
 
-  # --- Nginx Web Server ------------------------------------------------------
+  # ----------------------------------------------------------------------------
+  # Nginx Web Server
+  # ----------------------------------------------------------------------------
   web:
-    image: nginx:1.27-alpine
+    image: nginx:1.25-bookworm
     container_name: mylinx-web
     restart: unless-stopped
     ports:
-      - "${APP_PORT:-8080}:80"
+      - "8000:80"
     volumes:
-      - ./src:/var/www/html:ro
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - mylinx-network
     depends_on:
       - app
-    networks:
-      - mylinx
 
-  # --- PostgreSQL 16 ---------------------------------------------------------
+  # ----------------------------------------------------------------------------
+  # PostgreSQL 16 Database
+  # ----------------------------------------------------------------------------
   db:
-    image: postgres:16-alpine
+    image: postgres:16-bookworm
     container_name: mylinx-db
     restart: unless-stopped
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "5432:5432"
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-mylinx}
-      POSTGRES_USER: ${DB_USERNAME:-mylinx}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+      POSTGRES_DB: mylinx
+      POSTGRES_USER: mylinx
+      POSTGRES_PASSWORD: secret
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - mylinx-db-data:/var/lib/postgresql/data
+    networks:
+      - mylinx-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-mylinx}"]
+      test: ["CMD-SHELL", "pg_isready -U mylinx -d mylinx"]
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - mylinx
 
+# ==============================================================================
+# Persistent Volumes & Networks
+# ==============================================================================
 volumes:
-  db_data:
+  mylinx-db-data:
     driver: local
 
 networks:
-  mylinx:
+  mylinx-network:
     driver: bridge
