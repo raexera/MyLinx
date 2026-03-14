@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProfilUsahaController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
@@ -49,10 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('settings.template');
     })->name('settings.template');
 
-    // ── Portfolio Builder (placeholder) ─────────────────────
-    Route::get('/portfolio/builder', function () {
-        return view('portfolio.builder');
-    })->name('portfolio.builder');
+    // ── Portofolio CRUD ─────────────────────────────────────
+    Route::resource('portfolio', PortofolioController::class)
+        ->except(['show', 'create']);
 
     // ── Order (placeholder views) ───────────────────────────
     Route::get('/order', function () {

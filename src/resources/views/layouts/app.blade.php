@@ -41,7 +41,7 @@
             <a href="{{ route('settings.website') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('settings.website') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Website Settings</span>
             </a>
-            <a href="{{ route('portfolio.builder') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('portfolio.builder') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+            <a href="{{ route('portfolio.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('portfolio.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Portfolio Builder</span>
             </a>
             <a href="{{ route('produk.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('produk.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
