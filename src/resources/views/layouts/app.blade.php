@@ -1,36 +1,129 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'MyLinx') }} - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-serif:400,400i|inter:400,500,600,700" rel="stylesheet" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .font-serif { font-family: 'Instrument Serif', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+    </style>
+</head>
+<body class="font-sans antialiased text-[#1A1C19] flex h-screen overflow-hidden selection:bg-[#2E5136] selection:text-white bg-[#F5F6F8]" x-data="{ sidebarOpen: false }">
+    <!-- Overlay for mobile sidebar -->
+    <div x-show="sidebarOpen" style="display: none;" class="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm" @click="sidebarOpen = false" x-transition.opacity></div>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+    <!-- Sidebar -->
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed lg:relative w-[260px] bg-[#1A1C19] text-white flex flex-col h-full flex-shrink-0 z-50 transition-transform duration-300 transform lg:translate-x-0">
+        <div class="h-[96px] flex items-center justify-between px-8 border-b border-white/5">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-[#2E5136] flex items-center justify-center shadow-lg">
+                    <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                </div>
+                <span class="font-serif text-[1.6rem] tracking-wide mt-1">MyLinx</span>
+            </a>
+            <button @click="sidebarOpen = false" class="lg:hidden text-gray-400 hover:text-white p-1 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
-    </body>
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ route('settings.website') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('settings.website') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Website Settings</span>
+            </a>
+            <a href="{{ route('portfolio.builder') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('portfolio.builder') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Portfolio Builder</span>
+            </a>
+            <a href="{{ route('produk.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('produk.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Produk</span>
+            </a>
+            <a href="{{ route('order.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('order.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Order</span>
+            </a>
+            <a href="{{ route('payment.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('payment.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Payment</span>
+            </a>
+            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-3 text-[#8b9196] hover:text-white hover:bg-white/5 rounded-xl text-sm font-semibold transition-colors mt-8">
+                <span>Profile</span>
+            </a>
+            <form method="POST" action="{{ route('logout') }}" class="block">
+                @csrf
+                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[#D73A27] hover:bg-red-500/10 rounded-xl text-sm font-semibold transition-colors text-left">
+                    <span>Logout</span>
+                </button>
+            </form>
+        </nav>
+        <div class="px-4 pb-8 mt-auto hidden sm:block">
+            <div class="bg-gradient-to-br from-[#2E5136] to-[#1f3824] rounded-[18px] p-5 shadow-lg border border-white/10 relative overflow-hidden">
+                <div class="text-[10px] text-white font-bold uppercase tracking-widest mb-1 opacity-80 relative z-10">PLAN</div>
+                <div class="text-white font-serif text-[1.35rem] tracking-wide mb-5 relative z-10 leading-none">UMKM Pro</div>
+                <a href="#" class="block w-full bg-white text-center py-2 rounded-full text-xs font-bold text-[#1A1C19] hover:bg-gray-100 transition-colors shadow-sm relative z-10">Upgrade Plan</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 {{ isset($whiteBg) && $whiteBg == 'true' ? 'bg-white' : 'bg-[#F5F6F8]' }} h-screen overflow-y-auto w-full relative">
+        
+        <!-- Mobile Topbar -->
+        <div class="lg:hidden sticky top-0 bg-white/95 backdrop-blur shadow-sm border-b border-[#E8EBED] px-4 py-3 flex items-center justify-between z-30">
+            <button @click="sidebarOpen = true" class="p-2 -ml-2 text-gray-600 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#2E5136]">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-[#1A1C19]">{{ Auth::user()->name ?? 'Santana Mena' }}</span>
+                <div class="w-8 h-8 rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[11px] text-[#A6785D]">
+                    SM
+                </div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="min-h-[7rem] lg:h-28 px-4 lg:px-10 py-6 lg:py-0 flex flex-col lg:flex-row items-start lg:items-center justify-between flex-shrink-0 w-full max-w-[1400px] mx-auto gap-4 lg:gap-0">
+            <div class="w-full">
+                @if(isset($header))
+                    {{ $header }}
+                @endif
+            </div>
+            
+            @if(!isset($hideProfile))
+            <div class="hidden lg:flex items-center">
+                <div class="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-[#E8EBED] rounded-full shadow-sm cursor-pointer hover:bg-gray-50">
+                    <div class="w-[38px] h-[38px] rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[15px] text-[#A6785D] ring-2 ring-white">
+                        SM
+                    </div>
+                    <div class="flex flex-col text-left">
+                        <span class="text-[13px] font-bold text-[#1A1C19] leading-tight">{{ Auth::user()->name ?? 'Santana Mena' }}</span>
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-tight mt-0.5">UMKM OWNER</span>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </header>
+
+        <!-- Dynamic Content Slot -->
+        <div class="px-4 lg:px-10 pb-8 mt-2 w-full max-w-[1400px] mx-auto flex-1">
+            {{ $slot }}
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-4 lg:px-10 pb-10 w-full max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center md:text-left">
+            <p>&copy; 2026 MyLinx Inc. All rights reserved.</p>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                <a href="#" class="hover:text-gray-600 transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-600 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </main>
+</body>
 </html>

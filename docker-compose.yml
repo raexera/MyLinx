@@ -55,7 +55,7 @@ services:
     container_name: mylinx-db
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: mylinx
       POSTGRES_USER: mylinx

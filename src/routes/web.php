@@ -26,6 +26,38 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/settings/website', function () {
+        return view('settings.website');
+    })->name('settings.website');
+
+    Route::get('/settings/template', function () {
+        return view('settings.template');
+    })->name('settings.template');
+
+    Route::get('/portfolio/builder', function () {
+        return view('portfolio.builder');
+    })->name('portfolio.builder');
+
+    Route::get('/produk', function () {
+        return view('produk.index');
+    })->name('produk.index');
+
+    Route::get('/produk/create', function () {
+        return view('produk.create');
+    })->name('produk.create');
+
+    Route::get('/order', function () {
+        return view('order.index');
+    })->name('order.index');
+
+    Route::get('/order/detail', function () {
+        return view('order.show');
+    })->name('order.show');
+
+    Route::get('/payment', function () {
+        return view('payment.index');
+    })->name('payment.index');
 });
 
 // Breeze profile management routes
@@ -34,6 +66,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Breeze auth routes (login, register, password reset, email verification)
+require __DIR__ . '/auth.php';
 
 /*
 |==========================================================================
@@ -74,6 +109,3 @@ Route::middleware(['tenant'])
         // Route::post('/order', [TenantOrderController::class, 'store'])
         //     ->name('tenant.order.store');
     });
-
-// Breeze auth routes (login, register, password reset, email verification)
-require __DIR__ . '/auth.php';
