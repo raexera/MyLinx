@@ -4,6 +4,7 @@ use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProfilUsahaController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Tenant\TenantOrderController;
 use App\Http\Controllers\Tenant\TenantPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -95,4 +96,16 @@ Route::middleware(['tenant'])
 
         Route::get('/', [TenantPageController::class, 'show'])
             ->name('tenant.show');
+
+        Route::get('/produk/{produk}', [TenantPageController::class, 'produkDetail'])
+            ->name('tenant.produk.detail');
+
+        Route::get('/checkout/{produk}', [TenantOrderController::class, 'create'])
+            ->name('tenant.checkout');
+
+        Route::post('/checkout/{produk}', [TenantOrderController::class, 'store'])
+            ->name('tenant.checkout.store');
+
+        Route::get('/order/{order}/success', [TenantOrderController::class, 'success'])
+            ->name('tenant.order.success');
     });
