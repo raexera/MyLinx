@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProfilUsahaController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Tenant\TenantOrderController;
 use App\Http\Controllers\Tenant\TenantPageController;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +29,6 @@ Route::get('/', function () {
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
     // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -42,10 +44,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profil-usaha', [ProfilUsahaController::class, 'update'])
         ->name('profil-usaha.update');
 
-    // ── Settings (placeholder views) ────────────────────────
-    Route::get('/settings/website', function () {
-        return view('settings.website');
-    })->name('settings.website');
+    // ── Settings (Website & Template) ────────────────────────
+    Route::get('/settings/website', [SettingController::class, 'editWebsite'])
+        ->name('settings.website');
+    Route::patch('/settings/website', [SettingController::class, 'updateWebsite'])
+        ->name('settings.website.update');
+
+    Route::get('/settings/template', [SettingController::class, 'editTemplate'])
+        ->name('settings.template');
+    Route::patch('/settings/template', [SettingController::class, 'updateTemplate'])
+        ->name('settings.template.update');
 
     Route::get('/settings/template', function () {
         return view('settings.template');
@@ -55,19 +63,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('portfolio', PortofolioController::class)
         ->except(['show', 'create']);
 
-    // ── Order (placeholder views) ───────────────────────────
-    Route::get('/order', function () {
-        return view('order.index');
-    })->name('order.index');
+    // ── Order Management ─────────────────────────────────────
+    Route::get('/order', [OrderController::class, 'index'])
+        ->name('order.index');
+    Route::get('/order/{order}', [OrderController::class, 'show'])
+        ->name('order.show');
+    Route::patch('/order/{order}', [OrderController::class, 'update'])
+        ->name('order.update');
 
-    Route::get('/order/detail', function () {
-        return view('order.show');
-    })->name('order.show');
-
-    // ── Payment (placeholder view) ──────────────────────────
-    Route::get('/payment', function () {
-        return view('payment.index');
-    })->name('payment.index');
+    // ── Payment / Invoice Tracking ───────────────────────────
+    Route::get('/payment', [PaymentController::class, 'index'])
+        ->name('payment.index');
 });
 
 // Breeze user account profile (separate from business profile)
