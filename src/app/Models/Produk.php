@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,44 @@ class Produk extends Model
             'stok' => 'integer',
             'status' => 'boolean',
         ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Search products by name or description.
+     *
+     * Usage: Produk::search('batik')->get()
+     */
+    public function scopeSearch(Builder $query, ?string $term): Builder
+    {
+        if (! $term) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($term) {
+            $q->where('nama_produk', 'ilike', "%{$term}%")
+              ->orWhere('deskripsi', 'ilike', "%{$term}%");
+        });
+    }
+
+    /**
+     * Filter products by stock status.
+     *
+     * Usage: Produk::stockStatus('available')->get()
+     */
+    public function scopeStockStatus(Builder $query, ?string $status): Builder
+    {
+        return match ($status) {
+            'available' => $query->where('stok', '>', 0)->where('status', true),
+            'empty'     => $query->where('stok', '<=', 0),
+            'inactive'  => $query->where('status', false),
+            default     => $query,
+        };
     }
 
     /*

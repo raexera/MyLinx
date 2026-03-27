@@ -12,15 +12,19 @@ class OrderController extends Controller
     /**
      * Display the list of orders for the current tenant.
      *
-     * Eager-loads invoice and orderItems for display in the table
-     * (status badges, total, payment status).
+     * Supports query parameters:
+     * - ?search=ORD-2026  → filters by kode_order, nama_pembeli, or email
+     * - ?status=pending    → filters by order status
      */
     public function index(): View
     {
         $orders = Order::where('tenant_id', auth()->user()->tenant_id)
+            ->search(request('search'))
+            ->status(request('status'))
             ->with(['invoice', 'orderItems'])
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('order.index', compact('orders'));
     }
@@ -40,13 +44,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the order status and optionally sync the invoice payment status.
+     * Update the order status and sync the invoice payment status.
      *
      * Business logic:
-     * - When order status is set to 'completed', the invoice is automatically
-     *   marked as 'paid'.
-     * - When order status is set to 'cancelled', the invoice is marked as
-     *   'cancelled' and the product stock is restored.
+     * - 'completed' → invoice becomes 'paid'
+     * - 'cancelled' → invoice becomes 'cancelled' + stock restored
+     * - 'processing' → invoice stays 'unpaid'
      *
      * TENANCY RULE: Abort 403 if the order doesn't belong to the user's tenant.
      */
@@ -63,15 +66,17 @@ class OrderController extends Controller
         // Sync invoice payment status based on order status
         if ($order->invoice) {
             match ($newStatus) {
-                'completed' => $order->invoice->update(['status_pembayaran' => 'paid']),
-                'cancelled' => $order->invoice->update(['status_pembayaran' => 'cancelled']),
+                'completed'  => $order->invoice->update(['status_pembayaran' => 'paid']),
+                'cancelled'  => $order->invoice->update(['status_pembayaran' => 'cancelled']),
                 'processing' => $order->invoice->update(['status_pembayaran' => 'unpaid']),
-                default => null,
+                default      => null,
             };
         }
 
         // Restore stock if order is cancelled (and wasn't already cancelled)
         if ($newStatus === 'cancelled' && $oldStatus !== 'cancelled') {
+            $order->load('orderItems.produk');
+
             foreach ($order->orderItems as $item) {
                 $item->produk?->increment('stok', $item->jumlah);
 

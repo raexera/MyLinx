@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PortofolioController;
@@ -24,40 +25,38 @@ Route::get('/', function () {
 
 /*
 |==========================================================================
-| AUTHENTICATED ROUTES — Tenant Dashboard CMS
+| AUTHENTICATED ROUTES — Dashboard (both super_admin and tenant_admin)
 |==========================================================================
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+    // Dashboard — DashboardController handles role-based data
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+});
+
+/*
+|==========================================================================
+| TENANT CMS ROUTES — Requires auth + verified + has a tenant
+|==========================================================================
+|
+| The 'has.tenant' middleware prevents super_admin users (tenant_id = null)
+| from accessing these routes, which would cause 500 errors on queries
+| that filter by tenant_id.
+|
+*/
+
+Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
 
     // ── Produk CRUD ─────────────────────────────────────────
     Route::resource('produk', ProdukController::class)
-        ->except(['show']);  // No public show page from dashboard
+        ->except(['show']);
 
     // ── Profil Usaha (Edit & Update only) ───────────────────
     Route::get('/profil-usaha', [ProfilUsahaController::class, 'edit'])
         ->name('profil-usaha.edit');
     Route::patch('/profil-usaha', [ProfilUsahaController::class, 'update'])
         ->name('profil-usaha.update');
-
-    // ── Settings (Website & Template) ────────────────────────
-    Route::get('/settings/website', [SettingController::class, 'editWebsite'])
-        ->name('settings.website');
-    Route::patch('/settings/website', [SettingController::class, 'updateWebsite'])
-        ->name('settings.website.update');
-
-    Route::get('/settings/template', [SettingController::class, 'editTemplate'])
-        ->name('settings.template');
-    Route::patch('/settings/template', [SettingController::class, 'updateTemplate'])
-        ->name('settings.template.update');
-
-    Route::get('/settings/template', function () {
-        return view('settings.template');
-    })->name('settings.template');
 
     // ── Portofolio CRUD ─────────────────────────────────────
     Route::resource('portfolio', PortofolioController::class)
@@ -74,16 +73,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ── Payment / Invoice Tracking ───────────────────────────
     Route::get('/payment', [PaymentController::class, 'index'])
         ->name('payment.index');
+
+    // ── Settings (Website & Template) ────────────────────────
+    Route::get('/settings/website', [SettingController::class, 'editWebsite'])
+        ->name('settings.website');
+    Route::patch('/settings/website', [SettingController::class, 'updateWebsite'])
+        ->name('settings.website.update');
+
+    Route::get('/settings/template', [SettingController::class, 'editTemplate'])
+        ->name('settings.template');
+    Route::patch('/settings/template', [SettingController::class, 'updateTemplate'])
+        ->name('settings.template.update');
 });
 
-// Breeze user account profile (separate from business profile)
+/*
+|==========================================================================
+| BREEZE USER ACCOUNT ROUTES — Separate from business profile
+|==========================================================================
+*/
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Breeze auth routes
+// Breeze auth routes (login, register, password reset, email verification)
 require __DIR__ . '/auth.php';
 
 /*
@@ -100,18 +115,22 @@ Route::middleware(['tenant'])
     ->prefix('{tenant}')
     ->group(function () {
 
+        // Tenant storefront homepage
         Route::get('/', [TenantPageController::class, 'show'])
             ->name('tenant.show');
 
+        // Product detail page
         Route::get('/produk/{produk}', [TenantPageController::class, 'produkDetail'])
             ->name('tenant.produk.detail');
 
+        // Checkout flow (public — no auth required)
         Route::get('/checkout/{produk}', [TenantOrderController::class, 'create'])
             ->name('tenant.checkout');
 
         Route::post('/checkout/{produk}', [TenantOrderController::class, 'store'])
             ->name('tenant.checkout.store');
 
+        // Order success / confirmation page
         Route::get('/order/{order}/success', [TenantOrderController::class, 'success'])
             ->name('tenant.order.success');
     });

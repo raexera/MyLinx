@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Register named middleware aliases
         $middleware->alias([
-            'tenant' => \App\Http\Middleware\IdentifyTenantBySlug::class,
+            'tenant'     => \App\Http\Middleware\IdentifyTenantBySlug::class,
+            'has.tenant' => \App\Http\Middleware\EnsureHasTenant::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

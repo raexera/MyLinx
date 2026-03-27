@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,44 @@ class Order extends Model
         return [
             'total_harga' => 'decimal:2',
         ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Search orders by order code or buyer name.
+     *
+     * Usage: Order::search('ORD-2026')->get()
+     */
+    public function scopeSearch(Builder $query, ?string $term): Builder
+    {
+        if (! $term) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($term) {
+            $q->where('kode_order', 'ilike', "%{$term}%")
+              ->orWhere('nama_pembeli', 'ilike', "%{$term}%")
+              ->orWhere('email_pembeli', 'ilike', "%{$term}%");
+        });
+    }
+
+    /**
+     * Filter orders by status.
+     *
+     * Usage: Order::status('pending')->get()
+     */
+    public function scopeStatus(Builder $query, ?string $status): Builder
+    {
+        if (! $status || $status === 'all') {
+            return $query;
+        }
+
+        return $query->where('status', $status);
     }
 
     /*

@@ -13,12 +13,19 @@ class ProdukController extends Controller
 {
     /**
      * Display the list of products for the current tenant.
+     *
+     * Supports query parameters:
+     * - ?search=batik  → filters by nama_produk or deskripsi
+     * - ?stock=available|empty|inactive → filters by stock status
      */
     public function index(): View
     {
         $produks = Produk::where('tenant_id', auth()->user()->tenant_id)
+            ->search(request('search'))
+            ->stockStatus(request('stock'))
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString(); // preserves search/filter params in pagination links
 
         return view('produk.index', compact('produks'));
     }
