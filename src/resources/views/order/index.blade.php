@@ -28,10 +28,8 @@
     <!-- Content wrapper -->
     <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-6">
 
-        <!-- Stat Cards Grid -->
+        {{-- Stat Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            
-            <!-- Card 1 -->
             <div class="bg-white rounded-[1.5rem] p-6 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)] relative overflow-hidden group">
                 <div class="absolute -right-6 -top-6 text-[#f9fafb] group-hover:scale-110 transition-transform">
                     <svg class="w-40 h-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
@@ -39,69 +37,58 @@
                 <div class="relative z-10 flex flex-col h-full">
                     <h3 class="text-[11.5px] font-bold text-gray-400 tracking-widest uppercase mb-4">TOTAL ORDERS</h3>
                     <div class="flex items-end gap-3 mt-auto">
-                        <span class="text-[2.5rem] font-serif text-[#1A1C19] leading-none mb-0.5">154</span>
-                        <span class="bg-[#e4faeb] text-[#1fad55] text-[10.5px] font-bold px-2 py-[2px] rounded-full mb-1">+12%</span>
+                        <span class="text-[2.5rem] font-serif text-[#1A1C19] leading-none mb-0.5">{{ $orders->total() }}</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Card 2 -->
             <div class="bg-white rounded-[1.5rem] p-6 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)] relative overflow-hidden group">
                 <div class="absolute -right-6 -top-6 text-[#f9fafb] group-hover:scale-110 transition-transform">
-                    <svg class="w-40 h-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <!-- Small clock inside calendar logic -->
-                    <div class="absolute bottom-6 right-6 bg-white rounded-full">
-                         <svg class="w-[72px] h-[72px] text-[#f9fafb]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
+                    <svg class="w-40 h-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <div class="relative z-10 flex flex-col h-full">
                     <h3 class="text-[11.5px] font-bold text-gray-400 tracking-widest uppercase mb-4">PENDING</h3>
                     <div class="flex items-end gap-3 mt-auto">
-                        <span class="text-[2.5rem] font-serif text-[#1A1C19] leading-none mb-0.5">12</span>
-                        <span class="text-[#f59e0b] text-[10.5px] font-bold mb-1">Action needed</span>
+                        <span class="text-[2.5rem] font-serif text-[#1A1C19] leading-none mb-0.5">{{ $orders->where('status','pending')->count() }}</span>
+                        @if($orders->where('status','pending')->count() > 0)
+                            <span class="text-[#f59e0b] text-[10.5px] font-bold mb-1">Action needed</span>
+                        @endif
                     </div>
                 </div>
             </div>
-
-            <!-- Card 3 -->
             <div class="bg-white rounded-[1.5rem] p-6 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)] relative overflow-hidden group">
                 <div class="absolute -right-6 -top-6 text-[#f9fafb] group-hover:scale-110 transition-transform">
                     <svg class="w-40 h-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </div>
                 <div class="relative z-10 flex flex-col h-full">
-                    <h3 class="text-[11.5px] font-bold text-gray-400 tracking-widest uppercase mb-4">REVENUE</h3>
+                    <h3 class="text-[11.5px] font-bold text-gray-400 tracking-widest uppercase mb-4">COMPLETED</h3>
                     <div class="flex items-end gap-3 mt-auto">
-                        <span class="text-[2.5rem] font-serif text-[#1A1C19] leading-none mb-0.5 tracking-tight">Rp 45.2jt</span>
-                        <span class="bg-[#e4faeb] text-[#1fad55] text-[10.5px] font-bold px-2 py-[2px] rounded-full mb-1">+8%</span>
+                        <span class="text-[2.5rem] font-serif text-[#1A1C19] leading-none mb-0.5">{{ $orders->where('status','completed')->count() }}</span>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Toolbar (Search & Filters) -->
+        {{-- Toolbar (Search & Filters) --}}
+        <form action="{{ route('order.index') }}" method="GET">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
-            
-            <!-- Filter Pills Group -->
+            {{-- Filter Pills --}}
             <div class="flex items-center bg-[#f9fafb] border border-[#E8EBED] rounded-full p-[5px] shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)] overflow-x-auto hide-scroll shrink-0">
-                <!-- Active button -->
-                <button class="bg-white text-[#1A1C19] px-[22px] py-1.5 rounded-full text-[13px] font-bold shadow-sm whitespace-nowrap">All</button>
-                <button class="text-gray-400 hover:text-[#1A1C19] px-[20px] py-1.5 rounded-full text-[13px] font-bold transition-colors whitespace-nowrap">Pending</button>
-                <button class="text-gray-400 hover:text-[#1A1C19] px-[20px] py-1.5 rounded-full text-[13px] font-bold transition-colors whitespace-nowrap">Paid</button>
-                <button class="text-gray-400 hover:text-[#1A1C19] px-[20px] py-1.5 rounded-full text-[13px] font-bold transition-colors whitespace-nowrap">Expired</button>
+                @foreach(['' => 'All', 'pending' => 'Pending', 'confirmed' => 'Confirmed', 'processing' => 'Processing', 'completed' => 'Completed', 'cancelled' => 'Cancelled'] as $val => $label)
+                    <button type="submit" name="status" value="{{ $val }}"
+                        class="{{ request('status') === $val || ($val === '' && !request('status')) ? 'bg-white text-[#1A1C19] shadow-sm' : 'text-gray-400 hover:text-[#1A1C19]' }} px-[18px] py-1.5 rounded-full text-[13px] font-bold transition-colors whitespace-nowrap">
+                        {{ $label }}
+                    </button>
+                @endforeach
             </div>
-
-            <!-- Search -->
+            {{-- Search --}}
             <div class="relative w-full lg:max-w-[420px]">
-                 <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                     <svg class="h-[18px] w-[18px] text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                     </svg>
-                 </div>
-                 <input type="text" class="block w-full pl-12 pr-5 h-12 border border-[#E8EBED] rounded-full text-[13px] font-bold text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] transition-colors placeholder:text-gray-300 placeholder:font-medium shadow-sm outline-none" placeholder="Search Order ID or Customer..." />
+                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                    <svg class="h-[18px] w-[18px] text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </div>
+                <input type="text" name="search" value="{{ request('search') }}" class="block w-full pl-12 pr-5 h-12 border border-[#E8EBED] rounded-full text-[13px] font-bold text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] transition-colors placeholder:text-gray-300 placeholder:font-medium shadow-sm outline-none" placeholder="Search Order ID or Customer..." />
             </div>
-            
         </div>
+        </form>
 
         <!-- Main Card Wrapper for Table -->
         <div class="bg-white border border-[#E8EBED] rounded-[1.5rem] shadow-[0_2px_12px_rgb(0,0,0,0.02)] flex flex-col flex-1 overflow-hidden">
@@ -119,187 +106,67 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E8EBED]/60">
-                        
-                        <!-- Item 1 -->
+                        @forelse($orders as $order)
+                        @php
+                            $statusMap = [
+                                'pending'    => ['bg-[#fffbeb] text-[#d97706]', '#d97706'],
+                                'confirmed'  => ['bg-blue-50 text-blue-600', '#3b82f6'],
+                                'processing' => ['bg-purple-50 text-purple-600', '#9B59B6'],
+                                'completed'  => ['bg-[#ecfdf3] text-[#059669]', '#059669'],
+                                'cancelled'  => ['bg-red-50 text-red-600', '#ef4444'],
+                            ];
+                            $sc = $statusMap[$order->status] ?? ['bg-gray-100 text-gray-500', '#9ca3af'];
+                        @endphp
                         <tr class="hover:bg-gray-50/50 transition-colors group">
                             <td class="px-6 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">#MLX-8821</div>
+                                <div class="font-medium text-[14px] text-[#1A1C19]">{{ $order->kode_order }}</div>
+                                <div class="text-[11.5px] text-gray-400 mt-0.5">{{ $order->created_at->format('d M Y') }}</div>
                             </td>
                             <td class="px-4 py-[22px]">
                                 <div class="flex items-center gap-3">
-                                     <div class="w-[34px] h-[34px] rounded-full bg-[#eef3ff] text-[#3b82f6] text-[11px] font-bold flex items-center justify-center shrink-0 border border-[#dbe6fe]">BS</div>
-                                     <div class="text-[14px] text-[#1A1C19] font-medium">Budi Santoso</div>
+                                    <div class="w-[34px] h-[34px] rounded-full bg-[#EAF2ED] text-[#2E5136] text-[11px] font-bold flex items-center justify-center shrink-0">
+                                        {{ strtoupper(substr($order->nama_pembeli, 0, 2)) }}
+                                    </div>
+                                    <div>
+                                        <div class="text-[14px] text-[#1A1C19] font-medium">{{ $order->nama_pembeli }}</div>
+                                        <div class="text-[11.5px] text-gray-400">{{ $order->email_pembeli }}</div>
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <div class="text-[13.5px] text-gray-500 font-medium">Jan 24, 2026</div>
+                                <div class="text-[13.5px] text-gray-500 font-medium">{{ $order->created_at->format('d M Y') }}</div>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">Rp 450.000</div>
+                                <div class="font-medium text-[14px] text-[#1A1C19]">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</div>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <span class="bg-[#ecfdf3] text-[#059669] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#059669]"></span>
-                                    Paid
+                                <span class="{{ $sc[0] }} text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
+                                    <span class="w-[5px] h-[5px] rounded-full" style="background:{{ $sc[1] }}"></span>
+                                    {{ ucfirst($order->status) }}
                                 </span>
                             </td>
                             <td class="px-6 py-[22px] text-right">
-                                <a href="{{ route('order.show') }}" class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors flex items-center justify-end gap-1 ml-auto">
+                                <a href="{{ route('order.show', $order->id) }}" class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors flex items-center justify-end gap-1 ml-auto">
                                     Detail
                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                                 </a>
                             </td>
                         </tr>
-
-                        <!-- Item 2 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-6 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">#MLX-8822</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="flex items-center gap-3">
-                                     <div class="w-[34px] h-[34px] rounded-full bg-[#fdf2f8] text-[#ec4899] text-[11px] font-bold flex items-center justify-center shrink-0 border border-[#fce7f3]">SA</div>
-                                     <div class="text-[14px] text-[#1A1C19] font-medium">Siti Aminah</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[13.5px] text-gray-500 font-medium">Jan 24, 2026</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">Rp 1.200.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#fffbeb] text-[#d97706] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#d97706]"></span>
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-[22px] text-right">
-                                <a href="{{ route('order.show') }}" class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors flex items-center justify-end gap-1 ml-auto">
-                                    Detail
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </td>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="px-6 py-16 text-center text-gray-400 text-sm">Belum ada pesanan ditemukan.</td>
                         </tr>
-
-                        <!-- Item 3 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-6 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">#MLX-8820</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="flex items-center gap-3">
-                                     <div class="w-[34px] h-[34px] rounded-full overflow-hidden shrink-0 border border-[#E8EBED]">
-                                         <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
-                                     </div>
-                                     <div class="text-[14px] text-[#1A1C19] font-medium">Joko Widodo</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[13.5px] text-gray-500 font-medium">Jan 20, 2026</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">Rp 150.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#f3f4f6] text-[#6b7280] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#6b7280]"></span>
-                                    Expired
-                                </span>
-                            </td>
-                            <td class="px-6 py-[22px] text-right">
-                                <a href="{{ route('order.show') }}" class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors flex items-center justify-end gap-1 ml-auto">
-                                    Detail
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Item 4 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-6 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">#MLX-8819</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="flex items-center gap-3">
-                                     <div class="w-[34px] h-[34px] rounded-full bg-[#eef2ff] text-[#4f46e5] text-[11px] font-bold flex items-center justify-center shrink-0 border border-[#e0e7ff]">AD</div>
-                                     <div class="text-[14px] text-[#1A1C19] font-medium">Andi Dermawan</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[13.5px] text-gray-500 font-medium">Jan 22, 2026</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">Rp 2.450.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#ecfdf3] text-[#059669] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#059669]"></span>
-                                    Paid
-                                </span>
-                            </td>
-                            <td class="px-6 py-[22px] text-right">
-                                <button class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors flex items-center justify-end gap-1 ml-auto">
-                                    Detail
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <!-- Item 5 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-6 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">#MLX-8818</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="flex items-center gap-3">
-                                     <div class="w-[34px] h-[34px] rounded-full overflow-hidden shrink-0 border border-[#E8EBED]">
-                                         <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
-                                     </div>
-                                     <div class="text-[14px] text-[#1A1C19] font-medium">Rina Wati</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[13.5px] text-gray-500 font-medium">Jan 21, 2026</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14px] text-[#1A1C19]">Rp 89.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#fffbeb] text-[#d97706] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#d97706]"></span>
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-[22px] text-right">
-                                <button class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors flex items-center justify-end gap-1 ml-auto">
-                                    Detail
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                </button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <!-- Footer Pagination -->
+            {{-- Pagination --}}
             <div class="px-6 py-[22px] flex flex-col md:flex-row items-center justify-between gap-4 mt-auto">
                 <div class="text-[13.5px] text-gray-500 font-medium">
-                    Showing 1 to 5 of 154 entries
+                    Showing {{ $orders->firstItem() ?? 0 }} to {{ $orders->lastItem() ?? 0 }} of {{ $orders->total() }} entries
                 </div>
-                
-                <div class="flex items-center gap-1.5">
-                    <button class="w-8 h-8 flex items-center justify-center rounded-full border border-transparent text-gray-400 hover:text-[#1A1C19] hover:bg-gray-100 transition-colors">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-full bg-[#2E5136] text-white text-[12.5px] font-bold shadow-sm">1</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-full border border-transparent text-gray-500 hover:bg-gray-100 text-[12.5px] font-bold transition-colors">2</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-full border border-transparent text-gray-500 hover:bg-gray-100 text-[12.5px] font-bold transition-colors">3</button>
-                    <button class="w-8 h-8 flex items-center justify-center text-gray-400 text-[12.5px] font-bold">...</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-full border border border-transparent text-gray-400 hover:text-[#1A1C19] hover:bg-gray-100 transition-colors">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                </div>
+                <div>{{ $orders->withQueryString()->links() }}</div>
             </div>
             
         </div>

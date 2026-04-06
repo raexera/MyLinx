@@ -16,6 +16,7 @@ class Template extends Model
      */
     protected $fillable = [
         'nama_template',
+        'slug_key',
         'kategori',
         'preview_url',
         'is_active',

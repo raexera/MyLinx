@@ -26,15 +26,43 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // =====================================================================
-        // 1. Template
-        // =====================================================================
-        $template = Template::create([
-            'nama_template' => 'Minimalist E-Commerce',
-            'kategori' => 'e-commerce',
-            'preview_url' => '/images/templates/minimalist-ecommerce.png',
-            'is_active' => true,
+        // ── Template 1: Minimalist E-Commerce ─────────────────
+        $tplMinimalist = Template::create([
+            'nama_template' => 'Minimalist Store',
+            'slug_key'      => 'minimalist',
+            'kategori'      => 'e-commerce',
+            'preview_url'   => 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80',
+            'is_active'     => true,
         ]);
+
+        // ── Template 2: Bold Retail ────────────────────────────
+        Template::create([
+            'nama_template' => 'Bold Retail',
+            'slug_key'      => 'bold-retail',
+            'kategori'      => 'retail',
+            'preview_url'   => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
+            'is_active'     => true,
+        ]);
+
+        // ── Template 3: Warm F&B ───────────────────────────────
+        Template::create([
+            'nama_template' => 'Warm F&B',
+            'slug_key'      => 'warm-fnb',
+            'kategori'      => 'fnb',
+            'preview_url'   => 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
+            'is_active'     => true,
+        ]);
+
+        // ── Template 4: Creative Portfolio ────────────────────
+        Template::create([
+            'nama_template' => 'Creative Portfolio',
+            'slug_key'      => 'creative-portfolio',
+            'kategori'      => 'portfolio',
+            'preview_url'   => 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
+            'is_active'     => true,
+        ]);
+
+        $template = $tplMinimalist; // tenant pakai template pertama
 
         // =====================================================================
         // 2. Tenant

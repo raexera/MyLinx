@@ -38,32 +38,37 @@
             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('settings.website') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('settings.website') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
-                <span>Website Settings</span>
+            @if(Auth::user()->isTenantAdmin())
+            <a href="{{ route('produk.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('produk.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Produk</span>
+            </a>
+            <a href="{{ route('order.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('order.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Order</span>
+            </a>
+            <a href="{{ route('payment.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('payment.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Payment</span>
             </a>
             <a href="{{ route('portfolio.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('portfolio.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Portfolio Builder</span>
             </a>
-            <a href="{{ route('produk.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('produk.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
-                <span>Produk</span>
+            <div class="pt-4 pb-1 px-4">
+                <span class="text-[9px] font-bold text-white/20 uppercase tracking-widest">Settings</span>
+            </div>
+            <a href="{{ route('settings.website') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('settings.website') || request()->routeIs('settings.template') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Website</span>
             </a>
-            <a href="{{ route('order.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('order.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
-                <span>Order</span>
+            <a href="{{ route('profil-usaha.edit') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('profil-usaha.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
+                <span>Profil Usaha</span>
             </a>
-            <a href="{{ route('payment.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('payment.index') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
-                <span>Payment</span>
-            </a>
-            @if(Auth::user()->tenant_id)
-                <a href="{{ route('profil-usaha.edit') }}" class="flex items-center gap-3 px-4 py-3 text-[#8b9196] hover:text-white hover:bg-white/5 rounded-xl text-sm font-semibold transition-colors mt-8">
-                    <span>Profile</span>
-                </a>
             @endif
-            <form method="POST" action="{{ route('logout') }}" class="block">
-                @csrf
-                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[#D73A27] hover:bg-red-500/10 rounded-xl text-sm font-semibold transition-colors text-left">
-                    <span>Logout</span>
-                </button>
-            </form>
+            <div class="pt-4">
+                <form method="POST" action="{{ route('logout') }}" class="block">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[#D73A27] hover:bg-red-500/10 rounded-xl text-sm font-semibold transition-colors text-left">
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
         </nav>
     </aside>
 
@@ -75,10 +80,10 @@
             <button @click="sidebarOpen = true" class="p-2 -ml-2 text-gray-600 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#2E5136]">
                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center">
                 <span class="text-xs font-bold text-[#1A1C19]">{{ Auth::user()->nama }}</span>
-                <div class="w-8 h-8 rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[11px] text-[#A6785D]">
-                    SM
+                <div class="w-8 h-8 rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[11px] text-[#A6785D] ml-2">
+                    {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->name ?? '?', 0, 2)) }}
                 </div>
             </div>
         </div>
@@ -95,11 +100,13 @@
             <div class="hidden lg:flex items-center">
                 <div class="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-[#E8EBED] rounded-full shadow-sm cursor-pointer hover:bg-gray-50">
                     <div class="w-[38px] h-[38px] rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[15px] text-[#A6785D] ring-2 ring-white">
-                        SM
+                        {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->name ?? '?', 0, 2)) }}
                     </div>
                     <div class="flex flex-col text-left">
                         <span class="text-[13px] font-bold text-[#1A1C19] leading-tight">{{ Auth::user()->nama }}</span>
-                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-tight mt-0.5">UMKM OWNER</span>
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-tight mt-0.5">
+                            {{ Auth::user()->isSuperAdmin() ? 'Super Admin' : 'UMKM Owner' }}
+                        </span>
                     </div>
                 </div>
             </div>
