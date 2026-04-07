@@ -1,27 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-5 lg:gap-8 mt-2 lg:mt-0 xl:pr-10 w-full mb-4">
-            <div class="flex flex-col">
-                <div class="flex items-center gap-2 mb-1.5 pl-1">
-                    <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">SETTINGS — WEBSITE</span>
-                </div>
-                <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] mb-0 tracking-tight">Pilih Template</h1>
-                <p class="text-[13px] sm:text-[14.5px] font-medium text-[#6A7B8C] leading-relaxed max-w-lg mt-3">
-                    Pilih tampilan storefront untuk bisnis kamu. Template yang aktif akan langsung diterapkan ke halaman publik.
-                </p>
+        <div class="flex flex-col">
+            <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">SETTINGS — TEMPLATE</span>
             </div>
-
-            {{-- Active template badge --}}
-            @if($tenant->template)
-                <div class="flex items-center gap-3 px-5 py-3 bg-white border border-[#E8EBED] rounded-2xl shadow-sm flex-shrink-0">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#2E5136] flex-shrink-0"></span>
-                    <div>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Template Aktif</p>
-                        <p class="text-[14px] font-bold text-[#1A1C19] leading-tight">{{ $tenant->template->nama_template }}</p>
-                    </div>
-                </div>
-            @endif
+            <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Pilih Template</h1>
+            <p class="text-[13px] sm:text-[14.5px] font-medium text-[#6A7B8C] leading-relaxed">
+                Pilih tampilan storefront untuk bisnis kamu. Template yang aktif akan langsung diterapkan ke halaman publik.
+            </p>
         </div>
     </x-slot>
 

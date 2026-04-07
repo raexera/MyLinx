@@ -2,15 +2,19 @@
     <x-slot name="whiteBg">true</x-slot>
     <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
-        <div class="flex flex-col pt-4 sm:pt-6 w-full lg:pr-4 xl:pr-8">
-            <h1 class="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5">Website Settings</h1>
+        <div class="flex flex-col">
+            <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">SETTINGS — WEBSITE</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Website Settings</h1>
             <p class="text-[14px] sm:text-[14.5px] font-medium text-[#6A7B8C]">Manage your store's identity and appearance</p>
-            <div class="w-full h-px bg-[#E8EBED] mt-8"></div>
+            <div class="w-full h-px bg-[#E8EBED] mt-6"></div>
         </div>
     </x-slot>
 
     <!-- Content wrapper -->
-    <div class="w-full pt-5 sm:pt-6 lg:pr-4 xl:pr-8">
+    <div class="w-full pt-6">
 
         <!-- Section 1: Shop Subdomain -->
         <div class="mb-14">

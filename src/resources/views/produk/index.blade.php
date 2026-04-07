@@ -3,9 +3,13 @@
     <x-slot name="hideProfile">true</x-slot>
 
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mt-2 lg:mt-0 w-full lg:pr-4 xl:pr-8 mb-2">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 w-full">
             <div class="flex flex-col">
-                <h1 class="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5">Daftar Produk</h1>
+                <div class="flex items-center gap-2 mb-1.5">
+                    <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">INVENTARIS — PRODUK</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Daftar Produk</h1>
                 <p class="text-[14px] sm:text-[14.5px] font-medium text-[#6A7B8C]">Kelola inventaris dan katalog produk Anda dengan gaya majalah yang elegan.</p>
             </div>
             <div>
@@ -17,7 +21,7 @@
         </div>
     </x-slot>
 
-    <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-6">
+    <div class="w-full pb-12 flex flex-col h-full mt-6">
 
         {{-- Flash success message --}}
         @if(session('success'))

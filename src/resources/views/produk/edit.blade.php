@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center pt-2 sm:pt-4 w-full">
-            <a href="{{ route('produk.index') }}" class="flex items-center gap-2 text-[14px] font-bold text-[#1A1C19] hover:text-[#2E5136] transition-colors">
+        <div class="flex items-center w-full">
+            <a href="{{ route('produk.index') }}" class="flex items-center gap-2 text-[14px] font-bold text-[#6A7B8C] hover:text-[#2E5136] transition-colors">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Edit Produk
             </a>

@@ -2,16 +2,18 @@
     <x-slot name="hideProfile">true</x-slot>
     
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mt-2 lg:mt-0 w-full lg:pr-4 xl:pr-8 mb-2">
-            
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 w-full">
             <div class="flex flex-col">
-                <h1 class="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5">Daftar Pesanan</h1>
+                <div class="flex items-center gap-2 mb-1.5">
+                    <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">PESANAN — ORDER</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Daftar Pesanan</h1>
                 <p class="text-[14px] sm:text-[14.5px] font-medium text-[#6A7B8C] leading-snug">
                     Manage and track your customer orders with precision.<br>
                     Recent activity shows a <span class="text-[#2E5136] font-bold">+12% increase</span> this week.
                 </p>
             </div>
-            
             <div class="flex items-center gap-3">
                  <button class="bg-white border border-[#E8EBED] hover:bg-gray-50 text-[#1A1C19] flex items-center justify-center gap-2 px-5 py-[12px] rounded-full text-[13.5px] font-bold transition-all shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
                      <svg class="w-4 h-4 text-gray-500 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -26,7 +28,7 @@
     </x-slot>
 
     <!-- Content wrapper -->
-    <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-6">
+    <div class="w-full pb-12 flex flex-col h-full mt-6">
 
         {{-- Stat Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">

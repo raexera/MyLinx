@@ -1,31 +1,18 @@
 <x-app-layout>
     <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
-        <div class="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-5 lg:gap-8 mt-2 lg:mt-0 xl:pr-10 w-full mb-4">
-
-            <!-- Left Side: Titles -->
-            <div class="flex flex-col">
-                <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] mb-0 tracking-tight">Portfolio Builder</h1>
-                <p class="text-[13px] sm:text-[14px] font-medium text-[#6A7B8C] mt-2">Curate your professional online narrative.</p>
+        <div class="flex flex-col">
+            <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">WEBSITE — PORTFOLIO</span>
             </div>
-
-            <!-- Right Side: Action Buttons -->
-            <div class="flex items-center gap-3 w-full sm:max-w-max">
-                @if(Auth::user()->tenant)
-                 <a href="{{ route('tenant.show', Auth::user()->tenant) }}" target="_blank" class="flex items-center justify-center gap-2 bg-[#EAF2ED] hover:bg-[#d8e6de] text-[#2E5136] px-5 py-[11px] rounded-full text-[13px] font-bold transition-colors w-full sm:w-auto shadow-sm">
-                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                     </svg>
-                     Preview Site
-                 </a>
-                @endif
-            </div>
+            <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Portfolio Builder</h1>
+            <p class="text-[13px] sm:text-[14px] font-medium text-[#6A7B8C]">Curate your professional online narrative.</p>
         </div>
     </x-slot>
 
     <!-- Builder Container -->
-    <div class="flex flex-col lg:flex-row h-[calc(100vh-180px)] xl:h-[calc(100vh-140px)] gap-6 lg:gap-8 overflow-hidden pr-2 lg:pr-10 pt-4">
+    <div class="flex flex-col lg:flex-row h-[calc(100vh-180px)] xl:h-[calc(100vh-140px)] gap-6 lg:gap-8 overflow-hidden pr-2 pt-4">
 
         {{-- ================================================================
              LEFT COLUMN: Portfolio Items List

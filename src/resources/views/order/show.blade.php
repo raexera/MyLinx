@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
-        <div class="flex items-center pt-2 sm:pt-4 w-full text-[13.5px] font-bold text-gray-500 max-w-[900px] mx-auto">
+        <div class="flex items-center w-full text-[13.5px] font-bold text-gray-500 max-w-[900px]">
             <a href="{{ route('order.index') }}" class="flex items-center gap-2 hover:text-[#1A1C19] transition-colors">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to Orders

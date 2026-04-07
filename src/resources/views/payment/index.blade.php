@@ -2,30 +2,17 @@
     <x-slot name="hideProfile">true</x-slot>
     
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mt-2 lg:mt-0 w-full lg:pr-4 xl:pr-8 mb-4">
-            
-            <div class="flex flex-col">
-                <span class="text-[10px] font-bold text-[#2E5136] uppercase tracking-[0.15em] mb-3">FINANCIAL OVERVIEW</span>
-                <h1 class="text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-serif text-[#1A1C19] tracking-tight leading-[1.05]">
-                    Daftar Pembayaran<br>
-                    <span class="text-gray-300 italic font-light font-serif text-[4rem] sm:text-[4.5rem]">&amp;</span> Invoice
-                </h1>
+        <div class="flex flex-col">
+            <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">KEUANGAN — PEMBAYARAN</span>
             </div>
-            
-            <div class="flex items-center gap-3 shrink-0 mb-2 sm:mb-4">
-                 <button class="bg-white border border-[#E8EBED] hover:bg-gray-50 text-[#1A1C19] flex items-center justify-center gap-2.5 px-6 py-[12px] rounded-full text-[13.5px] font-bold transition-all shadow-[0_2px_10px_rgb(0,0,0,0.02)] h-[46px]">
-                     <svg class="w-4 h-4 text-gray-500 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                     Export Report
-                 </button>
-                 <button class="bg-[#2E5136] hover:bg-[#1f3824] text-white flex items-center justify-center rounded-full w-[46px] h-[46px] transition-all shadow-[0_4px_12px_rgb(46,81,54,0.2)]">
-                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                 </button>
-            </div>
+            <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Daftar Pembayaran <span class="text-gray-300 font-light">&</span> Invoice</h1>
         </div>
     </x-slot>
 
     <!-- Content wrapper -->
-    <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-2 lg:mt-6">
+    <div class="w-full pb-12 flex flex-col h-full mt-6">
 
         {{-- Stat Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">

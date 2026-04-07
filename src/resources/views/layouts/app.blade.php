@@ -76,7 +76,7 @@
     <main class="flex-1 flex flex-col min-w-0 {{ isset($whiteBg) && $whiteBg == 'true' ? 'bg-white' : 'bg-[#F5F6F8]' }} h-screen overflow-y-auto w-full relative">
 
         <!-- Mobile Topbar -->
-        <div class="lg:hidden sticky top-0 bg-white/95 backdrop-blur shadow-sm border-b border-[#E8EBED] px-4 py-3 flex items-center justify-between z-30">
+        <div class="lg:hidden sticky top-0 bg-white/95 backdrop-blur shadow-sm border-b border-[#E8EBED] px-5 py-3 flex items-center justify-between z-30">
             <button @click="sidebarOpen = true" class="p-2 -ml-2 text-gray-600 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#2E5136]">
                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
@@ -89,15 +89,15 @@
         </div>
 
         <!-- Header -->
-        <header class="min-h-[7rem] lg:h-28 px-4 lg:px-10 py-6 lg:py-0 flex flex-col lg:flex-row items-start lg:items-center justify-between flex-shrink-0 w-full max-w-[1400px] mx-auto gap-4 lg:gap-0">
-            <div class="w-full">
+        <header class="h-24 lg:h-32 px-5 lg:px-12 flex items-center justify-between flex-shrink-0 w-full max-w-[1400px] mx-auto">
+            <div class="flex-1 min-w-0 pt-5">
                 @if(isset($header))
                     {{ $header }}
                 @endif
             </div>
 
             @if(!isset($hideProfile))
-            <div class="hidden lg:flex items-center">
+            <div class="hidden lg:flex items-center shrink-0">
                 <div class="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-[#E8EBED] rounded-full shadow-sm cursor-pointer hover:bg-gray-50">
                     <div class="w-[38px] h-[38px] rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[15px] text-[#A6785D] ring-2 ring-white">
                         {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->name ?? '?', 0, 2)) }}
@@ -114,12 +114,12 @@
         </header>
 
         <!-- Dynamic Content Slot -->
-        <div class="px-4 lg:px-10 pb-8 mt-2 w-full max-w-[1400px] mx-auto flex-1">
+        <div class="px-5 lg:px-12 pb-8 mt-2 w-full max-w-[1400px] mx-auto flex-1">
             {{ $slot }}
         </div>
 
         <!-- Footer -->
-        <div class="px-4 lg:px-10 pb-10 w-full max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center md:text-left">
+        <div class="px-5 lg:px-12 pb-10 w-full max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center md:text-left">
             <p>&copy; 2026 MyLinx Inc. All rights reserved.</p>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
                 <a href="#" class="hover:text-gray-600 transition-colors">Privacy Policy</a>

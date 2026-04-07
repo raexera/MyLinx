@@ -1,26 +1,20 @@
 <x-app-layout>
     <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mt-2 lg:mt-0 w-full lg:pr-4 xl:pr-8 mb-2 relative z-10">
-            <div class="flex flex-col max-w-xl">
-                <h1 class="text-[2.75rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5">Profil Usaha</h1>
-                <p class="text-[14.5px] font-medium text-[#2E5136] opacity-80 leading-relaxed">
-                    Manage your business identity, brand story, and how<br>customers see you.
-                </p>
+        <div class="flex flex-col">
+            <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#2E5136]"></span>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">SETTINGS — PROFIL USAHA</span>
             </div>
-
-            @if(Auth::user()->tenant)
-            <div class="flex items-center gap-3 shrink-0 mb-2 sm:mb-4">
-                 <a href="{{ route('tenant.show', Auth::user()->tenant) }}" target="_blank" class="bg-transparent border border-[#E8EBED] hover:bg-white text-[#1A1C19] flex items-center justify-center px-8 py-[10px] rounded-full text-[13.5px] font-bold transition-all shadow-sm">
-                     Preview Store
-                 </a>
-            </div>
-            @endif
+            <h1 class="text-4xl sm:text-5xl font-serif text-[#1A1C19] tracking-tight mb-2">Profil Usaha</h1>
+            <p class="text-[14.5px] font-medium text-[#6A7B8C] leading-relaxed">
+                Manage your business identity, brand story, and how customers see you.
+            </p>
         </div>
     </x-slot>
 
     <!-- Content wrapper -->
-    <div class="w-full lg:pr-4 xl:pr-8 pb-16 flex flex-col mt-8 relative z-10">
+    <div class="w-full pb-16 flex flex-col mt-8 relative z-10">
 
         {{-- Flash success message --}}
         @if(session('success'))
