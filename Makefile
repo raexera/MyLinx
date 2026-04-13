@@ -14,7 +14,7 @@ GID := $(shell id -g 2>/dev/null || echo 1000)
 # --------------------------------------------------------------------------
 # Docker Compose command
 # --------------------------------------------------------------------------
-DC := docker-compose
+DC := docker compose
 APP := $(DC) exec -u www-data app
 APP_ROOT := $(DC) exec app
 
