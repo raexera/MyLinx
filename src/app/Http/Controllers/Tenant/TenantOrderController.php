@@ -37,9 +37,16 @@ class TenantOrderController extends Controller
         }
 
         // Load tenant profile for the checkout page layout
-        $tenant->load('profilUsaha');
+        $tenant->load(['profilUsaha', 'template']);
 
-        return view('tenant.checkout', [
+        $templateSlug = $tenant->template?->slug_key ?? 'minimalist';
+        $viewName     = "tenant.templates.{$templateSlug}.checkout";
+
+        if (! view()->exists($viewName)) {
+            $viewName = 'tenant.templates.minimalist.checkout';
+        }
+
+        return view($viewName, [
             'tenant' => $tenant,
             'profil' => $tenant->profilUsaha,
             'produk' => $produk,
@@ -157,12 +164,19 @@ class TenantOrderController extends Controller
 
         // Eager-load relationships for the confirmation page
         $order->load(['orderItems.produk', 'invoice']);
-        $tenant->load('profilUsaha');
+        $tenant->load(['profilUsaha', 'template']);
 
-        return view('tenant.order-success', [
-            'tenant' => $tenant,
-            'profil' => $tenant->profilUsaha,
-            'order' => $order,
+        $templateSlug = $tenant->template?->slug_key ?? 'minimalist';
+        $viewName     = "tenant.templates.{$templateSlug}.order-success";
+
+        if (! view()->exists($viewName)) {
+            $viewName = 'tenant.templates.minimalist.order-success';
+        }
+
+        return view($viewName, [
+            'tenant'  => $tenant,
+            'profil'  => $tenant->profilUsaha,
+            'order'   => $order,
             'invoice' => $order->invoice,
         ]);
     }

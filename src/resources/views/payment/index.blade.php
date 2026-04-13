@@ -27,39 +27,35 @@
     <!-- Content wrapper -->
     <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-2 lg:mt-6">
 
-        <!-- Stat Cards Grid -->
+        {{-- Stat Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            
-            <!-- Card 1 -->
             <div class="bg-white rounded-[2rem] p-7 sm:p-8 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)]">
                 <h3 class="text-[13px] font-medium text-gray-400 mb-2">Total Revenue</h3>
-                <div class="text-[2.2rem] font-medium text-[#1A1C19] tracking-tight leading-none mb-3">Rp 45.250.000</div>
+                <div class="text-[2.2rem] font-medium text-[#1A1C19] tracking-tight leading-none mb-3">
+                    Rp {{ number_format($invoices->where('status_pembayaran','paid')->sum(fn($i) => $i->order->total_harga ?? 0), 0, ',', '.') }}
+                </div>
                 <div class="flex items-center gap-1.5 text-[11px] font-bold text-[#1fad55]">
                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                    <span>+12% <span class="text-gray-400 font-medium">from last month</span></span>
+                    <span>{{ $invoices->where('status_pembayaran','paid')->count() }} paid invoices</span>
                 </div>
             </div>
-
-            <!-- Card 2 -->
             <div class="bg-white rounded-[2rem] p-7 sm:p-8 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)]">
                 <h3 class="text-[13px] font-medium text-gray-400 mb-2">Pending Payments</h3>
-                <div class="text-[2.2rem] font-medium text-[#1A1C19] tracking-tight leading-none mb-3">Rp 3.100.000</div>
+                <div class="text-[2.2rem] font-medium text-[#1A1C19] tracking-tight leading-none mb-3">
+                    {{ $invoices->where('status_pembayaran','unpaid')->count() }}
+                </div>
                 <div class="flex items-center gap-1.5 text-[11px] font-bold text-[#d97706]">
                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>4 Invoices unpaid</span>
+                    <span>Invoices unpaid</span>
                 </div>
             </div>
-
-            <!-- Card 3 -->
             <div class="bg-white rounded-[2rem] p-7 sm:p-8 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)]">
-                <h3 class="text-[13px] font-medium text-gray-400 mb-2">Refunded</h3>
-                <div class="text-[2.2rem] font-medium text-[#1A1C19] tracking-tight leading-none mb-3">Rp 750.000</div>
+                <h3 class="text-[13px] font-medium text-gray-400 mb-2">Total Invoices</h3>
+                <div class="text-[2.2rem] font-medium text-[#1A1C19] tracking-tight leading-none mb-3">{{ $invoices->total() }}</div>
                 <div class="flex items-center gap-1.5 text-[11px] font-bold text-gray-400">
-                    <svg class="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"></path></svg>
-                    <span>-2% rate</span>
+                    <span>All time</span>
                 </div>
             </div>
-
         </div>
 
         <!-- Toolbar (Search & Filters) -->
@@ -111,197 +107,60 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E8EBED]/60">
-                        
-                        <!-- Item 1 -->
+                        @forelse($invoices as $invoice)
+                        @php
+                            $payMap = [
+                                'paid'      => ['bg-[#ecfdf3] text-[#059669]', '#059669'],
+                                'unpaid'    => ['bg-[#fffbeb] text-[#d97706]', '#d97706'],
+                                'cancelled' => ['bg-red-50 text-red-500', '#ef4444'],
+                            ];
+                            $pc = $payMap[$invoice->status_pembayaran] ?? ['bg-gray-100 text-gray-500', '#9ca3af'];
+                        @endphp
                         <tr class="hover:bg-gray-50/50 transition-colors group">
                             <td class="px-8 py-[22px]">
-                                <span class="bg-[#F4F6F9] text-[#1A1C19] text-[11px] font-bold px-3 py-1.5 rounded-full inline-flex flex-col text-center shadow-sm">
-                                    <span class="text-gray-400">#INV-</span>8821
+                                <span class="bg-[#F4F6F9] text-[#1A1C19] text-[11px] font-bold px-3 py-1.5 rounded-full inline-block shadow-sm">
+                                    {{ $invoice->nomor_invoice }}
                                 </span>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">#ORD-<br>1024</div>
+                                <a href="{{ route('order.show', $invoice->order) }}" class="text-[12.5px] text-[#2E5136] font-medium hover:underline">
+                                    {{ $invoice->order->kode_order }}
+                                </a>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14.5px] text-[#1A1C19]">Rp 1.500.000</div>
+                                <div class="font-medium text-[14.5px] text-[#1A1C19]">Rp {{ number_format($invoice->order->total_harga, 0, ',', '.') }}</div>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <span class="bg-[#ecfdf3] text-[#059669] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#059669]"></span>
-                                    Paid
+                                <span class="{{ $pc[0] }} text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
+                                    <span class="w-[5px] h-[5px] rounded-full" style="background:{{ $pc[1] }}"></span>
+                                    {{ ucfirst($invoice->status_pembayaran) }}
                                 </span>
                             </td>
                             <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">24 Jan,<br>2026</div>
+                                <div class="text-[12.5px] text-gray-500 font-medium">{{ $invoice->created_at->format('d M, Y') }}</div>
                             </td>
                             <td class="px-8 py-[22px] text-right">
-                                <div class="flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    </button>
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    </button>
-                                </div>
+                                <a href="{{ route('order.show', $invoice->order) }}" class="inline-flex items-center gap-1 text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors">
+                                    Detail
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
                             </td>
                         </tr>
-
-                        <!-- Item 2 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-8 py-[22px]">
-                                <span class="bg-[#F4F6F9] text-[#1A1C19] text-[11px] font-bold px-3 py-1.5 rounded-full inline-flex flex-col text-center shadow-sm">
-                                    <span class="text-gray-400">#INV-</span>8822
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">#ORD-<br>1025</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14.5px] text-[#1A1C19]">Rp 750.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#fffbeb] text-[#d97706] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#d97706]"></span>
-                                    Unpaid
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">25 Jan,<br>2026</div>
-                            </td>
-                            <td class="px-8 py-[22px] text-right">
-                                <div class="flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    </button>
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    </button>
-                                </div>
-                            </td>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="px-8 py-16 text-center text-gray-400 text-sm">Belum ada invoice.</td>
                         </tr>
-
-                        <!-- Item 3 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-8 py-[22px]">
-                                <span class="bg-[#F4F6F9] text-[#1A1C19] text-[11px] font-bold px-3 py-1.5 rounded-full inline-flex flex-col text-center shadow-sm">
-                                    <span class="text-gray-400">#INV-</span>8823
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">#ORD-<br>1026</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14.5px] text-[#1A1C19]">Rp 2.100.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#fef2f2] text-[#ef4444] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#ef4444]"></span>
-                                    Refunded
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">26 Jan,<br>2026</div>
-                            </td>
-                            <td class="px-8 py-[22px] text-right">
-                                <div class="flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    </button>
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Item 4 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-8 py-[22px]">
-                                <span class="bg-[#F4F6F9] text-[#1A1C19] text-[11px] font-bold px-3 py-1.5 rounded-full inline-flex flex-col text-center shadow-sm">
-                                    <span class="text-gray-400">#INV-</span>8820
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">#ORD-<br>1023</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14.5px] text-[#1A1C19] flex flex-col justify-center">
-                                     <span class="text-[11px] text-[#1A1C19] mb-[-4px]">Rp</span>
-                                     5.450.000
-                                </div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#ecfdf3] text-[#059669] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#059669]"></span>
-                                    Paid
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">23 Jan,<br>2026</div>
-                            </td>
-                            <td class="px-8 py-[22px] text-right">
-                                <div class="flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    </button>
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Item 5 -->
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-8 py-[22px]">
-                                <span class="bg-[#F4F6F9] text-[#1A1C19] text-[11px] font-bold px-3 py-1.5 rounded-full inline-flex flex-col text-center shadow-sm">
-                                    <span class="text-gray-400">#INV-</span>8819
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">#ORD-<br>1022</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="font-medium text-[14.5px] text-[#1A1C19]">Rp 900.000</div>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <span class="bg-[#ecfdf3] text-[#059669] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
-                                    <span class="w-[5px] h-[5px] rounded-full bg-[#059669]"></span>
-                                    Paid
-                                </span>
-                            </td>
-                            <td class="px-4 py-[22px]">
-                                <div class="text-[12.5px] text-gray-500 font-medium">22 Jan,<br>2026</div>
-                            </td>
-                            <td class="px-8 py-[22px] text-right">
-                                <div class="flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    </button>
-                                    <button class="hover:text-[#1A1C19] transition-colors p-1">
-                                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <!-- Footer Pagination -->
+            {{-- Pagination --}}
             <div class="px-6 sm:px-8 py-[22px] flex flex-col md:flex-row items-center justify-between gap-4 mt-auto border-t border-[#E8EBED]">
                 <div class="text-[13px] text-gray-500 font-medium">
-                    Showing 1-5 of 24 invoices
+                    Showing {{ $invoices->firstItem() ?? 0 }}-{{ $invoices->lastItem() ?? 0 }} of {{ $invoices->total() }} invoices
                 </div>
-                
-                <div class="flex items-center gap-1.5">
-                    <button class="w-[34px] h-[34px] flex items-center justify-center rounded-full border border border-[#E8EBED] text-gray-400 hover:text-[#1A1C19] hover:bg-gray-100 transition-colors">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <button class="w-[34px] h-[34px] flex items-center justify-center rounded-full border border-[#E8EBED] text-gray-400 hover:text-[#1A1C19] hover:bg-gray-100 transition-colors">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                </div>
+                <div>{{ $invoices->links() }}</div>
             </div>
             
         </div>

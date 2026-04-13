@@ -44,11 +44,11 @@ class SettingController extends Controller
      */
     public function editTemplate(): View
     {
-        $tenant = auth()->user()->tenant;
+        $tenant = auth()->user()->tenant->load('template');
         $templates = Template::where('is_active', true)->get();
 
         return view('settings.template', [
-            'tenant' => $tenant,
+            'tenant'    => $tenant,
             'templates' => $templates,
         ]);
     }
