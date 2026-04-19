@@ -73,6 +73,8 @@ Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
     // ── Payment / Invoice Tracking ───────────────────────────
     Route::get('/payment', [PaymentController::class, 'index'])
         ->name('payment.index');
+    Route::get('/payment/export', [PaymentController::class, 'export'])
+        ->name('payment.export');
 
     // ── Settings (Website & Template) ────────────────────────
     Route::get('/settings/website', [SettingController::class, 'editWebsite'])

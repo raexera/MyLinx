@@ -72,20 +72,21 @@
         </div>
 
         {{-- Toolbar: Filter pills + Search (single form, both preserve each other) --}}
-        <form action="{{ route('order.index') }}" method="GET"
-              class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4"
-              x-data="{ status: '{{ request('status', '') }}' }">
+        <form id="order-filter-form"
+            action="{{ route('order.index') }}"
+            method="GET"
+            class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
 
-            {{-- Hidden input carries the filter state --}}
-            <input type="hidden" name="status" :value="status">
+            <input type="hidden" name="status" id="order-status-input" value="{{ request('status', '') }}">
 
             {{-- Filter Pills --}}
             <div class="flex items-center bg-[#f9fafb] border border-[#E8EBED] rounded-full p-[5px] shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)] overflow-x-auto hide-scroll shrink-0">
                 @foreach(['' => 'All', 'pending' => 'Pending', 'confirmed' => 'Confirmed', 'processing' => 'Processing', 'completed' => 'Completed', 'cancelled' => 'Cancelled'] as $val => $label)
+                    @php $isActive = request('status', '') === $val; @endphp
                     <button type="button"
-                            @click="status = '{{ $val }}'; $el.form.submit();"
-                            class="px-[18px] py-1.5 rounded-full text-[13px] font-bold transition-colors whitespace-nowrap"
-                            :class="status === '{{ $val }}' ? 'bg-white text-[#1A1C19] shadow-sm' : 'text-gray-400 hover:text-[#1A1C19]'">
+                            onclick="document.getElementById('order-status-input').value='{{ $val }}';document.getElementById('order-filter-form').submit();"
+                            class="px-[18px] py-1.5 rounded-full text-[13px] font-bold transition-colors whitespace-nowrap
+                                {{ $isActive ? 'bg-white text-[#1A1C19] shadow-sm' : 'text-gray-400 hover:text-[#1A1C19]' }}">
                         {{ $label }}
                     </button>
                 @endforeach
@@ -97,10 +98,10 @@
                     <svg class="h-[18px] w-[18px] text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
                 <input type="text"
-                       name="search"
-                       value="{{ request('search') }}"
-                       class="block w-full pl-12 pr-5 h-12 border border-[#E8EBED] rounded-full text-[13px] font-bold text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] transition-colors placeholder:text-gray-300 placeholder:font-medium shadow-sm outline-none"
-                       placeholder="Cari kode order, nama, atau email..." />
+                    name="search"
+                    value="{{ request('search') }}"
+                    class="block w-full pl-12 pr-5 h-12 border border-[#E8EBED] rounded-full text-[13px] font-bold text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] transition-colors placeholder:text-gray-300 placeholder:font-medium shadow-sm outline-none"
+                    placeholder="Cari kode order, nama, atau email..." />
             </div>
         </form>
 
