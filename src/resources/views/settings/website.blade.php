@@ -124,14 +124,16 @@
                 </button>
             </div>
             <div class="mt-3 px-2 min-h-[20px]" x-cloak>
-                <p x-show="
-                        status === 'available'
-                    " class="text-[12.5px] font-semibold text-green-600 flex items-center gap-1.5">
+                <p
+                    x-show="status === 'available'"
+                    class="text-[12.5px] font-semibold text-green-600 flex items-center gap-1.5"
+                >
                     <span>✓</span> <span x-text="message"></span>
                 </p>
-                <p x-show="
-                        status === 'taken' || status === 'invalid'
-                    " class="text-[12.5px] font-semibold text-red-500 flex items-center gap-1.5">
+                <p
+                    x-show="status === 'taken' || status === 'invalid'"
+                    class="text-[12.5px] font-semibold text-red-500 flex items-center gap-1.5"
+                >
                     <span>✕</span> <span x-text="message"></span>
                 </p>
             </div>
@@ -272,9 +274,10 @@
                     class="rounded-2xl border border-[#E8EBED] p-6 shadow-inner transition-colors duration-300"
                     :style="`background:${background}`"
                 >
-                    <p class="text-[11px] font-bold uppercase tracking-widest mb-4 transition-colors" :class="isDark
-                            ? 'text-slate-400'
-                            : 'text-gray-400'">Live Preview</p>
+                    <p
+                        class="text-[11px] font-bold uppercase tracking-widest mb-4 transition-colors"
+                        :class="isDark ? 'text-slate-400' : 'text-gray-400'"
+                    >Live Preview</p>
                     <h3
                         class="text-2xl font-serif mb-3 transition-colors"
                         :class="isDark ? 'text-white' : 'text-gray-900'"

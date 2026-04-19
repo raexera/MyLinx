@@ -9,8 +9,11 @@
                     <span
                         class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]"
                     >
-                        @if (Auth::user()->isSuperAdmin()) SUPER ADMIN @else SELLER
-                        DASHBOARD @endif
+                        @if (Auth::user()->isSuperAdmin())
+                            SUPER ADMIN
+                        @else
+                            SELLER DASHBOARD
+                        @endif
                     </span>
                 </div>
                 <h1
