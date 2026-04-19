@@ -5,20 +5,37 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateOrderStatusRequest;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    /**
-     * Display the list of orders for the current tenant.
-     *
-     * Supports query parameters:
-     * - ?search=ORD-2026  → filters by kode_order, nama_pembeli, or email
-     * - ?status=pending    → filters by order status
-     */
     public function index(): View
     {
-        $orders = Order::where('tenant_id', auth()->user()->tenant_id)
+        $tenantId = auth()->user()->tenant_id;
+
+        $stats = [
+            'total'     => \App\Models\Order::where('tenant_id', $tenantId)->count(),
+            'pending'   => \App\Models\Order::where('tenant_id', $tenantId)->where('status', 'pending')->count(),
+            'completed' => \App\Models\Order::where('tenant_id', $tenantId)->where('status', 'completed')->count(),
+        ];
+
+        $thisWeekCount = \App\Models\Order::where('tenant_id', $tenantId)
+            ->where('created_at', '>=', now()->startOfWeek())
+            ->count();
+
+        $lastWeekCount = \App\Models\Order::where('tenant_id', $tenantId)
+            ->whereBetween('created_at', [
+                now()->subWeek()->startOfWeek(),
+                now()->subWeek()->endOfWeek(),
+            ])
+            ->count();
+
+        $weekDelta = $lastWeekCount > 0
+            ? round((($thisWeekCount - $lastWeekCount) / $lastWeekCount) * 100)
+            : ($thisWeekCount > 0 ? 100 : 0);
+
+        $orders = \App\Models\Order::where('tenant_id', $tenantId)
             ->search(request('search'))
             ->status(request('status'))
             ->with(['invoice', 'orderItems'])
@@ -26,14 +43,9 @@ class OrderController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('order.index', compact('orders'));
+        return view('order.index', compact('orders', 'stats', 'thisWeekCount', 'weekDelta'));
     }
 
-    /**
-     * Display the detail view for a specific order.
-     *
-     * TENANCY RULE: Abort 403 if the order doesn't belong to the user's tenant.
-     */
     public function show(Order $order): View
     {
         $this->authorizeTenant($order);
@@ -43,27 +55,14 @@ class OrderController extends Controller
         return view('order.show', compact('order'));
     }
 
-    /**
-     * Update the order status and sync the invoice payment status.
-     *
-     * Business logic:
-     * - 'completed' → invoice becomes 'paid'
-     * - 'cancelled' → invoice becomes 'cancelled' + stock restored
-     * - 'processing' → invoice stays 'unpaid'
-     *
-     * TENANCY RULE: Abort 403 if the order doesn't belong to the user's tenant.
-     */
     public function update(UpdateOrderStatusRequest $request, Order $order): RedirectResponse
     {
         $this->authorizeTenant($order);
 
         $newStatus = $request->validated()['status'];
         $oldStatus = $order->status;
-
-        // Update the order status
         $order->update(['status' => $newStatus]);
 
-        // Sync invoice payment status based on order status
         if ($order->invoice) {
             match ($newStatus) {
                 'completed' => $order->invoice->update(['status_pembayaran' => 'paid']),
@@ -73,14 +72,11 @@ class OrderController extends Controller
             };
         }
 
-        // Restore stock if order is cancelled (and wasn't already cancelled)
         if ($newStatus === 'cancelled' && $oldStatus !== 'cancelled') {
             $order->load('orderItems.produk');
 
             foreach ($order->orderItems as $item) {
                 $item->produk?->increment('stok', $item->jumlah);
-
-                // Re-activate the product if it was deactivated due to zero stock
                 if ($item->produk && ! $item->produk->status) {
                     $item->produk->update(['status' => true]);
                 }
@@ -92,9 +88,6 @@ class OrderController extends Controller
             ->with('success', 'Status order berhasil diperbarui menjadi "'.$newStatus.'".');
     }
 
-    /**
-     * Verify that the given order belongs to the authenticated user's tenant.
-     */
     private function authorizeTenant(Order $order): void
     {
         if ($order->tenant_id !== auth()->user()->tenant_id) {
