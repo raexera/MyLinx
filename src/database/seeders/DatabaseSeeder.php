@@ -8,7 +8,6 @@ use App\Models\OrderItem;
 use App\Models\Portofolio;
 use App\Models\Produk;
 use App\Models\ProfilUsaha;
-use App\Models\Template;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -17,45 +16,14 @@ use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * Creates a complete demo dataset for thesis defense:
-     * 1 Template → 1 Tenant → 1 User + 1 ProfilUsaha + 3 Produks
-     * + 1 Order (with 2 items) + 1 Invoice
-     */
     public function run(): void
     {
-        // =====================================================================
-        // 1. Templates
-        // =====================================================================
-        $templates = [
-            ['nama_template' => 'Minimalist',         'slug_key' => 'minimalist',         'kategori' => 'e-commerce',   'preview_url' => '/images/templates/minimalist.png',         'is_active' => true],
-            ['nama_template' => 'Bold Retail',        'slug_key' => 'bold-retail',        'kategori' => 'e-commerce',   'preview_url' => '/images/templates/bold-retail.png',        'is_active' => true],
-            ['nama_template' => 'Creative Portfolio', 'slug_key' => 'creative-portfolio', 'kategori' => 'portfolio',    'preview_url' => '/images/templates/creative-portfolio.png', 'is_active' => true],
-            ['nama_template' => 'Warm F&B',           'slug_key' => 'warm-fnb',           'kategori' => 'f&b',          'preview_url' => '/images/templates/warm-fnb.png',           'is_active' => true],
-        ];
-
-        foreach ($templates as $t) {
-            Template::create($t);
-        }
-
-        // Assign first template to the seeded tenant
-        $template = Template::where('slug_key', 'minimalist')->first();
-
-        // =====================================================================
-        // 2. Tenant
-        // =====================================================================
         $tenant = Tenant::create([
             'nama_tenant' => 'Toko Baju Jaya',
             'slug' => 'tokobaju',
-            'template_id' => $template->id,
             'status' => true,
         ]);
 
-        // =====================================================================
-        // 3. User (Tenant Admin)
-        // =====================================================================
         User::create([
             'tenant_id' => $tenant->id,
             'nama' => 'Ahmad Rizky',
@@ -64,9 +32,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'tenant_admin',
         ]);
 
-        // =====================================================================
-        // 4. Super Admin (no tenant — platform owner)
-        // =====================================================================
         User::create([
             'tenant_id' => null,
             'nama' => 'Super Admin',
@@ -75,9 +40,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'super_admin',
         ]);
 
-        // =====================================================================
-        // 5. Profil Usaha (Business Profile)
-        // =====================================================================
         ProfilUsaha::create([
             'tenant_id' => $tenant->id,
             'nama_usaha' => 'Toko Baju Jaya',
@@ -87,9 +49,6 @@ class DatabaseSeeder extends Seeder
             'logo' => null,
         ]);
 
-        // =====================================================================
-        // 6. Portofolio
-        // =====================================================================
         Portofolio::create([
             'tenant_id' => $tenant->id,
             'judul' => 'Koleksi Lebaran 2025',
@@ -97,9 +56,6 @@ class DatabaseSeeder extends Seeder
             'gambar' => 'portofolio/koleksi-lebaran.jpg',
         ]);
 
-        // =====================================================================
-        // 7. Produk (3 items)
-        // =====================================================================
         $produkKemeja = Produk::create([
             'tenant_id' => $tenant->id,
             'nama_produk' => 'Kemeja Batik Premium',
@@ -130,9 +86,6 @@ class DatabaseSeeder extends Seeder
             'status' => true,
         ]);
 
-        // =====================================================================
-        // 8. Order (sample order with 2 items)
-        // =====================================================================
         $order = Order::create([
             'tenant_id' => $tenant->id,
             'kode_order' => 'ORD-'.strtoupper(Str::random(8)),
@@ -142,9 +95,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'confirmed',
         ]);
 
-        // =====================================================================
-        // 9. Order Items
-        // =====================================================================
         OrderItem::create([
             'order_id' => $order->id,
             'produk_id' => $produkKemeja->id,
@@ -161,9 +111,6 @@ class DatabaseSeeder extends Seeder
             'subtotal' => 250000.00,
         ]);
 
-        // =====================================================================
-        // 10. Invoice
-        // =====================================================================
         Invoice::create([
             'order_id' => $order->id,
             'nomor_invoice' => 'INV-'.date('Ymd').'-0001',
@@ -171,9 +118,6 @@ class DatabaseSeeder extends Seeder
             'status_pembayaran' => 'paid',
         ]);
 
-        // =====================================================================
-        // Console feedback
-        // =====================================================================
         $this->command->info('');
         $this->command->info('=============================================');
         $this->command->info('  MyLinx demo data seeded successfully!');

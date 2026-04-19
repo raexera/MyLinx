@@ -3,138 +3,104 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{{ $profil?->nama_usaha ?? $tenant->nama_tenant }} — MyLinx</title>
-
-    {{-- Vite assets (Tailwind + Alpine) --}}
+    <title>{{ $profil?->nama_usaha ?? $tenant->nama_tenant }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        :root {
+            --accent: {{ $custom['accent_color'] }};
+            --accent-hover: color-mix(in srgb, {{ $custom['accent_color'] }} 85%, black);
+            --bg: {{ $custom['background_color'] }};
+        }
+        body { background: var(--bg); }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-accent:hover { background: var(--accent-hover); }
+        .text-accent { color: var(--accent); }
+        .border-accent { border-color: var(--accent); }
+        .bg-accent-soft { background: color-mix(in srgb, var(--accent) 8%, white); }
+    </style>
 </head>
-<body class="min-h-screen bg-gray-50 antialiased">
+<body class="min-h-screen antialiased text-gray-900">
 
-    {{-- ================================================================
-         Public Tenant Storefront — Placeholder Layout
-         This will be replaced by the selected template engine later.
-         For now it serves as a functional proof-of-concept for the
-         manual multi-tenancy routing.
-         ================================================================ --}}
-
-    {{-- Header --}}
-    <header class="bg-white shadow-sm">
-        <div class="mx-auto max-w-4xl px-6 py-6">
-            <div class="flex items-center gap-4">
+    {{-- ═══════════════ HERO ═══════════════ --}}
+    @if($custom['hero_style'] === 'banner')
+        <header class="bg-accent-soft">
+            <div class="mx-auto max-w-4xl px-6 py-16 text-center">
                 @if($profil?->logo)
                     <img src="{{ asset('storage/' . $profil->logo) }}"
                          alt="{{ $profil->nama_usaha }}"
-                         class="h-14 w-14 rounded-full object-cover">
+                         class="mx-auto mb-5 h-24 w-24 rounded-full object-cover shadow-lg ring-4 ring-white">
                 @else
-                    <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-800 text-xl font-bold text-white">
+                    <div class="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full text-3xl font-bold text-white shadow-lg ring-4 ring-white btn-accent">
+                        {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
+                    </div>
+                @endif
+
+                <h1 class="text-4xl md:text-5xl font-serif text-gray-900 mb-3">
+                    {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
+                </h1>
+
+                @if($profil?->deskripsi)
+                    <p class="mx-auto max-w-xl text-gray-600 leading-relaxed">
+                        {{ Str::limit($profil->deskripsi, 180) }}
+                    </p>
+                @endif
+
+                @if($profil?->no_hp)
+                    @php
+                        $waLink = \App\Support\WaHelper::link($profil->no_hp, "Halo, saya mau tanya produk di {$tenant->nama_tenant}.");
+                    @endphp
+                    @if($waLink)
+                        <a href="{{ $waLink }}" target="_blank"
+                           class="mt-6 inline-flex items-center gap-2 rounded-full btn-accent px-6 py-3 text-sm font-bold shadow-md transition-transform hover:-translate-y-0.5">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771z"/></svg>
+                            Tanya via WhatsApp
+                        </a>
+                    @endif
+                @endif
+            </div>
+        </header>
+    @else
+        <header class="border-b border-gray-200 bg-white">
+            <div class="mx-auto max-w-4xl px-6 py-5 flex items-center gap-3">
+                @if($profil?->logo)
+                    <img src="{{ asset('storage/' . $profil->logo) }}"
+                         alt="{{ $profil->nama_usaha }}"
+                         class="h-10 w-10 rounded-full object-cover">
+                @else
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold text-white btn-accent">
                         {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
                     </div>
                 @endif
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">
-                        {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
-                    </h1>
-                    @if($profil?->deskripsi)
-                        <p class="mt-1 text-sm text-gray-600">
-                            {{ Str::limit($profil->deskripsi, 120) }}
-                        </p>
+                    <h1 class="font-bold text-gray-900">{{ $profil?->nama_usaha ?? $tenant->nama_tenant }}</h1>
+                    @if($profil?->alamat)
+                        <p class="text-xs text-gray-500">{{ Str::limit($profil->alamat, 60) }}</p>
                     @endif
                 </div>
             </div>
+        </header>
+    @endif
 
-            {{-- Contact Info --}}
-            @if($profil)
-                <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-500">
-                    @if($profil->alamat)
-                        <span>📍 {{ $profil->alamat }}</span>
-                    @endif
-                    @if($profil->no_hp)
-                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $profil->no_hp) }}"
-                           class="text-green-700 hover:underline">
-                            📱 {{ $profil->no_hp }}
-                        </a>
-                    @endif
-                </div>
-            @endif
-        </div>
-    </header>
-
-    {{-- Product Catalog --}}
     <main class="mx-auto max-w-4xl px-6 py-10">
 
-        @if($produks->isEmpty())
-            <div class="rounded-lg border-2 border-dashed border-gray-200 py-16 text-center">
-                <p class="text-gray-500">Belum ada produk yang ditampilkan.</p>
-            </div>
+        @php
+            // Content order drives which sections render and in what sequence
+            $showProducts = in_array($custom['content_order'], ['products_first', 'portfolio_first', 'products_only'], true);
+            $showPortfolio = in_array($custom['content_order'], ['products_first', 'portfolio_first', 'portfolio_only'], true);
+            $productsFirst = in_array($custom['content_order'], ['products_first', 'products_only'], true);
+        @endphp
+
+        @if($productsFirst)
+            @if($showProducts) @include('tenant.partials.products', ['produks' => $produks, 'tenant' => $tenant, 'custom' => $custom]) @endif
+            @if($showPortfolio && $portofolios->isNotEmpty()) @include('tenant.partials.portfolio', ['portofolios' => $portofolios]) @endif
         @else
-            <h2 class="text-lg font-semibold text-gray-900">Produk Kami</h2>
-            <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach($produks as $produk)
-                    <div class="overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-md">
-                        {{-- Product Image --}}
-                        @if($produk->gambar)
-                            <img src="{{ asset('storage/' . $produk->gambar) }}"
-                                 alt="{{ $produk->nama_produk }}"
-                                 class="h-48 w-full object-cover">
-                        @else
-                            <div class="flex h-48 items-center justify-center bg-gray-100 text-4xl text-gray-300">
-                                📦
-                            </div>
-                        @endif
-
-                        {{-- Product Details --}}
-                        <div class="p-4">
-                            <h3 class="font-semibold text-gray-900">{{ $produk->nama_produk }}</h3>
-                            <p class="mt-1 text-sm text-gray-600">
-                                {{ Str::limit($produk->deskripsi, 80) }}
-                            </p>
-                            <div class="mt-3 flex items-center justify-between">
-                                <span class="text-lg font-bold text-green-800">
-                                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
-                                </span>
-                                @if($produk->stok > 0)
-                                    <span class="text-xs text-gray-400">Stok: {{ $produk->stok }}</span>
-                                @else
-                                    <span class="text-xs font-medium text-red-500">Habis</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-
-        {{-- Portfolio Section --}}
-        @if($portofolios->isNotEmpty())
-            <div class="mt-16">
-                <h2 class="text-lg font-semibold text-gray-900">Portofolio</h2>
-                <div class="mt-6 grid gap-6 sm:grid-cols-2">
-                    @foreach($portofolios as $portofolio)
-                        <div class="overflow-hidden rounded-xl bg-white shadow-sm">
-                            @if($portofolio->gambar)
-                                <img src="{{ asset('storage/' . $portofolio->gambar) }}"
-                                     alt="{{ $portofolio->judul }}"
-                                     class="h-48 w-full object-cover">
-                            @endif
-                            <div class="p-4">
-                                <h3 class="font-semibold text-gray-900">{{ $portofolio->judul }}</h3>
-                                <p class="mt-1 text-sm text-gray-600">
-                                    {{ Str::limit($portofolio->deskripsi, 100) }}
-                                </p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
+            @if($showPortfolio && $portofolios->isNotEmpty()) @include('tenant.partials.portfolio', ['portofolios' => $portofolios]) @endif
+            @if($showProducts) @include('tenant.partials.products', ['produks' => $produks, 'tenant' => $tenant, 'custom' => $custom]) @endif
         @endif
     </main>
 
-    {{-- Footer --}}
-    <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400">
-        Dibuat dengan
-        <a href="{{ route('landing') }}" class="font-medium text-green-700 hover:underline">MyLinx</a>
+    <footer class="border-t border-gray-200 bg-white py-6 text-center text-sm text-gray-400">
+        Dibuat dengan <a href="{{ route('landing') }}" class="text-accent font-medium hover:underline">MyLinx</a>
     </footer>
-
 </body>
 </html>

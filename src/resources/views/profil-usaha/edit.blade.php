@@ -146,17 +146,6 @@
                 </div>
             </div>
 
-            <!-- Submit -->
-            <div class="flex items-center justify-end gap-6 border-t border-[#E8EBED] pt-8 mb-4 flex-col sm:flex-row">
-                 <a href="{{ route('dashboard') }}" class="text-[13.5px] font-medium text-[#8b9196] hover:text-[#1A1C19] transition-colors order-2 sm:order-1">
-                     Batal
-                 </a>
-                 <button type="submit" class="w-full sm:w-auto bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-8 py-3.5 text-[14px] font-bold shadow-[0_4px_16px_rgb(46,81,54,0.25)] flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5 order-1 sm:order-2">
-                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-                     Simpan Profil
-                 </button>
-            </div>
-
             <div class="h-4"></div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
 
@@ -298,6 +287,17 @@
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="flex items-center justify-end gap-6 border-t border-[#E8EBED] pt-8 mb-4 flex-col sm:flex-row">
+                 <a href="{{ route('dashboard') }}" class="text-[13.5px] font-medium text-[#8b9196] hover:text-[#1A1C19] transition-colors order-2 sm:order-1">
+                     Batal
+                 </a>
+                 <button type="submit" class="w-full sm:w-auto bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-8 py-3.5 text-[14px] font-bold shadow-[0_4px_16px_rgb(46,81,54,0.25)] flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5 order-1 sm:order-2">
+                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                     Simpan Profil
+                 </button>
             </div>
         </form>
         {{-- Separate form for removing QRIS (can't be nested inside the main form) --}}

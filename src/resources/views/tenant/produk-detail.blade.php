@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $produk->nama_produk }} — {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+    :root {
+        --accent: {{ $custom['accent_color'] ?? '#2E5136' }};
+        --accent-hover: color-mix(in srgb, {{ $custom['accent_color'] ?? '#2E5136' }} 85%, black);
+        --bg: {{ $custom['background_color'] ?? '#FBFBF9' }};
+    }
+    body { background: var(--bg); }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { background: var(--accent-hover); }
+    .text-accent { color: var(--accent); }
+    </style>
 </head>
 <body class="min-h-screen bg-gray-50 antialiased">
 
@@ -17,12 +28,12 @@
                          alt="{{ $profil->nama_usaha }}"
                          class="h-14 w-14 rounded-full object-cover">
                 @else
-                    <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-800 text-xl font-bold text-white">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-full btn-accent text-xl font-bold">
                         {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
                     </div>
                 @endif
                 <div>
-                    <a href="{{ route('tenant.show', $tenant) }}" class="text-2xl font-bold text-gray-900 hover:text-green-800">
+                    <a href="{{ route('tenant.show', $tenant) }}" class="text-2xl font-bold text-gray-900 hover:text-accent">
                         {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
                     </a>
                     @if($profil?->deskripsi)
@@ -37,7 +48,7 @@
 
         {{-- Breadcrumb --}}
         <nav class="mb-8 flex items-center gap-2 text-sm text-gray-500">
-            <a href="{{ route('tenant.show', $tenant) }}" class="hover:text-green-700">Toko</a>
+            <a href="{{ route('tenant.show', $tenant) }}" class="hover:text-accent">Toko</a>
             <span>/</span>
             <span class="text-gray-800">{{ $produk->nama_produk }}</span>
         </nav>
@@ -62,12 +73,12 @@
                 <div class="flex flex-col justify-between p-8">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">{{ $produk->nama_produk }}</h1>
-                        <p class="mt-4 text-3xl font-bold text-green-800">
+                        <p class="mt-4 text-3xl font-bold text-accent">
                             Rp {{ number_format($produk->harga, 0, ',', '.') }}
                         </p>
                         <div class="mt-3">
                             @if($produk->stok > 0)
-                                <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700">
+                                <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-accent">
                                     ✓ Stok tersedia ({{ $produk->stok }})
                                 </span>
                             @else
@@ -82,7 +93,7 @@
                     <div class="mt-8 flex flex-col gap-3">
                         @if($produk->stok > 0)
                             <a href="{{ route('tenant.checkout', [$tenant, $produk]) }}"
-                               class="flex w-full items-center justify-center rounded-xl bg-green-800 px-6 py-3 text-base font-semibold text-white transition hover:bg-green-700">
+                               class="flex w-full items-center justify-center rounded-xl btn-accent px-6 py-3 text-base font-semibold transition">
                                 Beli Sekarang
                             </a>
                         @else
@@ -104,7 +115,7 @@
     {{-- Footer --}}
     <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400">
         Dibuat dengan
-        <a href="{{ route('landing') }}" class="font-medium text-green-700 hover:underline">MyLinx</a>
+        <a href="{{ route('landing') }}" class="font-medium text-accent hover:underline">MyLinx</a>
     </footer>
 
 </body>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProfilUsaha;
-use App\Models\Template;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -48,21 +47,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = DB::transaction(function () use ($request) {
-
-            // ── Step 1: Find the default template ────────────────
-            $template = Template::where('is_active', true)->first();
-
-            if (! $template) {
-                $template = Template::create([
-                    'nama_template' => 'Minimalist',
-                    'slug_key' => 'minimalist',
-                    'kategori' => 'e-commerce',
-                    'preview_url' => '/images/templates/minimalist.png',
-                    'is_active' => true,
-                ]);
-            }
-
-            // ── Step 2: Create the Tenant ────────────────────────
+            // ── Create the Tenant ────────────────────────
             $storeName = $request->store_name ?: $request->name."'s Store";
             $baseSlug = Str::slug($storeName);
 
@@ -77,7 +62,6 @@ class RegisteredUserController extends Controller
             $tenant = Tenant::create([
                 'nama_tenant' => $storeName,
                 'slug' => $slug,
-                'template_id' => $template->id,
                 'status' => true,
             ]);
 

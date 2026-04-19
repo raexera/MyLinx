@@ -14,31 +14,26 @@ class UpdateWebsiteSettingsRequest extends FormRequest
 
     public function rules(): array
     {
-        $tenantId = auth()->user()->tenant_id;
-
         return [
-            'nama_tenant' => ['required', 'string', 'max:255'],
+            'nama_tenant' => ['required', 'string', 'max:100'],
             'slug' => [
-                'required', 'string', 'min:3', 'max:100',
-                'alpha_dash', 'lowercase',
-                Rule::unique('tenants', 'slug')->ignore($tenantId),
-                Rule::notIn([
-                    'login', 'register', 'dashboard', 'admin', 'api', 'produk',
-                    'order', 'payment', 'settings', 'profile', 'profil-usaha',
-                    'portfolio', 'checkout', 'logout', 'landing',
-                ]),
+                'required',
+                'string',
+                'alpha_dash',
+                'lowercase',
+                'min:3',
+                'max:50',
+                Rule::unique('tenants', 'slug')->ignore(auth()->user()->tenant_id),
+                Rule::notIn(['admin', 'api', 'login', 'logout', 'register', 'dashboard',
+                    'profile', 'settings', 'order', 'produk', 'portfolio',
+                    'profil-usaha', 'invoice', 'checkout', 'payment']),
             ],
-            'accent_color' => [
-                'required', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/',
-            ],
-            'content_order' => [
-                'required', 'string',
-                Rule::in(['products_first', 'portfolio_first', 'products_only', 'portfolio_only']),
-            ],
-            'product_layout' => [
-                'required', 'string',
-                Rule::in(['grid', 'list']),
-            ],
+
+            'accent_color' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'background_color' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'content_order' => ['required', Rule::in(['products_first', 'portfolio_first', 'products_only', 'portfolio_only'])],
+            'product_layout' => ['required', Rule::in(['grid', 'list'])],
+            'hero_style' => ['required', Rule::in(['banner', 'minimal'])],
         ];
     }
 

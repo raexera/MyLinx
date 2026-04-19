@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Template;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -24,7 +23,6 @@ class TenantFactory extends Factory
         return [
             'nama_tenant' => $nama,
             'slug' => Str::slug($nama).'-'.fake()->unique()->numberBetween(100, 999),
-            'template_id' => Template::factory(),
             'status' => true,
         ];
     }

@@ -74,17 +74,11 @@ Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
     Route::patch('/order/{order}/complete', [OrderController::class, 'complete'])->name('order.complete');
     Route::patch('/order/{order}/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
 
-    // ── Settings (Website & Template) ────────────────────────
+    // ── Settings ────────────────────────
     Route::get('/settings/website', [SettingController::class, 'editWebsite'])
         ->name('settings.website');
     Route::patch('/settings/website', [SettingController::class, 'updateWebsite'])
         ->name('settings.website.update');
-
-    Route::get('/settings/template', [SettingController::class, 'editTemplate'])
-        ->name('settings.template');
-    Route::patch('/settings/template', [SettingController::class, 'updateTemplate'])
-        ->name('settings.template.update');
-
     Route::get('/settings/website/check-slug', [SettingController::class, 'checkSlug'])
         ->name('settings.website.check-slug');
 });

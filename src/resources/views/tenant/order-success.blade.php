@@ -29,6 +29,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pesanan Berhasil — {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+    :root {
+        --accent: {{ $custom['accent_color'] ?? '#2E5136' }};
+        --accent-hover: color-mix(in srgb, {{ $custom['accent_color'] ?? '#2E5136' }} 85%, black);
+        --bg: {{ $custom['background_color'] ?? '#FBFBF9' }};
+    }
+    body { background: var(--bg); }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { background: var(--accent-hover); }
+    .text-accent { color: var(--accent); }
+    </style>
 </head>
 <body class="min-h-screen bg-gray-50 antialiased">
 
@@ -38,11 +49,11 @@
                 @if($profil?->logo)
                     <img src="{{ asset('storage/' . $profil->logo) }}" class="h-10 w-10 rounded-full object-cover">
                 @else
-                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-800 text-sm font-bold text-white">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full btn-accent text-sm font-bold">
                         {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
                     </div>
                 @endif
-                <a href="{{ route('tenant.show', $tenant) }}" class="font-semibold text-gray-900 hover:text-green-800">
+                <a href="{{ route('tenant.show', $tenant) }}" class="font-semibold text-gray-900 hover:text-accent">
                     {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
                 </a>
             </div>
@@ -54,8 +65,8 @@
         {{-- Success banner --}}
         <div class="mb-8 flex flex-col items-center rounded-2xl bg-green-50 px-6 py-8 text-center">
             <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-2xl">✓</div>
-            <h1 class="mt-3 text-xl font-bold text-green-800">Pesanan Dibuat!</h1>
-            <p class="mt-1 text-sm text-green-700">
+            <h1 class="mt-3 text-xl font-bold text-accent">Pesanan Dibuat!</h1>
+            <p class="mt-1 text-sm text-accent">
                 Terima kasih, <strong>{{ $order->nama_pembeli }}</strong>. Pesananmu: <strong>{{ $order->kode_order }}</strong>
             </p>
         </div>
@@ -73,7 +84,7 @@
                 </div>
 
                 <div class="mt-6 flex justify-center">
-                    <div class="rounded-2xl border-4 border-dashed border-green-200 bg-white p-4">
+                    <div class="rounded-2xl border-4 border-dashed border-accent bg-white p-4">
                         <img src="{{ asset('storage/' . $profil->qris_image) }}"
                              alt="QRIS {{ $profil->qris_merchant_name }}"
                              class="h-64 w-64 object-contain">
@@ -105,7 +116,7 @@
         {{-- WhatsApp CTA --}}
         @if($waLink)
             <a href="{{ $waLink }}" target="_blank"
-               class="block w-full rounded-xl bg-green-600 px-6 py-4 text-center text-base font-bold text-white shadow-lg transition hover:bg-green-700">
+               class="block w-full rounded-xl btn-accent px-6 py-4 text-center text-base font-bold shadow-lg transition">
                 <span class="inline-flex items-center gap-2">
                     <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.066.376-.05c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.418-.1.824z"/>
@@ -156,12 +167,12 @@
 
                 <div class="flex justify-between border-t border-gray-100 pt-3 font-semibold">
                     <span class="text-gray-800">Total Produk</span>
-                    <span class="text-green-700">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
+                    <span class="text-accent">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
                 </div>
 
                 <div class="pt-2">
                     <a href="{{ route('public.invoice', $order->public_token) }}" target="_blank"
-                       class="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 hover:underline">
+                       class="inline-flex items-center gap-1.5 text-xs font-bold text-accent hover:underline">
                         Lihat Invoice PDF →
                     </a>
                 </div>
@@ -169,14 +180,14 @@
         </details>
 
         <div class="mt-8 text-center">
-            <a href="{{ route('tenant.show', $tenant) }}" class="text-sm font-medium text-gray-500 hover:text-green-700">
+            <a href="{{ route('tenant.show', $tenant) }}" class="text-sm font-medium text-gray-500 hover:text-accent">
                 ← Kembali ke toko
             </a>
         </div>
     </main>
 
     <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400">
-        Dibuat dengan <a href="{{ route('landing') }}" class="font-medium text-green-700 hover:underline">MyLinx</a>
+        Dibuat dengan <a href="{{ route('landing') }}" class="font-medium text-accent hover:underline">MyLinx</a>
     </footer>
 </body>
 </html>

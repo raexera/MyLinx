@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateTemplateRequest;
 use App\Http\Requests\UpdateWebsiteSettingsRequest;
-use App\Models\Template;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,52 +31,21 @@ class SettingController extends Controller
         $tenant = auth()->user()->tenant;
         $validated = $request->validated();
 
-        // Split customization out of the top-level update payload
         $tenant->update([
             'nama_tenant' => $validated['nama_tenant'],
             'slug' => $validated['slug'],
             'customization' => [
                 'accent_color' => $validated['accent_color'],
+                'background_color' => $validated['background_color'],
                 'content_order' => $validated['content_order'],
                 'product_layout' => $validated['product_layout'],
+                'hero_style' => $validated['hero_style'],
             ],
         ]);
 
         return redirect()
             ->route('settings.website')
-            ->with('success', 'Pengaturan website berhasil disimpan!');
-    }
-
-    /**
-     * Show the template selection page.
-     *
-     * Passes all active templates and the tenant's currently selected template.
-     */
-    public function editTemplate(): View
-    {
-        $tenant = auth()->user()->tenant->load('template');
-        $templates = Template::where('is_active', true)->get();
-
-        return view('settings.template', [
-            'tenant' => $tenant,
-            'templates' => $templates,
-        ]);
-    }
-
-    /**
-     * Update the tenant's selected template.
-     */
-    public function updateTemplate(UpdateTemplateRequest $request): RedirectResponse
-    {
-        $tenant = auth()->user()->tenant;
-
-        $tenant->update([
-            'template_id' => $request->validated()['template_id'],
-        ]);
-
-        return redirect()
-            ->route('settings.template')
-            ->with('success', 'Template berhasil diperbarui!');
+            ->with('success', 'Pengaturan berhasil disimpan.');
     }
 
     /**

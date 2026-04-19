@@ -111,117 +111,110 @@
             <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Customization</h2>
             <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Personalize the look and feel of your storefront.</p>
 
-            <div class="border border-[#E8EBED] rounded-3xl bg-white p-6 sm:p-7 grid grid-cols-1 md:grid-cols-2 gap-7 shadow-sm"
-                 x-data="{ color: '{{ old('accent_color', $c['accent_color']) }}' }">
+            <div class="border border-[#E8EBED] rounded-3xl bg-white p-6 sm:p-7 shadow-sm space-y-8"
+                x-data="{
+                    accent: '{{ old('accent_color', $c['accent_color']) }}',
+                    background: '{{ old('background_color', $c['background_color']) }}',
+                }">
 
-                <!-- Accent Color -->
-                <div class="md:col-span-2">
+                {{-- Accent Color --}}
+                <div>
                     <label class="block text-[13px] font-bold text-[#1A1C19] mb-2">Accent Color</label>
-                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Applied to buttons, links, and highlights on your storefront.</p>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Applied to buttons, links, and highlights.</p>
 
-                    <div class="flex items-center gap-4">
-                        <div class="relative">
-                            <input type="color"
-                                   name="accent_color"
-                                   x-model="color"
-                                   class="w-14 h-14 rounded-xl border-2 border-[#E8EBED] cursor-pointer shadow-sm">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <input type="color" name="accent_color" x-model="accent"
+                            class="w-14 h-14 rounded-xl border-2 border-[#E8EBED] cursor-pointer shadow-sm">
+                        <div class="flex items-center border border-[#E8EBED] rounded-full h-[46px] px-5 bg-[#fcfcfd] max-w-[140px]">
+                            <span class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]" x-text="accent"></span>
                         </div>
-                        <div class="flex-1 flex items-center border border-[#E8EBED] rounded-full h-[46px] px-5 bg-[#fcfcfd] max-w-[200px]">
-                            <span class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]" x-text="color"></span>
-                        </div>
-
-                        {{-- Quick presets --}}
                         <div class="flex items-center gap-2 flex-wrap">
                             <template x-for="preset in ['#2E5136', '#1E40AF', '#BE185D', '#D97706', '#7C3AED', '#0F766E', '#1F2937']" :key="preset">
-                                <button type="button"
-                                        @click="color = preset"
-                                        :style="`background:${preset}`"
+                                <button type="button" @click="accent = preset" :style="`background:${preset}`"
                                         class="w-8 h-8 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-transform"
-                                        :class="color === preset ? 'ring-2 ring-offset-2 ring-[#1A1C19]' : ''"></button>
+                                        :class="accent === preset ? 'ring-2 ring-offset-2 ring-[#1A1C19]' : ''"></button>
                             </template>
                         </div>
                     </div>
+                    @error('accent_color')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
+                </div>
 
-                    {{-- Live preview --}}
-                    <div class="mt-5 rounded-2xl bg-[#fcfcfd] border border-[#E8EBED] p-5">
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Live Preview</p>
-                        <div class="flex items-center gap-3 flex-wrap">
-                            <button type="button" :style="`background:${color}`" class="text-white text-[13px] font-bold px-5 py-2.5 rounded-full pointer-events-none">
-                                Beli Sekarang
-                            </button>
-                            <span :style="`background:${color}20; color:${color}`" class="text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Featured</span>
-                            <a href="#" :style="`color:${color}`" class="text-[13px] font-bold underline pointer-events-none">Lihat Detail →</a>
+                {{-- Background Color --}}
+                <div>
+                    <label class="block text-[13px] font-bold text-[#1A1C19] mb-2">Background Color</label>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Page background of your storefront.</p>
+
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <input type="color" name="background_color" x-model="background"
+                            class="w-14 h-14 rounded-xl border-2 border-[#E8EBED] cursor-pointer shadow-sm">
+                        <div class="flex items-center border border-[#E8EBED] rounded-full h-[46px] px-5 bg-[#fcfcfd] max-w-[140px]">
+                            <span class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]" x-text="background"></span>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <template x-for="preset in ['#FBFBF9', '#FFFFFF', '#F5F5F0', '#FAF5FF', '#FFF7ED', '#F0F9FF', '#0F172A']" :key="preset">
+                                <button type="button" @click="background = preset" :style="`background:${preset}`"
+                                        class="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm hover:scale-110 transition-transform"
+                                        :class="background === preset ? 'ring-2 ring-offset-2 ring-[#1A1C19]' : ''"></button>
+                            </template>
                         </div>
                     </div>
-                    @error('accent_color')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
+                    @error('background_color')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
                 </div>
 
-                <!-- Content Order -->
-                <div>
-                    <label for="content_order" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Content Order</label>
-                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">What shows first on your storefront?</p>
-                    <select name="content_order" id="content_order"
-                            class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
-                        @php $curOrder = old('content_order', $c['content_order']); @endphp
-                        <option value="products_first"  @selected($curOrder === 'products_first')>Products First — then portfolio</option>
-                        <option value="portfolio_first" @selected($curOrder === 'portfolio_first')>Portfolio First — then products</option>
-                        <option value="products_only"   @selected($curOrder === 'products_only')>Products Only</option>
-                        <option value="portfolio_only"  @selected($curOrder === 'portfolio_only')>Portfolio Only</option>
-                    </select>
-                    @error('content_order')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
-                </div>
-
-                <!-- Product Layout -->
-                <div>
-                    <label for="product_layout" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Product Layout</label>
-                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">How products are displayed.</p>
-                    <select name="product_layout" id="product_layout"
-                            class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
-                        @php $curLayout = old('product_layout', $c['product_layout']); @endphp
-                        <option value="grid" @selected($curLayout === 'grid')>Grid — card-based, visual</option>
-                        <option value="list" @selected($curLayout === 'list')>List — compact, text-forward</option>
-                    </select>
-                    @error('product_layout')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Section 4: Active Template -->
-        <div class="mb-6">
-            <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Active Template</h2>
-            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">The base template your storefront uses.</p>
-
-            <div class="border border-[#E8EBED] rounded-3xl bg-white p-6 sm:p-7 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between shadow-sm">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2.5">
-                        <h3 class="text-2xl font-serif text-[#1A1C19]">
-                            {{ $tenant->template?->nama_template ?? 'Belum Dipilih' }}
-                        </h3>
-                        @if($tenant->template)
-                            <span class="bg-[#e9f2ee] text-[#2E5136] text-[9.5px] font-bold px-2.5 py-[3px] uppercase tracking-widest rounded-md">ACTIVE</span>
-                        @endif
+                {{-- Live preview --}}
+                <div class="rounded-2xl border border-[#E8EBED] p-5" :style="`background:${background}`">
+                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Live Preview</p>
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <button type="button" :style="`background:${accent}`" class="text-white text-[13px] font-bold px-5 py-2.5 rounded-full pointer-events-none">
+                            Beli Sekarang
+                        </button>
+                        <span :style="`background:${accent}20; color:${accent}`" class="text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Featured</span>
+                        <a href="#" :style="`color:${accent}`" class="text-[13px] font-bold underline pointer-events-none">Lihat Detail →</a>
                     </div>
-                    <p class="text-[13.5px] text-[#6A7B8C] font-medium leading-relaxed max-w-xl">
-                        @if($tenant->template)
-                            Kategori: <span class="font-bold text-[#1A1C19]">{{ ucfirst($tenant->template->kategori) }}</span>
-                            <span class="mx-2 text-gray-300">·</span>
-                            Slug: <code class="bg-gray-100 px-1.5 py-0.5 rounded text-[11px] font-mono text-gray-500">{{ $tenant->template->slug_key }}</code>
-                        @else
-                            Pilih template untuk menentukan tampilan storefront publik kamu.
-                        @endif
-                    </p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-center gap-4 flex-shrink-0">
-                    <a href="{{ route('tenant.show', $tenant) }}" target="_blank"
-                       class="w-full sm:w-auto flex items-center justify-center gap-2 border border-[#E8EBED] rounded-full px-6 py-[10px] text-[13px] font-bold text-[#1A1C19] hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap">
-                        <svg class="w-[18px] h-[18px] text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        Preview Live
-                    </a>
-                    <a href="{{ route('settings.template') }}" class="text-[13px] font-bold text-[#6A7B8C] hover:text-[#1A1C19] transition-colors whitespace-nowrap">
-                        Ganti Template
-                    </a>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 border-t border-[#F0F2F3]">
+
+                    {{-- Hero Style --}}
+                    <div>
+                        <label for="hero_style" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Hero Style</label>
+                        <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">How the top of your page looks.</p>
+                        <select name="hero_style" id="hero_style"
+                                class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                            @php $curHero = old('hero_style', $c['hero_style']); @endphp
+                            <option value="banner"  @selected($curHero === 'banner')>Banner — large logo + tagline</option>
+                            <option value="minimal" @selected($curHero === 'minimal')>Minimal — compact header</option>
+                        </select>
+                        @error('hero_style')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
+                    </div>
+
+                    {{-- Content Order --}}
+                    <div>
+                        <label for="content_order" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Content Order</label>
+                        <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">What shows first on your page.</p>
+                        <select name="content_order" id="content_order"
+                                class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                            @php $curOrder = old('content_order', $c['content_order']); @endphp
+                            <option value="products_first"  @selected($curOrder === 'products_first')>Products First — then portfolio</option>
+                            <option value="portfolio_first" @selected($curOrder === 'portfolio_first')>Portfolio First — then products</option>
+                            <option value="products_only"   @selected($curOrder === 'products_only')>Products Only</option>
+                            <option value="portfolio_only"  @selected($curOrder === 'portfolio_only')>Portfolio Only</option>
+                        </select>
+                        @error('content_order')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
+                    </div>
+
+                    {{-- Product Layout --}}
+                    <div>
+                        <label for="product_layout" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Product Layout</label>
+                        <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">How products are displayed.</p>
+                        <select name="product_layout" id="product_layout"
+                                class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                            @php $curLayout = old('product_layout', $c['product_layout']); @endphp
+                            <option value="grid" @selected($curLayout === 'grid')>Grid — card-based, visual</option>
+                            <option value="list" @selected($curLayout === 'list')>List — compact, text-forward</option>
+                        </select>
+                        @error('product_layout')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
+                    </div>
                 </div>
             </div>
         </div>

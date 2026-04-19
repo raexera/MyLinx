@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -19,7 +18,6 @@ class Tenant extends Model
     protected $fillable = [
         'nama_tenant',
         'slug',
-        'template_id',
         'status',
         'customization',
         'page_views',
@@ -38,15 +36,16 @@ class Tenant extends Model
     }
 
     /**
-     * Customization with safe defaults.
-     * Use this accessor in Blade: $tenant->customization_with_defaults['accent_color']
+     * Customization with safe defaults — single source of truth for storefront appearance.
      */
     public function getCustomizationWithDefaultsAttribute(): array
     {
         return array_merge([
             'accent_color' => '#2E5136',
-            'content_order' => 'products_first',  // products_first | portfolio_first | products_only | portfolio_only
-            'product_layout' => 'grid',            // grid | list
+            'background_color' => '#FBFBF9',
+            'content_order' => 'products_first', // products_first | portfolio_first | products_only | portfolio_only
+            'product_layout' => 'grid',           // grid | list
+            'hero_style' => 'banner',         // banner | minimal
         ], $this->customization ?? []);
     }
 
@@ -55,14 +54,6 @@ class Tenant extends Model
     | Relationships
     |--------------------------------------------------------------------------
     */
-
-    /**
-     * A tenant uses one template.
-     */
-    public function template(): BelongsTo
-    {
-        return $this->belongsTo(Template::class);
-    }
 
     /**
      * A tenant has many users (tenant admins, staff, etc.).

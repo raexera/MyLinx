@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout — {{ $produk->nama_produk }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+    :root {
+        --accent: {{ $custom['accent_color'] ?? '#2E5136' }};
+        --accent-hover: color-mix(in srgb, {{ $custom['accent_color'] ?? '#2E5136' }} 85%, black);
+        --bg: {{ $custom['background_color'] ?? '#FBFBF9' }};
+    }
+    body { background: var(--bg); }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { background: var(--accent-hover); }
+    .text-accent { color: var(--accent); }
+    </style>
 </head>
 <body class="min-h-screen bg-gray-50 antialiased">
 
@@ -14,11 +25,11 @@
                 @if($profil?->logo)
                     <img src="{{ asset('storage/' . $profil->logo) }}" class="h-10 w-10 rounded-full object-cover">
                 @else
-                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-800 text-sm font-bold text-white">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full btn-accent text-sm font-bold">
                         {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
                     </div>
                 @endif
-                <a href="{{ route('tenant.show', $tenant) }}" class="font-semibold text-gray-900 hover:text-green-800">
+                <a href="{{ route('tenant.show', $tenant) }}" class="font-semibold text-gray-900 hover:text-accent">
                     {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
                 </a>
             </div>
@@ -28,9 +39,9 @@
     <main class="mx-auto max-w-3xl px-6 py-10">
 
         <nav class="mb-8 flex items-center gap-2 text-sm text-gray-500">
-            <a href="{{ route('tenant.show', $tenant) }}" class="hover:text-green-700">Toko</a>
+            <a href="{{ route('tenant.show', $tenant) }}" class="hover:text-accent">Toko</a>
             <span>/</span>
-            <a href="{{ route('tenant.produk.detail', [$tenant, $produk]) }}" class="hover:text-green-700">{{ $produk->nama_produk }}</a>
+            <a href="{{ route('tenant.produk.detail', [$tenant, $produk]) }}" class="hover:text-accent">{{ $produk->nama_produk }}</a>
             <span>/</span>
             <span class="text-gray-800">Checkout</span>
         </nav>
@@ -58,7 +69,7 @@
                             <label class="block text-sm font-medium text-gray-700">Nama Lengkap <span class="text-red-500">*</span></label>
                             <input type="text" name="nama_pembeli" value="{{ old('nama_pembeli') }}" required
                                    placeholder="Masukkan nama lengkap"
-                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                             @error('nama_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                         </div>
 
@@ -67,7 +78,7 @@
                             <label class="block text-sm font-medium text-gray-700">Nomor WhatsApp <span class="text-red-500">*</span></label>
                             <input type="text" name="no_hp_pembeli" value="{{ old('no_hp_pembeli') }}" required
                                    placeholder="08123456789 atau +62812..."
-                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                             <p class="mt-1 text-xs text-gray-400">Penjual akan kirim invoice &amp; resi via WA.</p>
                             @error('no_hp_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                         </div>
@@ -77,7 +88,7 @@
                             <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
                             <input type="email" name="email_pembeli" value="{{ old('email_pembeli') }}" required
                                    placeholder="nama@email.com"
-                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                             @error('email_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                         </div>
 
@@ -86,7 +97,7 @@
                             <label class="block text-sm font-medium text-gray-700">Alamat Pengiriman <span class="text-red-500">*</span></label>
                             <textarea name="alamat_pengiriman" rows="3" required
                                       placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"
-                                      class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">{{ old('alamat_pengiriman') }}</textarea>
+                                      class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">{{ old('alamat_pengiriman') }}</textarea>
                             @error('alamat_pengiriman') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                         </div>
 
@@ -98,7 +109,7 @@
                                 </label>
                                 <div class="mt-2 flex flex-wrap gap-2">
                                     @foreach($produk->varian_opsi_array as $opsi)
-                                        <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm transition has-[:checked]:border-green-700 has-[:checked]:bg-green-50 has-[:checked]:text-green-800 {{ old('varian') === $opsi ? 'border-green-700 bg-green-50 text-green-800' : 'border-gray-200' }}">
+                                        <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm transition has-[:checked]:border-accent has-[:checked]:bg-green-50 has-[:checked]:text-accent {{ old('varian') === $opsi ? 'border-accent bg-green-50 text-accent' : 'border-gray-200' }}">
                                             <input type="radio" name="varian" value="{{ $opsi }}" class="sr-only" {{ old('varian') === $opsi ? 'checked' : '' }}>
                                             {{ $opsi }}
                                         </label>
@@ -112,7 +123,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Jumlah <span class="text-red-500">*</span></label>
                             <input type="number" name="jumlah" value="{{ old('jumlah', 1) }}" min="1" max="{{ $produk->stok }}" required
-                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                             <p class="mt-1 text-xs text-gray-400">Maks. {{ $produk->stok }} unit tersedia.</p>
                             @error('jumlah') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                         </div>
@@ -121,7 +132,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Catatan untuk Penjual <span class="text-gray-400 font-normal">(opsional)</span></label>
                             <textarea name="catatan_pembeli" rows="2" placeholder="Permintaan khusus, warna, dll."
-                                      class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">{{ old('catatan_pembeli') }}</textarea>
+                                      class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">{{ old('catatan_pembeli') }}</textarea>
                             @error('catatan_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                         </div>
 
@@ -130,7 +141,7 @@
                         </div>
 
                         <button type="submit"
-                                class="mt-2 w-full rounded-xl bg-green-800 px-6 py-3 text-base font-semibold text-white transition hover:bg-green-700">
+                                class="mt-2 w-full rounded-xl btn-accent px-6 py-3 text-base font-semibold transition">
                             Lanjut ke Pembayaran →
                         </button>
                     </form>
@@ -164,7 +175,7 @@
     </main>
 
     <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400">
-        Dibuat dengan <a href="{{ route('landing') }}" class="font-medium text-green-700 hover:underline">MyLinx</a>
+        Dibuat dengan <a href="{{ route('landing') }}" class="font-medium text-accent hover:underline">MyLinx</a>
     </footer>
 </body>
 </html>

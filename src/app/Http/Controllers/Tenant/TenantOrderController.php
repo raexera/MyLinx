@@ -16,40 +16,24 @@ use Illuminate\View\View;
 
 class TenantOrderController extends Controller
 {
-    /**
-     * Show the checkout form for a specific product.
-     *
-     * Validates:
-     * - Product belongs to this tenant
-     * - Product is active (status = true)
-     * - Product is in stock (stok > 0)
-     */
     public function create(Tenant $tenant, Produk $produk): View
     {
-        // Ensure product belongs to this tenant
         if ($produk->tenant_id !== $tenant->id) {
             abort(404);
         }
 
-        // Ensure product is available for purchase
         if (! $produk->status || $produk->stok <= 0) {
             abort(404, 'Produk tidak tersedia untuk dibeli.');
         }
 
-        // Load tenant profile for the checkout page layout
-        $tenant->load(['profilUsaha', 'template']);
+        $tenant->load('profilUsaha');
+        $custom = $tenant->customization_with_defaults;
 
-        $templateSlug = $tenant->template?->slug_key ?? 'minimalist';
-        $viewName = "tenant.templates.{$templateSlug}.checkout";
-
-        if (! view()->exists($viewName)) {
-            $viewName = 'tenant.templates.minimalist.checkout';
-        }
-
-        return view($viewName, [
+        return view('tenant.checkout', [
             'tenant' => $tenant,
             'profil' => $tenant->profilUsaha,
             'produk' => $produk,
+            'custom' => $custom,
         ]);
     }
 
@@ -143,34 +127,22 @@ class TenantOrderController extends Controller
         return redirect()->route('tenant.order.success', [$tenant, $order]);
     }
 
-    /**
-     * Display the order success / confirmation page.
-     *
-     * Shows order summary, invoice number, and payment instructions.
-     */
     public function success(Tenant $tenant, Order $order): View
     {
-        // Ensure the order belongs to this tenant
         if ($order->tenant_id !== $tenant->id) {
             abort(404);
         }
 
-        // Eager-load relationships for the confirmation page
         $order->load(['orderItems.produk', 'invoice']);
-        $tenant->load(['profilUsaha', 'template']);
+        $tenant->load('profilUsaha');
+        $custom = $tenant->customization_with_defaults;
 
-        $templateSlug = $tenant->template?->slug_key ?? 'minimalist';
-        $viewName = "tenant.templates.{$templateSlug}.order-success";
-
-        if (! view()->exists($viewName)) {
-            $viewName = 'tenant.templates.minimalist.order-success';
-        }
-
-        return view($viewName, [
+        return view('tenant.order-success', [
             'tenant' => $tenant,
             'profil' => $tenant->profilUsaha,
             'order' => $order,
             'invoice' => $order->invoice,
+            'custom' => $custom,
         ]);
     }
 
