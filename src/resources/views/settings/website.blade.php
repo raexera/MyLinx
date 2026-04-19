@@ -26,7 +26,6 @@
         @csrf
         @method('PATCH')
 
-        <!-- Section 1: Store Name -->
         <div class="mb-14">
             <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Store Name</h2>
             <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">The name that appears on your storefront header.</p>
@@ -44,7 +43,6 @@
             @error('nama_tenant')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
         </div>
 
-        <!-- Section 2: Shop Subdomain -->
         <div class="mb-14">
             <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Shop Subdomain</h2>
             <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Choose a unique address for your online store.</p>
@@ -105,7 +103,6 @@
             @error('slug')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
         </div>
 
-        <!-- Section 3: Customization -->
         <div class="mb-14">
             <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Customization</h2>
             <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Personalize the look and feel of your storefront.</p>
@@ -114,6 +111,14 @@
                 x-data="{
                     accent: '{{ old('accent_color', $c['accent_color']) }}',
                     background: '{{ old('background_color', $c['background_color']) }}',
+                    get isDark() {
+                        let bg = this.background.replace('#', '');
+                        if (bg.length === 3) bg = bg.split('').map(x => x+x).join('');
+                        let r = parseInt(bg.substr(0,2), 16);
+                        let g = parseInt(bg.substr(2,2), 16);
+                        let b = parseInt(bg.substr(4,2), 16);
+                        return ((r*299)+(g*587)+(b*114))/1000 < 128;
+                    }
                 }">
 
                 {{-- Accent Color --}}
@@ -150,7 +155,7 @@
                             <span class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]" x-text="background"></span>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap">
-                            <template x-for="preset in ['#FBFBF9', '#FFFFFF', '#F5F5F0', '#FAF5FF', '#FFF7ED', '#F0F9FF', '#0F172A']" :key="preset">
+                            <template x-for="preset in ['#FBFBF9', '#FFFFFF', '#F5F5F0', '#FAF5FF', '#FFF7ED', '#F0F9FF', '#0F172A', '#18181B']" :key="preset">
                                 <button type="button" @click="background = preset" :style="`background:${preset}`"
                                         class="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm hover:scale-110 transition-transform"
                                         :class="background === preset ? 'ring-2 ring-offset-2 ring-[#1A1C19]' : ''"></button>
@@ -161,19 +166,19 @@
                 </div>
 
                 {{-- Live preview --}}
-                <div class="rounded-2xl border border-[#E8EBED] p-5" :style="`background:${background}`">
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Live Preview</p>
+                <div class="rounded-2xl border border-[#E8EBED] p-6 shadow-inner transition-colors duration-300" :style="`background:${background}`">
+                    <p class="text-[11px] font-bold uppercase tracking-widest mb-4 transition-colors" :class="isDark ? 'text-slate-400' : 'text-gray-400'">Live Preview</p>
+                    <h3 class="text-2xl font-serif mb-3 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Produk Kami</h3>
                     <div class="flex items-center gap-3 flex-wrap">
-                        <button type="button" :style="`background:${accent}`" class="text-white text-[13px] font-bold px-5 py-2.5 rounded-full pointer-events-none">
+                        <button type="button" :style="`background:${accent}`" class="text-white text-[13px] font-bold px-5 py-2.5 rounded-full pointer-events-none border border-black/5">
                             Beli Sekarang
                         </button>
-                        <span :style="`background:${accent}20; color:${accent}`" class="text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Featured</span>
+                        <span :style="`background: color-mix(in srgb, ${accent} 20%, transparent); color:${accent}`" class="text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border" :style="`border-color: color-mix(in srgb, ${accent} 30%, transparent)`">Featured</span>
                         <a href="#" :style="`color:${accent}`" class="text-[13px] font-bold underline pointer-events-none">Lihat Detail →</a>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 border-t border-[#F0F2F3]">
-
                     {{-- Hero Style --}}
                     <div>
                         <label for="hero_style" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Hero Style</label>
@@ -218,7 +223,6 @@
             </div>
         </div>
 
-        <!-- Save Button (REAL submit) -->
         <div class="flex justify-end pt-8 pb-14 mt-4 relative">
             <button type="submit"
                     class="bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-7 py-[12px] font-bold text-[14px] shadow-[0_8px_16px_rgb(46,81,54,0.3)] flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 z-10">
