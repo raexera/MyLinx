@@ -19,8 +19,10 @@ use Zxing\QrReader;
  */
 class QrisValidator
 {
-    public const RESULT_OK       = 'ok';
-    public const RESULT_NO_QR    = 'no_qr';       // Image doesn't contain a decodable QR code
+    public const RESULT_OK = 'ok';
+
+    public const RESULT_NO_QR = 'no_qr';       // Image doesn't contain a decodable QR code
+
     public const RESULT_NOT_QRIS = 'not_qris';    // QR decoded but isn't a QRIS payload
 
     /**
@@ -32,7 +34,7 @@ class QrisValidator
     {
         // Step 1: Decode QR from image
         try {
-            $reader  = new QrReader($image->getRealPath());
+            $reader = new QrReader($image->getRealPath());
             $payload = $reader->text();
         } catch (\Throwable $e) {
             return $this->fail(self::RESULT_NO_QR, 'Gambar tidak dapat dibaca sebagai QR code.');
@@ -67,11 +69,11 @@ class QrisValidator
         $parsed = $this->parseEmvPayload($payload);
 
         return [
-            'status'        => self::RESULT_OK,
-            'payload'       => $payload,
+            'status' => self::RESULT_OK,
+            'payload' => $payload,
             'merchant_name' => $parsed['merchant_name'],
-            'nmid'          => $parsed['nmid'],
-            'message'       => 'QRIS valid. Terdaftar atas nama: ' . ($parsed['merchant_name'] ?? 'tidak diketahui'),
+            'nmid' => $parsed['nmid'],
+            'message' => 'QRIS valid. Terdaftar atas nama: '.($parsed['merchant_name'] ?? 'tidak diketahui'),
         ];
     }
 
@@ -85,7 +87,7 @@ class QrisValidator
     private function parseEmvPayload(string $payload): array
     {
         $result = ['merchant_name' => null, 'nmid' => null];
-        $pos    = 0;
+        $pos = 0;
         $length = strlen($payload);
 
         while ($pos < $length - 4) { // -4 to skip trailing CRC
@@ -93,9 +95,9 @@ class QrisValidator
                 break;
             }
 
-            $tag    = substr($payload, $pos, 2);
-            $len    = (int) substr($payload, $pos + 2, 2);
-            $value  = substr($payload, $pos + 4, $len);
+            $tag = substr($payload, $pos, 2);
+            $len = (int) substr($payload, $pos + 2, 2);
+            $value = substr($payload, $pos + 4, $len);
 
             if ($tag === '59') {
                 $result['merchant_name'] = trim($value);
@@ -125,7 +127,7 @@ class QrisValidator
      */
     private function extractNmid(string $block): ?string
     {
-        $pos    = 0;
+        $pos = 0;
         $length = strlen($block);
 
         while ($pos < $length) {
@@ -150,11 +152,11 @@ class QrisValidator
     private function fail(string $status, string $message): array
     {
         return [
-            'status'        => $status,
-            'payload'       => null,
+            'status' => $status,
+            'payload' => null,
             'merchant_name' => null,
-            'nmid'          => null,
-            'message'       => $message,
+            'nmid' => null,
+            'message' => $message,
         ];
     }
 }

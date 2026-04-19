@@ -27,6 +27,8 @@ class StoreProdukRequest extends FormRequest
             'stok' => ['required', 'integer', 'min:0'],
             'gambar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
             'status' => ['sometimes', 'boolean'],
+            'varian_label' => ['nullable', 'string', 'max:50'],
+            'varian_opsi' => ['nullable', 'string', 'max:500'],
         ];
     }
 

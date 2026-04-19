@@ -20,8 +20,9 @@ class Tenant extends Model
         'nama_tenant',
         'slug',
         'template_id',
-        'customization',
         'status',
+        'customization',
+        'page_views',
     ];
 
     /**
@@ -30,8 +31,9 @@ class Tenant extends Model
     protected function casts(): array
     {
         return [
-            'status'        => 'boolean',
-            'customization' => 'array',    // ← add
+            'status' => 'boolean',
+            'customization' => 'array',
+            'page_views' => 'integer',
         ];
     }
 
@@ -42,8 +44,8 @@ class Tenant extends Model
     public function getCustomizationWithDefaultsAttribute(): array
     {
         return array_merge([
-            'accent_color'   => '#2E5136',
-            'content_order'  => 'products_first',  // products_first | portfolio_first | products_only | portfolio_only
+            'accent_color' => '#2E5136',
+            'content_order' => 'products_first',  // products_first | portfolio_first | products_only | portfolio_only
             'product_layout' => 'grid',            // grid | list
         ], $this->customization ?? []);
     }

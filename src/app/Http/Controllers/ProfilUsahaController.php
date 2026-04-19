@@ -47,9 +47,9 @@ class ProfilUsahaController extends Controller
                 Storage::disk('public')->delete($profil->qris_image);
             }
 
-            $data['qris_image']         = $request->file('qris_image')->store('qris', 'public');
+            $data['qris_image'] = $request->file('qris_image')->store('qris', 'public');
             $data['qris_merchant_name'] = $result['merchant_name'];
-            $data['qris_nmid']          = $result['nmid'];
+            $data['qris_nmid'] = $result['nmid'];
         }
 
         $profil->update($data);
@@ -68,9 +68,9 @@ class ProfilUsahaController extends Controller
             Storage::disk('public')->delete($profil->qris_image);
 
             $profil->update([
-                'qris_image'         => null,
+                'qris_image' => null,
                 'qris_merchant_name' => null,
-                'qris_nmid'          => null,
+                'qris_nmid' => null,
             ]);
         }
 

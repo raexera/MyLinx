@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Services\QrisValidator;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Translation\PotentiallyTranslatedString;
 
 class UpdateProfilUsahaRequest extends FormRequest
 {
@@ -18,10 +17,10 @@ class UpdateProfilUsahaRequest extends FormRequest
     {
         return [
             'nama_usaha' => ['required', 'string', 'max:150'],
-            'deskripsi'  => ['required', 'string', 'max:2000'],
-            'alamat'     => ['required', 'string', 'max:500'],
-            'no_hp'      => ['required', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:30'],
-            'logo'       => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'deskripsi' => ['required', 'string', 'max:2000'],
+            'alamat' => ['required', 'string', 'max:500'],
+            'no_hp' => ['required', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:30'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
 
             // QRIS image: optional (may already have one stored); if provided, must be valid
             'qris_image' => [
@@ -37,9 +36,9 @@ class UpdateProfilUsahaRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'logo.max'       => 'Ukuran logo maksimal 2MB.',
+            'logo.max' => 'Ukuran logo maksimal 2MB.',
             'qris_image.max' => 'Ukuran gambar QRIS maksimal 2MB.',
-            'no_hp.regex'    => 'Format nomor WhatsApp tidak valid.',
+            'no_hp.regex' => 'Format nomor WhatsApp tidak valid.',
         ];
     }
 
@@ -48,7 +47,8 @@ class UpdateProfilUsahaRequest extends FormRequest
      */
     private function qrisValidationRule(): ValidationRule
     {
-        return new class implements ValidationRule {
+        return new class implements ValidationRule
+        {
             public function validate(string $attribute, mixed $value, \Closure $fail): void
             {
                 if (! $value) {

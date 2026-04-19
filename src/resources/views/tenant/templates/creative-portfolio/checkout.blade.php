@@ -5,118 +5,166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout — {{ $produk->nama_produk }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'DM Sans', sans-serif; }
-        .font-serif { font-family: 'DM Serif Display', serif; }
-        .glass { backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
-        .gradient-text { background: linear-gradient(135deg, #E879F9, #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip:text; }
-        input { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:white; }
-        input:focus { outline:none; border-color:rgba(129,140,248,0.6); box-shadow:0 0 0 2px rgba(129,140,248,0.15); }
-        input::placeholder { color:rgba(255,255,255,0.2); }
-    </style>
 </head>
-<body style="background:#0A0A15; color:white; min-height:100vh;">
+<body class="min-h-screen bg-gray-50 antialiased">
 
-    <div style="position:fixed;top:-20%;left:-10%;width:400px;height:400px;background:radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%);pointer-events:none;z-index:0;"></div>
-
-    <header class="glass" style="background:rgba(10,10,21,0.8); border-bottom:1px solid rgba(255,255,255,0.08); position:sticky; top:0; z-index:100;">
-        <div style="max-width:900px; margin:0 auto; padding:0 32px; height:72px; display:flex; align-items:center; gap:14px;">
-            @if($profil?->logo)
-                <img src="{{ asset('storage/' . $profil->logo) }}" alt="{{ $profil->nama_usaha }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid rgba(129,140,248,0.4);">
-            @else
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#818CF8,#E879F9);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;">
-                    {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
-                </div>
-            @endif
-            <a href="{{ route('tenant.show', $tenant) }}" class="font-serif" style="font-size:16px;color:white;text-decoration:none;">
-                {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
-            </a>
+    <header class="bg-white shadow-sm">
+        <div class="mx-auto max-w-3xl px-6 py-5">
+            <div class="flex items-center gap-3">
+                @if($profil?->logo)
+                    <img src="{{ asset('storage/' . $profil->logo) }}" class="h-10 w-10 rounded-full object-cover">
+                @else
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-800 text-sm font-bold text-white">
+                        {{ strtoupper(substr($tenant->nama_tenant, 0, 1)) }}
+                    </div>
+                @endif
+                <a href="{{ route('tenant.show', $tenant) }}" class="font-semibold text-gray-900 hover:text-green-800">
+                    {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
+                </a>
+            </div>
         </div>
     </header>
 
-    <main style="max-width:900px; margin:0 auto; padding:48px 32px; position:relative;">
+    <main class="mx-auto max-w-3xl px-6 py-10">
 
-        <nav style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:36px; font-weight:300;">
-            <a href="{{ route('tenant.show', $tenant) }}" style="color:rgba(129,140,248,0.7); text-decoration:none;">Toko</a>
-            <span style="color:rgba(255,255,255,0.2);">›</span>
-            <a href="{{ route('tenant.produk.detail', [$tenant, $produk]) }}" style="color:rgba(255,255,255,0.4); text-decoration:none;">{{ $produk->nama_produk }}</a>
-            <span style="color:rgba(255,255,255,0.2);">›</span>
-            <span style="color:rgba(255,255,255,0.7);">Checkout</span>
+        <nav class="mb-8 flex items-center gap-2 text-sm text-gray-500">
+            <a href="{{ route('tenant.show', $tenant) }}" class="hover:text-green-700">Toko</a>
+            <span>/</span>
+            <a href="{{ route('tenant.produk.detail', [$tenant, $produk]) }}" class="hover:text-green-700">{{ $produk->nama_produk }}</a>
+            <span>/</span>
+            <span class="text-gray-800">Checkout</span>
         </nav>
 
-        @if(session('error'))
-            <div class="glass" style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:12px;padding:14px 18px;font-size:14px;color:rgba(248,113,113,0.9);margin-bottom:24px;font-weight:400;">
-                ⚠ {{ session('error') }}
+        <div class="grid gap-6 md:grid-cols-5">
+
+            {{-- Checkout Form --}}
+            <div class="md:col-span-3">
+                <div class="rounded-2xl bg-white p-6 shadow-sm">
+                    <h1 class="text-xl font-bold text-gray-900">Data Pemesanan</h1>
+                    <p class="mt-1 text-sm text-gray-500">Pastikan data lengkap — penjual akan menghubungi kamu via WhatsApp.</p>
+
+                    {{-- Flash Error --}}
+                    @if(session('error'))
+                        <div class="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('tenant.checkout.store', [$tenant, $produk]) }}" method="POST" class="mt-6 space-y-5">
+                        @csrf
+
+                        {{-- Nama --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nama Lengkap <span class="text-red-500">*</span></label>
+                            <input type="text" name="nama_pembeli" value="{{ old('nama_pembeli') }}" required
+                                   placeholder="Masukkan nama lengkap"
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                            @error('nama_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- WhatsApp --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                            <input type="text" name="no_hp_pembeli" value="{{ old('no_hp_pembeli') }}" required
+                                   placeholder="08123456789 atau +62812..."
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                            <p class="mt-1 text-xs text-gray-400">Penjual akan kirim invoice &amp; resi via WA.</p>
+                            @error('no_hp_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Email --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+                            <input type="email" name="email_pembeli" value="{{ old('email_pembeli') }}" required
+                                   placeholder="nama@email.com"
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                            @error('email_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Alamat --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Alamat Pengiriman <span class="text-red-500">*</span></label>
+                            <textarea name="alamat_pengiriman" rows="3" required
+                                      placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"
+                                      class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">{{ old('alamat_pengiriman') }}</textarea>
+                            @error('alamat_pengiriman') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Variant (if applicable) --}}
+                        @if($produk->hasVariants())
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    {{ $produk->varian_label ?? 'Varian' }} <span class="text-red-500">*</span>
+                                </label>
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    @foreach($produk->varian_opsi_array as $opsi)
+                                        <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm transition has-[:checked]:border-green-700 has-[:checked]:bg-green-50 has-[:checked]:text-green-800 {{ old('varian') === $opsi ? 'border-green-700 bg-green-50 text-green-800' : 'border-gray-200' }}">
+                                            <input type="radio" name="varian" value="{{ $opsi }}" class="sr-only" {{ old('varian') === $opsi ? 'checked' : '' }}>
+                                            {{ $opsi }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                                @error('varian') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                            </div>
+                        @endif
+
+                        {{-- Jumlah --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jumlah <span class="text-red-500">*</span></label>
+                            <input type="number" name="jumlah" value="{{ old('jumlah', 1) }}" min="1" max="{{ $produk->stok }}" required
+                                   class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">
+                            <p class="mt-1 text-xs text-gray-400">Maks. {{ $produk->stok }} unit tersedia.</p>
+                            @error('jumlah') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Catatan --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Catatan untuk Penjual <span class="text-gray-400 font-normal">(opsional)</span></label>
+                            <textarea name="catatan_pembeli" rows="2" placeholder="Permintaan khusus, warna, dll."
+                                      class="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600">{{ old('catatan_pembeli') }}</textarea>
+                            @error('catatan_pembeli') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800">
+                            <strong>Perhatian:</strong> Ongkos kirim belum termasuk. Penjual akan menginformasikan total + ongkir via WhatsApp.
+                        </div>
+
+                        <button type="submit"
+                                class="mt-2 w-full rounded-xl bg-green-800 px-6 py-3 text-base font-semibold text-white transition hover:bg-green-700">
+                            Lanjut ke Pembayaran →
+                        </button>
+                    </form>
+                </div>
             </div>
-        @endif
 
-        <div style="display:grid; grid-template-columns:1fr 360px; gap:24px; align-items:start;">
+            {{-- Order Summary --}}
+            <div class="md:col-span-2">
+                <div class="rounded-2xl bg-white p-6 shadow-sm sticky top-6">
+                    <h2 class="text-base font-semibold text-gray-900">Ringkasan Pesanan</h2>
+                    <div class="mt-4">
+                        @if($produk->gambar)
+                            <img src="{{ asset('storage/' . $produk->gambar) }}" class="h-32 w-full rounded-lg object-cover">
+                        @else
+                            <div class="flex h-32 items-center justify-center rounded-lg bg-gray-100 text-4xl text-gray-300">📦</div>
+                        @endif
+                        <p class="mt-3 font-medium text-gray-900">{{ $produk->nama_produk }}</p>
+                        <p class="mt-1 text-sm text-gray-500">{{ Str::limit($produk->deskripsi, 80) }}</p>
 
-            <div class="glass" style="background:rgba(255,255,255,0.04); border-radius:20px; padding:36px; border:1px solid rgba(255,255,255,0.08);">
-                <h1 class="font-serif" style="font-size:26px; color:white; margin-bottom:32px;">Data Pemesanan</h1>
-
-                <form action="{{ route('tenant.checkout.store', [$tenant, $produk]) }}" method="POST" style="display:flex; flex-direction:column; gap:20px;">
-                    @csrf
-
-                    <div>
-                        <label for="nama_pembeli" style="display:block; font-size:11px; font-weight:500; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:8px;">Nama Lengkap</label>
-                        <input type="text" id="nama_pembeli" name="nama_pembeli" value="{{ old('nama_pembeli') }}" placeholder="Nama kamu..." required
-                               style="width:100%; padding:14px 18px; border-radius:12px; font-size:15px; font-weight:400;">
-                        @error('nama_pembeli')
-                            <p style="color:rgba(248,113,113,0.9); font-size:12px; margin-top:6px; font-weight:400;">{{ $message }}</p>
-                        @enderror
+                        <div class="mt-4 border-t border-gray-100 pt-4 space-y-2 text-sm">
+                            <div class="flex justify-between text-gray-600">
+                                <span>Harga satuan</span>
+                                <span>Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-xs text-gray-400">Total produk dihitung saat konfirmasi. Ongkir via WA.</p>
                     </div>
-
-                    <div>
-                        <label for="email_pembeli" style="display:block; font-size:11px; font-weight:500; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:8px;">Email</label>
-                        <input type="email" id="email_pembeli" name="email_pembeli" value="{{ old('email_pembeli') }}" placeholder="email@kamu.com" required
-                               style="width:100%; padding:14px 18px; border-radius:12px; font-size:15px; font-weight:400;">
-                        @error('email_pembeli')
-                            <p style="color:rgba(248,113,113,0.9); font-size:12px; margin-top:6px; font-weight:400;">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="jumlah" style="display:block; font-size:11px; font-weight:500; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:8px;">Jumlah (maks. {{ $produk->stok }})</label>
-                        <input type="number" id="jumlah" name="jumlah" value="{{ old('jumlah', 1) }}" min="1" max="{{ $produk->stok }}" required
-                               style="width:100%; padding:14px 18px; border-radius:12px; font-size:15px; font-weight:400;">
-                        @error('jumlah')
-                            <p style="color:rgba(248,113,113,0.9); font-size:12px; margin-top:6px; font-weight:400;">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <button type="submit"
-                            style="background:linear-gradient(135deg,#818CF8,#E879F9); color:white; padding:18px 24px; border-radius:14px; font-size:16px; font-weight:600; border:none; cursor:pointer; margin-top:8px; letter-spacing:0.01em;">
-                        Konfirmasi Pesanan ✦
-                    </button>
-                </form>
-            </div>
-
-            <div class="glass" style="background:rgba(255,255,255,0.03); border-radius:20px; padding:24px; border:1px solid rgba(255,255,255,0.07);">
-                <h2 style="font-size:11px; font-weight:500; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:20px;">Ringkasan</h2>
-                @if($produk->gambar)
-                    <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" style="width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:16px; opacity:0.85;">
-                @else
-                    <div style="height:160px; background:linear-gradient(135deg,rgba(129,140,248,0.1),rgba(232,121,249,0.08)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:40px; color:rgba(255,255,255,0.1); margin-bottom:16px;">✨</div>
-                @endif
-                <p class="font-serif" style="font-size:17px; color:white; margin-bottom:6px;">{{ $produk->nama_produk }}</p>
-                <p style="font-size:13px; color:rgba(255,255,255,0.35); margin-bottom:20px; line-height:1.6; font-weight:300;">{{ Str::limit($produk->deskripsi, 80) }}</p>
-                <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
-                    <div style="display:flex; justify-content:space-between; font-size:14px; color:rgba(255,255,255,0.4); font-weight:300;">
-                        <span>Harga satuan</span>
-                        <span class="gradient-text font-serif" style="font-size:18px;">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
-                    </div>
-                    <p style="font-size:11px; color:rgba(255,255,255,0.2); margin-top:8px; font-weight:300;">Total dihitung saat konfirmasi</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="glass" style="border-top:1px solid rgba(255,255,255,0.06); padding:28px; text-align:center; margin-top:48px;">
-        <p style="font-size:13px; color:rgba(255,255,255,0.2); font-weight:300;">
-            Dibuat dengan <a href="{{ route('landing') }}" style="color:rgba(129,140,248,0.6); text-decoration:none; font-weight:500;">MyLinx</a>
-        </p>
+    <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400">
+        Dibuat dengan <a href="{{ route('landing') }}" class="font-medium text-green-700 hover:underline">MyLinx</a>
     </footer>
 </body>
 </html>

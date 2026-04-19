@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use App\Models\Tenant;
+use App\Services\PageViewService;
 use Illuminate\View\View;
 
 class TenantPageController extends Controller
@@ -32,30 +33,23 @@ class TenantPageController extends Controller
      * - portofolios: all portfolio entries (for showcase section)
      * - produks: only ACTIVE products that are IN STOCK
      */
-    public function show(Tenant $tenant): View
+    public function show(Tenant $tenant, PageViewService $pageViews): View
     {
-        $tenant->load([
-            'profilUsaha',
-            'portofolios' => fn ($q) => $q->orderBy('created_at', 'desc'),
-            'produks'     => fn ($q) => $q->where('status', true)
-                ->where('stok', '>', 0)
-                ->orderBy('created_at', 'desc'),
-        ]);
+        $pageViews->record($tenant);
+
+        $profil = $tenant->profilUsaha;
+        $produks = $tenant->produks()->where('status', true)->get();
+        $portofolios = $tenant->portofolios()->latest()->get();
+        $custom = $tenant->customization_with_defaults;
 
         $templateSlug = $this->resolveTemplateSlug($tenant);
-        $viewName     = "tenant.templates.{$templateSlug}.show";
+        $viewName = "tenant.templates.{$templateSlug}.show";
 
         if (! view()->exists($viewName)) {
             $viewName = 'tenant.templates.minimalist.show';
         }
 
-        return view($viewName, [
-            'tenant'      => $tenant,
-            'profil'      => $tenant->profilUsaha,
-            'produks'     => $tenant->produks,
-            'portofolios' => $tenant->portofolios,
-            'custom'      => $tenant->customization_with_defaults,
-        ]);
+        return view($viewName, compact('tenant', 'profil', 'produks', 'portofolios', 'custom'));
     }
 
     /**
@@ -80,7 +74,7 @@ class TenantPageController extends Controller
         $tenant->load('profilUsaha');
 
         $templateSlug = $this->resolveTemplateSlug($tenant);
-        $viewName     = "tenant.templates.{$templateSlug}.produk-detail";
+        $viewName = "tenant.templates.{$templateSlug}.produk-detail";
 
         if (! view()->exists($viewName)) {
             $viewName = 'tenant.templates.minimalist.produk-detail';

@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateTemplateRequest;
 use App\Http\Requests\UpdateWebsiteSettingsRequest;
 use App\Models\Template;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
+use Illuminate\View\View;
 
 class SettingController extends Controller
 {
@@ -36,11 +35,11 @@ class SettingController extends Controller
 
         // Split customization out of the top-level update payload
         $tenant->update([
-            'nama_tenant'   => $validated['nama_tenant'],
-            'slug'          => $validated['slug'],
+            'nama_tenant' => $validated['nama_tenant'],
+            'slug' => $validated['slug'],
             'customization' => [
-                'accent_color'   => $validated['accent_color'],
-                'content_order'  => $validated['content_order'],
+                'accent_color' => $validated['accent_color'],
+                'content_order' => $validated['content_order'],
                 'product_layout' => $validated['product_layout'],
             ],
         ]);
@@ -61,7 +60,7 @@ class SettingController extends Controller
         $templates = Template::where('is_active', true)->get();
 
         return view('settings.template', [
-            'tenant'    => $tenant,
+            'tenant' => $tenant,
             'templates' => $templates,
         ]);
     }
@@ -103,8 +102,8 @@ class SettingController extends Controller
         if (! preg_match('/^[a-z0-9_-]+$/', $slug)) {
             return response()->json([
                 'available' => false,
-                'reason'    => 'Hanya huruf kecil, angka, strip (-), dan garis bawah (_).',
-                'slug'      => $slug,
+                'reason' => 'Hanya huruf kecil, angka, strip (-), dan garis bawah (_).',
+                'slug' => $slug,
             ]);
         }
 
@@ -112,21 +111,21 @@ class SettingController extends Controller
         if (strlen($slug) < 3) {
             return response()->json([
                 'available' => false,
-                'reason'    => 'Minimal 3 karakter.',
-                'slug'      => $slug,
+                'reason' => 'Minimal 3 karakter.',
+                'slug' => $slug,
             ]);
         }
 
         // Rule 3: Reserved words (prevent conflicts with app routes)
         $reserved = ['login', 'register', 'dashboard', 'admin', 'api', 'produk',
-                    'order', 'payment', 'settings', 'profile', 'profil-usaha',
-                    'portfolio', 'checkout', 'logout', 'landing'];
+            'order', 'payment', 'settings', 'profile', 'profil-usaha',
+            'portfolio', 'checkout', 'logout', 'landing'];
 
         if (in_array($slug, $reserved, true)) {
             return response()->json([
                 'available' => false,
-                'reason'    => 'URL ini sudah digunakan oleh sistem.',
-                'slug'      => $slug,
+                'reason' => 'URL ini sudah digunakan oleh sistem.',
+                'slug' => $slug,
             ]);
         }
 
@@ -138,15 +137,15 @@ class SettingController extends Controller
         if ($taken) {
             return response()->json([
                 'available' => false,
-                'reason'    => 'URL ini sudah dipakai tenant lain.',
-                'slug'      => $slug,
+                'reason' => 'URL ini sudah dipakai tenant lain.',
+                'slug' => $slug,
             ]);
         }
 
         return response()->json([
             'available' => true,
-            'reason'    => null,
-            'slug'      => $slug,
+            'reason' => null,
+            'slug' => $slug,
         ]);
     }
 }

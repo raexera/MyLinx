@@ -17,6 +17,13 @@
                     @endif
                 </p>
             </div>
+            <a href="{{ route('order.export', request()->query()) }}"
+            class="inline-flex items-center gap-2 bg-white border border-[#E8EBED] hover:bg-gray-50 text-[#1A1C19] px-5 py-[11px] rounded-full text-[13px] font-bold transition-all shadow-sm">
+                <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Export CSV
+            </a>
         </div>
     </x-slot>
 
@@ -81,7 +88,7 @@
 
             {{-- Filter Pills --}}
             <div class="flex items-center bg-[#f9fafb] border border-[#E8EBED] rounded-full p-[5px] shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)] overflow-x-auto hide-scroll shrink-0">
-                @foreach(['' => 'All', 'pending' => 'Pending', 'confirmed' => 'Confirmed', 'processing' => 'Processing', 'completed' => 'Completed', 'cancelled' => 'Cancelled'] as $val => $label)
+                @foreach(['' => 'Semua', 'pending' => 'Menunggu Bayar', 'paid' => 'Sudah Bayar', 'processing' => 'Diproses', 'shipped' => 'Dikirim', 'completed' => 'Selesai', 'cancelled' => 'Dibatalkan'] as $val => $label)
                     @php $isActive = request('status', '') === $val; @endphp
                     <button type="button"
                             onclick="document.getElementById('order-status-input').value='{{ $val }}';document.getElementById('order-filter-form').submit();"
@@ -144,11 +151,12 @@
                         @forelse($orders as $order)
                             @php
                                 $statusMap = [
-                                    'pending'    => ['bg-[#fffbeb] text-[#d97706]', '#d97706'],
-                                    'confirmed'  => ['bg-blue-50 text-blue-600', '#3b82f6'],
-                                    'processing' => ['bg-purple-50 text-purple-600', '#9B59B6'],
-                                    'completed'  => ['bg-[#ecfdf3] text-[#059669]', '#059669'],
-                                    'cancelled'  => ['bg-red-50 text-red-600', '#ef4444'],
+                                    'pending'    => ['bg-[#fffbeb] text-[#d97706]', '#d97706', 'Menunggu Bayar'],
+                                    'paid'       => ['bg-blue-50 text-blue-600', '#3b82f6', 'Sudah Bayar'],
+                                    'processing' => ['bg-purple-50 text-purple-600', '#9B59B6', 'Diproses'],
+                                    'shipped'    => ['bg-indigo-50 text-indigo-600', '#6366f1', 'Dikirim'],
+                                    'completed'  => ['bg-[#ecfdf3] text-[#059669]', '#059669', 'Selesai'],
+                                    'cancelled'  => ['bg-red-50 text-red-600', '#ef4444', 'Dibatalkan'],
                                 ];
                                 $sc = $statusMap[$order->status] ?? ['bg-gray-100 text-gray-500', '#9ca3af'];
                             @endphp

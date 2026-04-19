@@ -99,6 +99,35 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    {{-- Varian (opsional) --}}
+                    <div x-data="{ showVariants: {{ old('varian_label', $produk->varian_label ?? '') ? 'true' : 'false' }} }">
+                        <div class="flex items-center gap-3 mb-3">
+                            <label class="block font-serif text-[17px] font-bold text-[#1A1C19]">Varian Produk</label>
+                            <button type="button" @click="showVariants = !showVariants"
+                                    class="text-[12px] font-bold text-[#2E5136] hover:underline">
+                                <span x-show="!showVariants">+ Tambah varian</span>
+                                <span x-show="showVariants">− Sembunyikan</span>
+                            </button>
+                        </div>
+
+                        <div x-show="showVariants" x-cloak class="space-y-4 p-5 bg-[#f9fafb] border border-[#E8EBED] rounded-2xl">
+                            <div>
+                                <label class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2">Nama Varian</label>
+                                <input type="text" name="varian_label" value="{{ old('varian_label', $produk->varian_label ?? '') }}"
+                                    placeholder="mis. Rasa, Ukuran, Warna"
+                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                                <p class="mt-1 text-[11px] text-gray-400">Label yang dilihat pembeli.</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2">Opsi Varian</label>
+                                <input type="text" name="varian_opsi" value="{{ old('varian_opsi', $produk->varian_opsi ?? '') }}"
+                                    placeholder="mis. Coklat, Stroberi, Vanila"
+                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                                <p class="mt-1 text-[11px] text-gray-400">Pisahkan dengan koma. Stok dan harga tetap sama untuk semua opsi.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Deskripsi Lengkap -->

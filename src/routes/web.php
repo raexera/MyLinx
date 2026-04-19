@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfilUsahaController;
+use App\Http\Controllers\PublicInvoiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Tenant\TenantOrderController;
 use App\Http\Controllers\Tenant\TenantPageController;
@@ -58,25 +58,21 @@ Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
     Route::patch('/profil-usaha', [ProfilUsahaController::class, 'update'])
         ->name('profil-usaha.update');
     Route::delete('/profil-usaha/qris', [ProfilUsahaController::class, 'removeQris'])
-    ->name('profil-usaha.remove-qris');
+        ->name('profil-usaha.remove-qris');
 
     // ── Portofolio CRUD ─────────────────────────────────────
     Route::resource('portfolio', PortofolioController::class)
         ->except(['show', 'create']);
 
     // ── Order Management ─────────────────────────────────────
-    Route::get('/order', [OrderController::class, 'index'])
-        ->name('order.index');
-    Route::get('/order/{order}', [OrderController::class, 'show'])
-        ->name('order.show');
-    Route::patch('/order/{order}', [OrderController::class, 'update'])
-        ->name('order.update');
-
-    // ── Payment / Invoice Tracking ───────────────────────────
-    Route::get('/payment', [PaymentController::class, 'index'])
-        ->name('payment.index');
-    Route::get('/payment/export', [PaymentController::class, 'export'])
-        ->name('payment.export');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/export', [OrderController::class, 'export'])->name('order.export');   // ← BEFORE {order}
+    Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
+    Route::patch('/order/{order}', [OrderController::class, 'update'])->name('order.update');
+    Route::patch('/order/{order}/mark-paid', [OrderController::class, 'markPaid'])->name('order.mark-paid');
+    Route::patch('/order/{order}/ship', [OrderController::class, 'ship'])->name('order.ship');
+    Route::patch('/order/{order}/complete', [OrderController::class, 'complete'])->name('order.complete');
+    Route::patch('/order/{order}/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
 
     // ── Settings (Website & Template) ────────────────────────
     Route::get('/settings/website', [SettingController::class, 'editWebsite'])
@@ -90,7 +86,7 @@ Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
         ->name('settings.template.update');
 
     Route::get('/settings/website/check-slug', [SettingController::class, 'checkSlug'])
-    ->name('settings.website.check-slug');
+        ->name('settings.website.check-slug');
 });
 
 /*
@@ -104,6 +100,21 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+/*
+|==========================================================================
+| PUBLIC INVOICE — Accessible via unguessable token
+|==========================================================================
+|
+| Used in WA-shared links: mylinx.com/invoice/aB3xK9mQvN2pL7tR4sW8yZ1cE5fH6gJ0
+| No auth required — the 32-char token IS the auth.
+| Must be registered BEFORE the tenant catch-all group.
+|
+*/
+
+Route::get('/invoice/{token}', [PublicInvoiceController::class, 'show'])
+    ->name('public.invoice')
+    ->where('token', '[A-Za-z0-9]{32}');
 
 // Breeze auth routes (login, register, password reset, email verification)
 require __DIR__.'/auth.php';

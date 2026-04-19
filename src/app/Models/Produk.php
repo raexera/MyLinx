@@ -22,6 +22,8 @@ class Produk extends Model
         'deskripsi',
         'harga',
         'stok',
+        'varian_label',
+        'varian_opsi',
         'gambar',
         'status',
     ];
@@ -96,5 +98,27 @@ class Produk extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    /**
+     * Return variant options as a clean array.
+     * "Coklat, Stroberi ,Vanila" → ['Coklat', 'Stroberi', 'Vanila']
+     */
+    public function getVarianOpsiArrayAttribute(): array
+    {
+        if (empty($this->varian_opsi)) {
+            return [];
+        }
+
+        return collect(explode(',', $this->varian_opsi))
+            ->map(fn ($o) => trim($o))
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function hasVariants(): bool
+    {
+        return ! empty($this->varian_opsi) && count($this->varian_opsi_array) > 0;
     }
 }

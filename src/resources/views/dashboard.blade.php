@@ -44,8 +44,8 @@
 
         {{-- ═══════════════ TENANT ADMIN ═══════════════ --}}
 
-        {{-- 1. Stats Row (3 cards — dropped redundant Pending card) --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {{-- 1. Stats Row: Revenue · Orders · Products · Views --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
 
             {{-- Total Revenue --}}
             <div class="bg-white rounded-[1.5rem] p-6 shadow-sm border border-[#E8EBED] flex flex-col justify-between">
@@ -100,6 +100,25 @@
                 </div>
             </div>
 
+            {{-- Page Views --}}
+            <div class="bg-white rounded-[1.5rem] p-6 shadow-sm border border-[#E8EBED] flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-[42px] h-[42px] rounded-full bg-blue-50 text-blue-500 flex items-center justify-center border border-blue-100">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">All time</span>
+                </div>
+                <div>
+                    <div class="text-[12px] font-semibold text-gray-400 mb-1">Page Views</div>
+                    <div class="text-[1.8rem] font-serif text-[#1A1C19] tracking-wide">
+                        {{ number_format(Auth::user()->tenant->page_views ?? 0) }}
+                    </div>
+                    <div class="text-[10px] text-gray-400 mt-1">Total pengunjung storefront</div>
+                </div>
+            </div>
         </div>
 
         {{-- Empty state: no orders at all --}}

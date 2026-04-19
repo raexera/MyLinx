@@ -22,8 +22,15 @@ class Order extends Model
         'kode_order',
         'nama_pembeli',
         'email_pembeli',
+        'no_hp_pembeli',
+        'alamat_pengiriman',
+        'catatan_pembeli',
         'total_harga',
         'status',
+        'ekspedisi',
+        'nomor_resi',
+        'shipped_at',
+        'public_token',
     ];
 
     /**
@@ -33,7 +40,27 @@ class Order extends Model
     {
         return [
             'total_harga' => 'decimal:2',
+            'shipped_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Order $order) {
+            if (empty($order->public_token)) {
+                $order->public_token = \Illuminate\Support\Str::random(32);
+            }
+        });
+    }
+
+    /**
+     * Use public_token for public-facing URLs.
+     * This is the route-model-binding column for Route::get('/invoice/{order:public_token}', ...)
+     */
+    public function getRouteKeyName(): string
+    {
+        // Default binding uses `id`; we override only on the specific public route below.
+        return parent::getRouteKeyName();
     }
 
     /*

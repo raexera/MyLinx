@@ -43,16 +43,14 @@ class DatabaseSeeder extends Seeder
         // Assign first template to the seeded tenant
         $template = Template::where('slug_key', 'minimalist')->first();
 
-
-
         // =====================================================================
         // 2. Tenant
         // =====================================================================
         $tenant = Tenant::create([
             'nama_tenant' => 'Toko Baju Jaya',
-            'slug'        => 'tokobaju',
+            'slug' => 'tokobaju',
             'template_id' => $template->id,
-            'status'      => true,
+            'status' => true,
         ]);
 
         // =====================================================================

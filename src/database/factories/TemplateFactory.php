@@ -28,10 +28,10 @@ class TemplateFactory extends Factory
 
         return [
             'nama_template' => $template['nama'],
-            'slug_key'      => $template['slug'],
-            'kategori'      => $template['kategori'],
-            'preview_url'   => '/images/templates/' . $template['slug'] . '.png',
-            'is_active'     => true,
+            'slug_key' => $template['slug'],
+            'kategori' => $template['kategori'],
+            'preview_url' => '/images/templates/'.$template['slug'].'.png',
+            'is_active' => true,
         ];
     }
 }

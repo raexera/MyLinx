@@ -25,9 +25,13 @@ class StoreTenantOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_pembeli' => ['required', 'string', 'max:255'],
-            'email_pembeli' => ['required', 'email', 'max:255'],
-            'jumlah' => ['required', 'integer', 'min:1', 'max:999'],
+            'nama_pembeli' => ['required', 'string', 'max:100'],
+            'email_pembeli' => ['required', 'email', 'max:150'],
+            'no_hp_pembeli' => ['required', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:30'],
+            'alamat_pengiriman' => ['required', 'string', 'min:10', 'max:500'],
+            'catatan_pembeli' => ['nullable', 'string', 'max:500'],
+            'jumlah' => ['required', 'integer', 'min:1'],
+            'varian' => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -49,11 +53,10 @@ class StoreTenantOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nama_pembeli.required' => 'Mohon isi nama lengkap Anda.',
-            'email_pembeli.required' => 'Mohon isi alamat email Anda.',
-            'email_pembeli.email' => 'Format email tidak valid.',
-            'jumlah.required' => 'Mohon tentukan jumlah pesanan.',
-            'jumlah.min' => 'Jumlah pesanan minimal 1.',
+            'no_hp_pembeli.required' => 'Nomor WhatsApp wajib diisi untuk konfirmasi pesanan.',
+            'no_hp_pembeli.regex' => 'Format nomor WhatsApp tidak valid.',
+            'alamat_pengiriman.required' => 'Alamat pengiriman wajib diisi.',
+            'alamat_pengiriman.min' => 'Alamat pengiriman terlalu pendek. Isi dengan detail lengkap.',
         ];
     }
 }

@@ -55,10 +55,10 @@ class RegisteredUserController extends Controller
             if (! $template) {
                 $template = Template::create([
                     'nama_template' => 'Minimalist',
-                    'slug_key'      => 'minimalist',
-                    'kategori'      => 'e-commerce',
-                    'preview_url'   => '/images/templates/minimalist.png',
-                    'is_active'     => true,
+                    'slug_key' => 'minimalist',
+                    'kategori' => 'e-commerce',
+                    'preview_url' => '/images/templates/minimalist.png',
+                    'is_active' => true,
                 ]);
             }
 

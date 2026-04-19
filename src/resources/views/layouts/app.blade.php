@@ -45,9 +45,6 @@
             <a href="{{ route('order.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('order.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Order</span>
             </a>
-            <a href="{{ route('payment.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('payment.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
-                <span>Payment</span>
-            </a>
             <a href="{{ route('portfolio.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('portfolio.*') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Portfolio Builder</span>
             </a>
