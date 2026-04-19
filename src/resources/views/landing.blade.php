@@ -11,13 +11,11 @@
         name="description"
         content="Solusi Low-Code gratis untuk UMKM Indonesia yang ingin go-digital. Bikin website katalog produk, terima pesanan via WhatsApp & QRIS, tanpa biaya hosting & maintenance yang mahal."
     />
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <link
         href="https://fonts.bunny.net/css?family=instrument-serif:400,400i|inter:400,500,600,700"
         rel="stylesheet"
     />
-    <!-- Scripts -->
     @vite (['resources/css/app.css', 'resources/js/app.js'])
     <style>
         .font-serif {
@@ -38,7 +36,6 @@
 <body
     class="font-sans antialiased text-[#1A1C19] bg-[#FBFBF9] selection:bg-[#2E5136] selection:text-white"
 >
-    <!-- ═══════════════ 1. NAVBAR ═══════════════ -->
     <nav
         class="fixed top-0 left-0 right-0 z-50 bg-[#FBFBF9]/90 backdrop-blur-md border-b border-transparent transition-all duration-300"
         id="navbar"
@@ -91,7 +88,6 @@
             </div>
         </div>
     </nav>
-    <!-- ═══════════════ 2. HERO ═══════════════ -->
     <section
         class="pt-[140px] pb-24 lg:pt-[180px] lg:pb-32 px-6 lg:px-8 relative overflow-hidden"
     >
@@ -152,7 +148,6 @@
                     <p class="text-xs text-gray-500 mt-3 ml-4">*Daftar gratis, langsung jadi.</p>
                 </div>
             </div>
-            <!-- Phone Mockup (kept — clearly illustrative) -->
             <div
                 class="relative w-full aspect-square md:aspect-auto md:h-[600px] flex items-center justify-center"
             >
@@ -210,7 +205,6 @@
             </div>
         </div>
     </section>
-    <!-- ═══════════════ 3. THE PROBLEM ═══════════════ -->
     <section class="py-24 lg:py-32 px-6 bg-white border-y border-[#E8EBED]">
         <div class="max-w-[1240px] mx-auto">
             <div class="text-center mb-16">
@@ -228,7 +222,6 @@
                 <p class="text-gray-500 max-w-xl mx-auto leading-relaxed">Menurut penelitian 2025, <span class="font-bold text-[#1A1C19]">65% pelaku UMKM sadar butuh teknologi digital</span>, tapi hanya <span class="font-bold text-[#1A1C19]">23%</span> yang bisa benar-benar memanfaatkannya.</p>
             </div>
             <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <!-- Problem 1: Marketplace -->
                 <div
                     class="bg-[#FBFBF9] rounded-3xl p-8 border border-[#E8EBED]"
                 >
@@ -242,7 +235,6 @@
                     </h3>
                     <p class="text-sm text-gray-500 leading-relaxed mb-4">Mudah, tapi tiap transaksi dipotong komisi rata-rata <span class="font-bold text-[#1A1C19]">6,5%</span>. Data pelanggan juga bukan milikmu. Seperti "menumpang lapak".</p>
                 </div>
-                <!-- Problem 2: WordPress -->
                 <div
                     class="bg-[#FBFBF9] rounded-3xl p-8 border border-[#E8EBED]"
                 >
@@ -262,7 +254,6 @@
             </div>
         </div>
     </section>
-    <!-- ═══════════════ 4. THE SOLUTION / FITUR ═══════════════ -->
     <section id="fitur" class="py-24 lg:py-32 px-6 bg-[#FBFBF9]">
         <div class="max-w-[1240px] mx-auto">
             <div class="text-center mb-16 lg:mb-20">
@@ -282,7 +273,6 @@
                 <p class="text-gray-500 max-w-lg mx-auto">Antara Linktree yang terlalu sederhana dan WordPress yang terlalu rumit. MyLinx dirancang khusus untuk UMKM Indonesia.</p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Feature 1 -->
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -296,7 +286,6 @@
                     </h4>
                     <p class="text-sm text-gray-500 leading-relaxed">Bukan cuma daftar tombol. Tampilkan foto produk, deskripsi, harga, dan stok dengan layout yang profesional.</p>
                 </div>
-                <!-- Feature 2 -->
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -310,7 +299,6 @@
                     </h4>
                     <p class="text-sm text-gray-500 leading-relaxed">Pelanggan klik "Beli", kamu terima detail pesanan di WhatsApp. Sesuai kebiasaan belanja orang Indonesia.</p>
                 </div>
-                <!-- Feature 3 -->
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -324,21 +312,19 @@
                     </h4>
                     <p class="text-sm text-gray-500 leading-relaxed">Upload QR QRIS usaha kamu sekali, pelanggan scan dan bayar. Tanpa biaya aggregator, tanpa setup rumit.</p>
                 </div>
-                <!-- Feature 4 -->
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
                     <div
                         class="w-11 h-11 rounded-xl bg-[#EAF2ED] text-[#2E5136] flex items-center justify-center mb-5"
                     >
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
                     </div>
                     <h4 class="text-lg font-serif text-[#1A1C19] mb-2">
-                        Tiga Template Siap Pakai
+                        Kustomisasi Tema Fleksibel
                     </h4>
-                    <p class="text-sm text-gray-500 leading-relaxed">Toko Simpel untuk katalog, Jasa/Portofolio untuk freelancer, atau Profil Usaha untuk info bisnis dasar.</p>
+                    <p class="text-sm text-gray-500 leading-relaxed">Atur warna, tata letak, dan urutan konten sesuka hati. Sistem cerdas kami memastikan desain otomatis menyesuaikan warna gelap maupun terang.</p>
                 </div>
-                <!-- Feature 5 -->
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -352,7 +338,6 @@
                     </h4>
                     <p class="text-sm text-gray-500 leading-relaxed">Semua pesanan, status pembayaran, dan invoice terkumpul rapi. Tidak perlu catat manual di buku.</p>
                 </div>
-                <!-- Feature 6 -->
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -369,7 +354,6 @@
             </div>
         </div>
     </section>
-    <!-- ═══════════════ 5. TENTANG KAMI ═══════════════ -->
     <section
         id="tentang"
         class="py-24 lg:py-32 px-6 bg-white border-y border-[#E8EBED]"
@@ -377,7 +361,6 @@
         <div
             class="max-w-[1240px] mx-auto grid lg:grid-cols-5 gap-16 items-start"
         >
-            <!-- Left: Mission Statement -->
             <div class="lg:col-span-3">
                 <div
                     class="text-[#2E5136] text-[11px] font-bold uppercase tracking-[0.2em] mb-4"
@@ -410,7 +393,6 @@
                     <p class="text-[#1A1C19] font-medium">Misi kami sederhana: memastikan biaya IT dan kerumitan teknologi tidak lagi jadi penghalang bagi pedagang kecil untuk bersaing di ekonomi digital.</p>
                 </div>
             </div>
-            <!-- Right: Stats / Principles -->
             <div class="lg:col-span-2 space-y-4">
                 <div
                     class="bg-[#FBFBF9] rounded-3xl p-8 border border-[#E8EBED]"
@@ -480,7 +462,6 @@
             </div>
         </div>
     </section>
-    <!-- ═══════════════ 6. CTA FINAL ═══════════════ -->
     <section class="py-24 lg:py-32 px-6 bg-[#FBFBF9] text-center">
         <div class="max-w-xl mx-auto">
             <h2
@@ -507,7 +488,6 @@
             </div>
         </div>
     </section>
-    <!-- ═══════════════ 7. FOOTER ═══════════════ -->
     <footer
         class="pt-20 pb-10 px-6 border-t border-[#DCE2D8] bg-[#1A1C19] text-[#FBFBF9]"
     >
