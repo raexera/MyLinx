@@ -142,15 +142,19 @@ build-assets:
 # Code Quality & Testing
 # ==============================================================================
 
-.PHONY: test lint
+.PHONY: test lint lint-html
 
 ## Run PHPUnit tests
 test:
 	$(APP) php artisan test
 
-## Run Pint (Laravel code style fixer)
+## Run Pint (Laravel code style fixer for PHP)
 lint:
 	$(APP) ./vendor/bin/pint
+
+## Run Prettier (HTML/Blade code style fixer)
+lint-html:
+	$(APP) npx prettier --write "resources/views/**/*.blade.php"
 
 # ==============================================================================
 # Utility
