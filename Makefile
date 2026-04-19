@@ -1,175 +1,106 @@
-# ==============================================================================
-# MyLinx - Cross-Platform Development Toolkit
-# Detects UID/GID dynamically (falls back to 1000 for Windows)
-# ==============================================================================
-
-# --------------------------------------------------------------------------
-# Cross-platform UID/GID detection
-# On Linux/macOS: uses actual user IDs
-# On Windows (Git Bash/WSL): defaults to 1000
-# --------------------------------------------------------------------------
 UID := $(shell id -u 2>/dev/null || echo 1000)
 GID := $(shell id -g 2>/dev/null || echo 1000)
 
-# --------------------------------------------------------------------------
-# Docker Compose command
-# --------------------------------------------------------------------------
 DC := docker compose
 APP := $(DC) exec -u www-data app
 APP_ROOT := $(DC) exec app
 
-# Export for docker-compose.yml interpolation
 export UID
 export GID
 
-# ==============================================================================
-# Container Lifecycle
-# ==============================================================================
-
 .PHONY: build up down restart status logs
 
-## Build all containers (passes UID/GID for permission mapping)
 build:
 	$(DC) build --build-arg UID=$(UID) --build-arg GID=$(GID)
 
-## Start all containers in detached mode
 up:
 	$(DC) up -d
 
-## Stop and remove all containers
 down:
 	$(DC) down
 
-## Restart all containers
 restart: down up
 
-## Show container status
 status:
 	$(DC) ps
 
-## Tail logs from all containers
 logs:
 	$(DC) logs -f
 
-## Tail logs from the app container only
 logs-app:
 	$(DC) logs -f app
 
-# ==============================================================================
-# Shell Access
-# ==============================================================================
-
 .PHONY: shell shell-root
 
-## Open a bash shell in the app container as www-data
 shell:
 	$(APP) bash
 
-## Open a bash shell in the app container as root (for installing packages)
 shell-root:
 	$(APP_ROOT) bash
 
-# ==============================================================================
-# Dependency Management
-# ==============================================================================
-
 .PHONY: install composer-install npm-install
 
-## Install ALL dependencies (Composer + NPM)
 install: composer-install npm-install
 
-## Install PHP dependencies via Composer
 composer-install:
 	$(APP) composer install
 
-## Install Node.js dependencies via NPM
 npm-install:
 	$(APP) npm install
 
-## Update Composer dependencies
 composer-update:
 	$(APP) composer update
 
-# ==============================================================================
-# Laravel Artisan Commands
-# ==============================================================================
-
 .PHONY: migrate migrate-fresh seed tinker optimize-clear key-generate
 
-## Run database migrations
 migrate:
 	$(APP) php artisan migrate
 
-## Fresh migration + seed (DESTRUCTIVE - resets entire DB)
 migrate-fresh:
 	$(APP) php artisan migrate:fresh --seed
 
-## Run database seeders
 seed:
 	$(APP) php artisan db:seed
 
-## Open Laravel Tinker REPL
 tinker:
 	$(APP) php artisan tinker
 
-## Clear all Laravel caches (config, route, view, event, cache)
 optimize-clear:
 	$(APP) php artisan optimize:clear
 
-## Generate application key
 key-generate:
 	$(APP) php artisan key:generate
 
-## Create a storage symlink
 storage-link:
 	$(APP) php artisan storage:link
 
-# ==============================================================================
-# Frontend Assets
-# ==============================================================================
-
 .PHONY: dev build-assets
 
-## Run Vite dev server (hot-reload)
 dev:
 	$(APP) npm run dev
 
-## Build frontend assets for production
 build-assets:
 	$(APP) npm run build
 
-# ==============================================================================
-# Code Quality & Testing
-# ==============================================================================
-
 .PHONY: test lint lint-html
 
-## Run PHPUnit tests
 test:
 	$(APP) php artisan test
 
-## Run Pint (Laravel code style fixer for PHP)
 lint:
 	$(APP) ./vendor/bin/pint
 
-## Run Prettier (HTML/Blade code style fixer)
 lint-html:
 	$(APP) npx prettier --write "resources/views/**/*.blade.php"
 
-# ==============================================================================
-# Utility
-# ==============================================================================
-
 .PHONY: fresh-start
 
-## Full reset: rebuild containers, install deps, fresh migrate
 fresh-start: down build up install migrate-fresh
 	@echo ""
 	@echo "============================================"
 	@echo "  MyLinx is ready! Visit http://localhost:8000"
 	@echo "============================================"
 
-## Show all available commands
 help:
 	@echo ""
 	@echo "  MyLinx Development Toolkit"

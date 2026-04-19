@@ -1,12 +1,4 @@
-# ==============================================================================
-# MyLinx - Docker Compose (Development)
-# Services: app (PHP-FPM), web (Nginx), db (PostgreSQL 16)
-# ==============================================================================
-
 services:
-  # ----------------------------------------------------------------------------
-  # PHP-FPM Application Container
-  # ----------------------------------------------------------------------------
   app:
     build:
       context: .
@@ -33,9 +25,6 @@ services:
       sh -c " [ ! -L /var/www/html/public/storage ] && php /var/www/html/artisan
       storage:link || true; php-fpm "
 
-  # ----------------------------------------------------------------------------
-  # Nginx Web Server
-  # ----------------------------------------------------------------------------
   web:
     image: nginx:1.25-bookworm
     container_name: mylinx-web
@@ -50,9 +39,6 @@ services:
     depends_on:
       - app
 
-  # ----------------------------------------------------------------------------
-  # PostgreSQL 16 Database
-  # ----------------------------------------------------------------------------
   db:
     image: postgres:16-bookworm
     container_name: mylinx-db
@@ -73,9 +59,6 @@ services:
       timeout: 5s
       retries: 5
 
-# ==============================================================================
-# Persistent Volumes & Networks
-# ==============================================================================
 volumes:
   mylinx-db-data:
     driver: local
