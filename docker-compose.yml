@@ -29,6 +29,9 @@ services:
         condition: service_healthy
     environment:
       - PHP_OPCACHE_ENABLE=0
+    command: >
+      sh -c " [ ! -L /var/www/html/public/storage ] && php /var/www/html/artisan
+      storage:link || true; php-fpm "
 
   # ----------------------------------------------------------------------------
   # Nginx Web Server
@@ -65,7 +68,7 @@ services:
     networks:
       - mylinx-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mylinx -d mylinx"]
+      test: [ "CMD-SHELL", "pg_isready -U mylinx -d mylinx" ]
       interval: 5s
       timeout: 5s
       retries: 5

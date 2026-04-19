@@ -7,6 +7,9 @@ use App\Http\Requests\UpdateWebsiteSettingsRequest;
 use App\Models\Template;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
 
 class SettingController extends Controller
 {
@@ -29,8 +32,18 @@ class SettingController extends Controller
     public function updateWebsite(UpdateWebsiteSettingsRequest $request): RedirectResponse
     {
         $tenant = auth()->user()->tenant;
+        $validated = $request->validated();
 
-        $tenant->update($request->validated());
+        // Split customization out of the top-level update payload
+        $tenant->update([
+            'nama_tenant'   => $validated['nama_tenant'],
+            'slug'          => $validated['slug'],
+            'customization' => [
+                'accent_color'   => $validated['accent_color'],
+                'content_order'  => $validated['content_order'],
+                'product_layout' => $validated['product_layout'],
+            ],
+        ]);
 
         return redirect()
             ->route('settings.website')
@@ -67,5 +80,73 @@ class SettingController extends Controller
         return redirect()
             ->route('settings.template')
             ->with('success', 'Template berhasil diperbarui!');
+    }
+
+    /**
+     * Check if a slug is available for the current tenant.
+     *
+     * Returns JSON: { available: bool, reason: string|null, slug: string }
+     *
+     * The current tenant's own slug is always "available" to them
+     * (so they can save without changing it).
+     */
+    public function checkSlug(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'slug' => ['required', 'string', 'max:100'],
+        ]);
+
+        $slug = strtolower(trim($validated['slug']));
+        $tenantId = auth()->user()->tenant_id;
+
+        // Rule 1: Format check
+        if (! preg_match('/^[a-z0-9_-]+$/', $slug)) {
+            return response()->json([
+                'available' => false,
+                'reason'    => 'Hanya huruf kecil, angka, strip (-), dan garis bawah (_).',
+                'slug'      => $slug,
+            ]);
+        }
+
+        // Rule 2: Minimum length
+        if (strlen($slug) < 3) {
+            return response()->json([
+                'available' => false,
+                'reason'    => 'Minimal 3 karakter.',
+                'slug'      => $slug,
+            ]);
+        }
+
+        // Rule 3: Reserved words (prevent conflicts with app routes)
+        $reserved = ['login', 'register', 'dashboard', 'admin', 'api', 'produk',
+                    'order', 'payment', 'settings', 'profile', 'profil-usaha',
+                    'portfolio', 'checkout', 'logout', 'landing'];
+
+        if (in_array($slug, $reserved, true)) {
+            return response()->json([
+                'available' => false,
+                'reason'    => 'URL ini sudah digunakan oleh sistem.',
+                'slug'      => $slug,
+            ]);
+        }
+
+        // Rule 4: Uniqueness (ignoring the current tenant's own slug)
+        $taken = \App\Models\Tenant::where('slug', $slug)
+            ->where('id', '!=', $tenantId)
+            ->exists();
+
+        if ($taken) {
+            return response()->json([
+                'available' => false,
+                'reason'    => 'URL ini sudah dipakai tenant lain.',
+                'slug'      => $slug,
+            ]);
+        }
+
+        return response()->json([
+            'available' => true,
+            'reason'    => null,
+            'slug'      => $slug,
+        ]);
     }
 }

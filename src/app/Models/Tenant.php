@@ -20,6 +20,7 @@ class Tenant extends Model
         'nama_tenant',
         'slug',
         'template_id',
+        'customization',
         'status',
     ];
 
@@ -29,8 +30,22 @@ class Tenant extends Model
     protected function casts(): array
     {
         return [
-            'status' => 'boolean',
+            'status'        => 'boolean',
+            'customization' => 'array',    // ← add
         ];
+    }
+
+    /**
+     * Customization with safe defaults.
+     * Use this accessor in Blade: $tenant->customization_with_defaults['accent_color']
+     */
+    public function getCustomizationWithDefaultsAttribute(): array
+    {
+        return array_merge([
+            'accent_color'   => '#2E5136',
+            'content_order'  => 'products_first',  // products_first | portfolio_first | products_only | portfolio_only
+            'product_layout' => 'grid',            // grid | list
+        ], $this->customization ?? []);
     }
 
     /*

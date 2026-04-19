@@ -18,19 +18,20 @@ class TemplateFactory extends Factory
     public function definition(): array
     {
         $templates = [
-            ['nama' => 'Minimalist E-Commerce', 'kategori' => 'e-commerce'],
-            ['nama' => 'Bold Portfolio', 'kategori' => 'portfolio'],
-            ['nama' => 'Classic Company Profile', 'kategori' => 'company-profile'],
-            ['nama' => 'Modern Catalog', 'kategori' => 'catalog'],
+            ['nama' => 'Minimalist', 'slug' => 'minimalist', 'kategori' => 'e-commerce'],
+            ['nama' => 'Bold Retail', 'slug' => 'bold-retail', 'kategori' => 'e-commerce'],
+            ['nama' => 'Creative Portfolio', 'slug' => 'creative-portfolio', 'kategori' => 'portfolio'],
+            ['nama' => 'Warm F&B', 'slug' => 'warm-fnb', 'kategori' => 'f&b'],
         ];
 
         $template = fake()->randomElement($templates);
 
         return [
             'nama_template' => $template['nama'],
-            'kategori' => $template['kategori'],
-            'preview_url' => '/images/templates/'.\Illuminate\Support\Str::slug($template['nama']).'.png',
-            'is_active' => true,
+            'slug_key'      => $template['slug'],
+            'kategori'      => $template['kategori'],
+            'preview_url'   => '/images/templates/' . $template['slug'] . '.png',
+            'is_active'     => true,
         ];
     }
 }

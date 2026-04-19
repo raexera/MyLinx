@@ -53,12 +53,12 @@ class RegisteredUserController extends Controller
             $template = Template::where('is_active', true)->first();
 
             if (! $template) {
-                // Fallback: create a minimal template if none exist
                 $template = Template::create([
-                    'nama_template' => 'Default',
-                    'kategori' => 'general',
-                    'preview_url' => '/images/templates/default.png',
-                    'is_active' => true,
+                    'nama_template' => 'Minimalist',
+                    'slug_key'      => 'minimalist',
+                    'kategori'      => 'e-commerce',
+                    'preview_url'   => '/images/templates/minimalist.png',
+                    'is_active'     => true,
                 ]);
             }
 

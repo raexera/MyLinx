@@ -84,6 +84,9 @@ Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
         ->name('settings.template');
     Route::patch('/settings/template', [SettingController::class, 'updateTemplate'])
         ->name('settings.template.update');
+
+    Route::get('/settings/website/check-slug', [SettingController::class, 'checkSlug'])
+    ->name('settings.website.check-slug');
 });
 
 /*

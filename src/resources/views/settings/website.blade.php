@@ -9,120 +9,262 @@
         </div>
     </x-slot>
 
-    <!-- Content wrapper -->
-    <div class="w-full pt-5 sm:pt-6 lg:pr-4 xl:pr-8">
+    @php
+        $c = $tenant->customization_with_defaults;
+    @endphp
 
-        <!-- Section 1: Shop Subdomain -->
+    {{-- Flash Success --}}
+    @if(session('success'))
+        <div class="mt-6 mb-2 rounded-2xl bg-[#ECFDF5] border border-[#A7F3D0] px-5 py-4 text-[13.5px] font-semibold text-[#065F46] flex items-center gap-3">
+            <svg class="w-5 h-5 text-[#059669] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- ═══════════════ MAIN FORM ═══════════════ --}}
+    <form action="{{ route('settings.website.update') }}" method="POST"
+          class="w-full pt-5 sm:pt-6 lg:pr-4 xl:pr-8">
+        @csrf
+        @method('PATCH')
+
+        <!-- Section 1: Store Name -->
+        <div class="mb-14">
+            <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Store Name</h2>
+            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">The name that appears on your storefront header.</p>
+
+            <div class="flex items-center border rounded-[1rem] bg-white h-[54px] px-5 shadow-sm focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors max-w-xl
+                        {{ $errors->has('nama_tenant') ? 'border-red-400' : 'border-[#E8EBED]' }}">
+                <svg class="w-[18px] h-[18px] text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                <input type="text"
+                       name="nama_tenant"
+                       value="{{ old('nama_tenant', $tenant->nama_tenant) }}"
+                       placeholder="e.g. Toko Baju Jaya"
+                       required
+                       class="flex-1 bg-transparent border-none outline-none text-[14.5px] font-medium text-[#1A1C19] p-0 focus:ring-0 placeholder:text-gray-300 w-full">
+            </div>
+            @error('nama_tenant')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
+        </div>
+
+        <!-- Section 2: Shop Subdomain -->
         <div class="mb-14">
             <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Shop Subdomain</h2>
             <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Choose a unique address for your online store.</p>
 
-            <!-- Shop Subdomain Input row -->
-            <div class="flex flex-col sm:flex-row gap-4 sm:gap-3">
-                <div class="flex items-center flex-1 border border-[#E8EBED] rounded-[1rem] bg-white h-[54px] px-5 shadow-sm focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors">
+            <div x-data="slugChecker('{{ $tenant->slug }}', '{{ route('settings.website.check-slug') }}')"
+                 class="flex flex-col sm:flex-row gap-4 sm:gap-3">
+
+                <div class="flex items-center flex-1 border rounded-[1rem] bg-white h-[54px] px-5 shadow-sm transition-colors"
+                     :class="{
+                        'border-[#E8EBED]': status === 'idle',
+                        'border-[#2E5136] ring-1 ring-[#2E5136]': status === 'checking',
+                        'border-green-500 ring-1 ring-green-500': status === 'available',
+                        'border-red-400 ring-1 ring-red-400': status === 'taken' || status === 'invalid',
+                     }">
                     <svg class="w-[18px] h-[18px] text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                    <input type="text" class="flex-1 bg-transparent border-none outline-none text-[14.5px] font-medium text-[#1A1C19] p-0 focus:ring-0 placeholder:text-gray-300 w-full" value="artisan-store" placeholder="your-store-name">
+
+                    <input type="text"
+                           name="slug"
+                           value="{{ old('slug', $tenant->slug) }}"
+                           x-model="slug"
+                           @input.debounce.500ms="check()"
+                           class="flex-1 bg-transparent border-none outline-none text-[14.5px] font-medium text-[#1A1C19] p-0 focus:ring-0 placeholder:text-gray-300 w-full"
+                           placeholder="your-store-name"
+                           required>
+
                     <span class="text-[14.5px] font-medium text-gray-400 pl-2 opacity-80">.mylinx.id</span>
+
+                    <div class="pl-3" x-cloak>
+                        <template x-if="status === 'checking'">
+                            <svg class="w-4 h-4 text-gray-400 animate-spin" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z"/></svg>
+                        </template>
+                        <template x-if="status === 'available'">
+                            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                        </template>
+                        <template x-if="status === 'taken' || status === 'invalid'">
+                            <svg class="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </template>
+                    </div>
                 </div>
-                <!-- Light grayish-blue pill button -->
-                <button class="bg-[#F4F6F9] hover:bg-[#e6eaf0] text-[#1A1C19] text-[13.5px] font-bold px-7 h-[54px] rounded-full transition-colors whitespace-nowrap shadow-sm">Check Availability</button>
+
+                <button type="button"
+                        @click="check()"
+                        :disabled="status === 'checking'"
+                        class="bg-[#F4F6F9] hover:bg-[#e6eaf0] text-[#1A1C19] text-[13.5px] font-bold px-7 h-[54px] rounded-full transition-colors whitespace-nowrap shadow-sm disabled:opacity-50">
+                    <span x-show="status !== 'checking'">Check Availability</span>
+                    <span x-show="status === 'checking'">Checking…</span>
+                </button>
             </div>
+
+            <div class="mt-3 px-2 min-h-[20px]" x-cloak>
+                <p x-show="status === 'available'" class="text-[12.5px] font-semibold text-green-600 flex items-center gap-1.5">
+                    <span>✓</span> <span x-text="message"></span>
+                </p>
+                <p x-show="status === 'taken' || status === 'invalid'" class="text-[12.5px] font-semibold text-red-500 flex items-center gap-1.5">
+                    <span>✕</span> <span x-text="message"></span>
+                </p>
+            </div>
+            @error('slug')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
         </div>
 
-        <!-- Section 2: Store Mode -->
+        <!-- Section 3: Customization -->
         <div class="mb-14">
-            <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Store Mode</h2>
-            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">How do you want to present your work?</p>
+            <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Customization</h2>
+            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Personalize the look and feel of your storefront.</p>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <div class="border border-[#E8EBED] rounded-3xl bg-white p-6 sm:p-7 grid grid-cols-1 md:grid-cols-2 gap-7 shadow-sm"
+                 x-data="{ color: '{{ old('accent_color', $c['accent_color']) }}' }">
 
-                <!-- Portfolio Mode -->
-                <div class="border border-[#E8EBED] rounded-[1.2rem] bg-white p-6 cursor-pointer hover:border-gray-300 transition-colors group shadow-sm">
-                    <div class="w-[38px] h-[38px] bg-[#F4F6F9] group-hover:bg-[#E8EBED] text-[#6A7B8C] rounded-full flex items-center justify-center mb-5 transition-colors">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <!-- Accent Color -->
+                <div class="md:col-span-2">
+                    <label class="block text-[13px] font-bold text-[#1A1C19] mb-2">Accent Color</label>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Applied to buttons, links, and highlights on your storefront.</p>
+
+                    <div class="flex items-center gap-4">
+                        <div class="relative">
+                            <input type="color"
+                                   name="accent_color"
+                                   x-model="color"
+                                   class="w-14 h-14 rounded-xl border-2 border-[#E8EBED] cursor-pointer shadow-sm">
+                        </div>
+                        <div class="flex-1 flex items-center border border-[#E8EBED] rounded-full h-[46px] px-5 bg-[#fcfcfd] max-w-[200px]">
+                            <span class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]" x-text="color"></span>
+                        </div>
+
+                        {{-- Quick presets --}}
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <template x-for="preset in ['#2E5136', '#1E40AF', '#BE185D', '#D97706', '#7C3AED', '#0F766E', '#1F2937']" :key="preset">
+                                <button type="button"
+                                        @click="color = preset"
+                                        :style="`background:${preset}`"
+                                        class="w-8 h-8 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-transform"
+                                        :class="color === preset ? 'ring-2 ring-offset-2 ring-[#1A1C19]' : ''"></button>
+                            </template>
+                        </div>
                     </div>
-                    <h3 class="text-[14px] font-bold text-[#1A1C19] mb-1.5">Portfolio Mode</h3>
-                    <p class="text-[12px] text-[#6A7B8C] font-medium leading-relaxed pr-2">Showcase your work without direct purchasing options.</p>
+
+                    {{-- Live preview --}}
+                    <div class="mt-5 rounded-2xl bg-[#fcfcfd] border border-[#E8EBED] p-5">
+                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Live Preview</p>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <button type="button" :style="`background:${color}`" class="text-white text-[13px] font-bold px-5 py-2.5 rounded-full pointer-events-none">
+                                Beli Sekarang
+                            </button>
+                            <span :style="`background:${color}20; color:${color}`" class="text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">Featured</span>
+                            <a href="#" :style="`color:${color}`" class="text-[13px] font-bold underline pointer-events-none">Lihat Detail →</a>
+                        </div>
+                    </div>
+                    @error('accent_color')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
                 </div>
 
-                <!-- Marketplace Mode -->
-                <div class="border border-[#E8EBED] rounded-[1.2rem] bg-white p-6 cursor-pointer hover:border-gray-300 transition-colors group shadow-sm">
-                    <div class="w-[38px] h-[38px] bg-[#F4F6F9] group-hover:bg-[#E8EBED] text-[#6A7B8C] rounded-full flex items-center justify-center mb-5 transition-colors">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    </div>
-                    <h3 class="text-[14px] font-bold text-[#1A1C19] mb-1.5">Marketplace Mode</h3>
-                    <p class="text-[12px] text-[#6A7B8C] font-medium leading-relaxed pr-2">Focus purely on product listings and sales.</p>
+                <!-- Content Order -->
+                <div>
+                    <label for="content_order" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Content Order</label>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">What shows first on your storefront?</p>
+                    <select name="content_order" id="content_order"
+                            class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                        @php $curOrder = old('content_order', $c['content_order']); @endphp
+                        <option value="products_first"  @selected($curOrder === 'products_first')>Products First — then portfolio</option>
+                        <option value="portfolio_first" @selected($curOrder === 'portfolio_first')>Portfolio First — then products</option>
+                        <option value="products_only"   @selected($curOrder === 'products_only')>Products Only</option>
+                        <option value="portfolio_only"  @selected($curOrder === 'portfolio_only')>Portfolio Only</option>
+                    </select>
+                    @error('content_order')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
                 </div>
 
-                <!-- Hybrid Mode (Active) -->
-                <div class="border-2 border-[#2E5136] rounded-[1.2rem] bg-[#fdfdfd] p-6 cursor-pointer relative shadow-sm">
-                    <!-- Checkmark bubble top right -->
-                    <div class="absolute top-4 right-4 w-[20px] h-[20px] bg-[#2E5136] rounded-full flex items-center justify-center text-white shadow-sm">
-                        <svg class="w-[12px] h-[12px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-
-                    <div class="w-[38px] h-[38px] bg-white text-[#1A1C19] rounded-full flex items-center justify-center mb-5 border border-[#E8EBED]">
-                        <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l8 4-8 4-8-4 8-4zM20 11l-8 4-8-4m16 4l-8 4-8-4"></path></svg>
-                    </div>
-                    <h3 class="text-[14px] font-bold text-[#1A1C19] mb-1.5">Hybrid Mode</h3>
-                    <p class="text-[12px] text-[#6A7B8C] font-medium leading-relaxed pr-2">Combine portfolio showcase with product sales.</p>
+                <!-- Product Layout -->
+                <div>
+                    <label for="product_layout" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Product Layout</label>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">How products are displayed.</p>
+                    <select name="product_layout" id="product_layout"
+                            class="w-full h-[48px] border border-[#E8EBED] rounded-full px-5 text-[13.5px] font-medium text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none">
+                        @php $curLayout = old('product_layout', $c['product_layout']); @endphp
+                        <option value="grid" @selected($curLayout === 'grid')>Grid — card-based, visual</option>
+                        <option value="list" @selected($curLayout === 'list')>List — compact, text-forward</option>
+                    </select>
+                    @error('product_layout')<p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>@enderror
                 </div>
 
             </div>
         </div>
 
-        <!-- Section 3: Active Template -->
+        <!-- Section 4: Active Template -->
         <div class="mb-6">
             <h2 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight">Active Template</h2>
-            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">The current look and feel of your website.</p>
+            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">The base template your storefront uses.</p>
 
-            <div class="border border-[#E8EBED] rounded-3xl bg-white p-6 sm:p-7 flex flex-col md:flex-row gap-8 items-start md:items-center shadow-sm">
-
-                <!-- Mockup side -->
-                <div class="w-full md:w-[260px] aspect-[4/3] bg-[#fcf2ed] rounded-[1rem] flex-shrink-0 flex justify-center items-center overflow-hidden border border-[#faeadd]">
-                    <!-- Basic laptop mockup shape -->
-                    <div class="w-[78%] h-[60%] flex flex-col items-center">
-                         <div class="w-full h-full bg-white rounded-t-lg shadow-sm border border-b-0 border-[#E8EBED] overflow-hidden flex flex-col items-center px-4 py-3">
-                             <div class="w-10 h-1 bg-gray-200 rounded-full mb-3"></div>
-                             <div class="text-[4px] font-serif font-bold text-gray-800 tracking-wide mb-1">MODERN MINIMALIST</div>
-                             <div class="w-12 h-[1px] bg-gray-200 mb-1"></div>
-                             <div class="flex flex-col gap-[1.5px] mt-1 items-center w-full">
-                                  <div class="w-16 h-[2px] bg-gray-100 rounded-full"></div>
-                                  <div class="w-12 h-[2px] bg-gray-100 rounded-full"></div>
-                             </div>
-                         </div>
-                         <div class="w-[110%] h-[4px] bg-[#222] rounded-b-sm shadow-xl flex justify-center">
-                             <div class="w-6 h-[2px] bg-[#444] rounded-b-[1px]"></div>
-                         </div>
+            <div class="border border-[#E8EBED] rounded-3xl bg-white p-6 sm:p-7 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between shadow-sm">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2.5">
+                        <h3 class="text-2xl font-serif text-[#1A1C19]">
+                            {{ $tenant->template?->nama_template ?? 'Belum Dipilih' }}
+                        </h3>
+                        @if($tenant->template)
+                            <span class="bg-[#e9f2ee] text-[#2E5136] text-[9.5px] font-bold px-2.5 py-[3px] uppercase tracking-widest rounded-md">ACTIVE</span>
+                        @endif
                     </div>
+                    <p class="text-[13.5px] text-[#6A7B8C] font-medium leading-relaxed max-w-xl">
+                        @if($tenant->template)
+                            Kategori: <span class="font-bold text-[#1A1C19]">{{ ucfirst($tenant->template->kategori) }}</span>
+                            <span class="mx-2 text-gray-300">·</span>
+                            Slug: <code class="bg-gray-100 px-1.5 py-0.5 rounded text-[11px] font-mono text-gray-500">{{ $tenant->template->slug_key }}</code>
+                        @else
+                            Pilih template untuk menentukan tampilan storefront publik kamu.
+                        @endif
+                    </p>
                 </div>
 
-                <!-- Info side -->
-                <div class="flex-1 flex flex-col items-start xl:pr-6">
-                    <div class="flex items-center gap-3 mb-2.5">
-                         <h3 class="text-2xl font-serif text-[#1A1C19]">Modern Minimalist</h3>
-                         <span class="bg-[#e9f2ee] text-[#2E5136] text-[9.5px] font-bold px-2.5 py-[3px] uppercase tracking-widest rounded-md mt-1">ACTIVE</span>
-                    </div>
-                    <p class="text-[13.5px] text-[#6A7B8C] font-medium leading-relaxed mb-7 max-w-sm">A clean, whitespace-heavy design perfect for creative professionals. Focuses on imagery and typography to let your work stand out.</p>
-
-                    <div class="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
-                         <button class="w-full sm:w-auto flex items-center justify-center gap-2 border border-[#E8EBED] rounded-full px-6 py-[10px] text-[13px] font-bold text-[#1A1C19] hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap">
-                              <svg class="w-[18px] h-[18px] text-gray-500 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                              Preview Template
-                         </button>
-                         <a href="{{ route('settings.template') }}" class="text-[13px] font-bold text-[#6A7B8C] hover:text-[#1A1C19] transition-colors whitespace-nowrap">Ganti Template (Change)</a>
-                    </div>
+                <div class="flex flex-col sm:flex-row items-center gap-4 flex-shrink-0">
+                    <a href="{{ route('tenant.show', $tenant) }}" target="_blank"
+                       class="w-full sm:w-auto flex items-center justify-center gap-2 border border-[#E8EBED] rounded-full px-6 py-[10px] text-[13px] font-bold text-[#1A1C19] hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap">
+                        <svg class="w-[18px] h-[18px] text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        Preview Live
+                    </a>
+                    <a href="{{ route('settings.template') }}" class="text-[13px] font-bold text-[#6A7B8C] hover:text-[#1A1C19] transition-colors whitespace-nowrap">
+                        Ganti Template
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Float Save Button -->
+        <!-- Save Button (REAL submit) -->
         <div class="flex justify-end pt-8 pb-14 mt-4 relative">
-             <button class="bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-7 py-[12px] font-bold text-[14px] shadow-[0_8px_16px_rgb(46,81,54,0.3)] flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 z-10">
-                 Save Changes
-                 <svg class="w-[14px] h-[14px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M5 13l4 4L19 7"></path></svg>
-             </button>
+            <button type="submit"
+                    class="bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-7 py-[12px] font-bold text-[14px] shadow-[0_8px_16px_rgb(46,81,54,0.3)] flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 z-10">
+                Save Changes
+                <svg class="w-[14px] h-[14px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M5 13l4 4L19 7"></path></svg>
+            </button>
         </div>
+    </form>
 
-    </div>
+    <script>
+    function slugChecker(initialSlug, checkUrl) {
+        return {
+            slug: initialSlug,
+            originalSlug: initialSlug,
+            status: 'idle',
+            message: '',
+            async check() {
+                if (this.slug === this.originalSlug) { this.status = 'idle'; this.message = ''; return; }
+                if (!this.slug || this.slug.length < 3) { this.status = 'invalid'; this.message = 'Minimal 3 karakter.'; return; }
+                this.status = 'checking'; this.message = '';
+                try {
+                    const res = await fetch(`${checkUrl}?slug=${encodeURIComponent(this.slug)}`, {
+                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    });
+                    const data = await res.json();
+                    if (data.available) {
+                        this.status = 'available';
+                        this.message = `URL tersedia! "${data.slug}.mylinx.id" siap dipakai.`;
+                    } else {
+                        this.status = 'taken';
+                        this.message = data.reason || 'URL sudah dipakai.';
+                    }
+                } catch (err) {
+                    this.status = 'invalid';
+                    this.message = 'Gagal mengecek. Coba lagi.';
+                }
+            },
+        };
+    }
+    </script>
 </x-app-layout>

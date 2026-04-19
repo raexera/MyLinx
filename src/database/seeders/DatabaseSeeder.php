@@ -26,52 +26,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // ── Template 1: Minimalist E-Commerce ─────────────────
-        $tplMinimalist = Template::create([
-            'nama_template' => 'Minimalist Store',
-            'slug_key'      => 'minimalist',
-            'kategori'      => 'e-commerce',
-            'preview_url'   => 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80',
-            'is_active'     => true,
-        ]);
+        // =====================================================================
+        // 1. Templates
+        // =====================================================================
+        $templates = [
+            ['nama_template' => 'Minimalist',         'slug_key' => 'minimalist',         'kategori' => 'e-commerce',   'preview_url' => '/images/templates/minimalist.png',         'is_active' => true],
+            ['nama_template' => 'Bold Retail',        'slug_key' => 'bold-retail',        'kategori' => 'e-commerce',   'preview_url' => '/images/templates/bold-retail.png',        'is_active' => true],
+            ['nama_template' => 'Creative Portfolio', 'slug_key' => 'creative-portfolio', 'kategori' => 'portfolio',    'preview_url' => '/images/templates/creative-portfolio.png', 'is_active' => true],
+            ['nama_template' => 'Warm F&B',           'slug_key' => 'warm-fnb',           'kategori' => 'f&b',          'preview_url' => '/images/templates/warm-fnb.png',           'is_active' => true],
+        ];
 
-        // ── Template 2: Bold Retail ────────────────────────────
-        Template::create([
-            'nama_template' => 'Bold Retail',
-            'slug_key'      => 'bold-retail',
-            'kategori'      => 'retail',
-            'preview_url'   => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
-            'is_active'     => true,
-        ]);
+        foreach ($templates as $t) {
+            Template::create($t);
+        }
 
-        // ── Template 3: Warm F&B ───────────────────────────────
-        Template::create([
-            'nama_template' => 'Warm F&B',
-            'slug_key'      => 'warm-fnb',
-            'kategori'      => 'fnb',
-            'preview_url'   => 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
-            'is_active'     => true,
-        ]);
+        // Assign first template to the seeded tenant
+        $template = Template::where('slug_key', 'minimalist')->first();
 
-        // ── Template 4: Creative Portfolio ────────────────────
-        Template::create([
-            'nama_template' => 'Creative Portfolio',
-            'slug_key'      => 'creative-portfolio',
-            'kategori'      => 'portfolio',
-            'preview_url'   => 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
-            'is_active'     => true,
-        ]);
 
-        $template = $tplMinimalist; // tenant pakai template pertama
 
         // =====================================================================
         // 2. Tenant
         // =====================================================================
         $tenant = Tenant::create([
             'nama_tenant' => 'Toko Baju Jaya',
-            'slug' => 'tokobaju',
+            'slug'        => 'tokobaju',
             'template_id' => $template->id,
-            'status' => true,
+            'status'      => true,
         ]);
 
         // =====================================================================

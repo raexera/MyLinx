@@ -45,7 +45,6 @@ class TenantPageController extends Controller
         $templateSlug = $this->resolveTemplateSlug($tenant);
         $viewName     = "tenant.templates.{$templateSlug}.show";
 
-        // Fallback to default if template view doesn't exist
         if (! view()->exists($viewName)) {
             $viewName = 'tenant.templates.minimalist.show';
         }
@@ -55,6 +54,7 @@ class TenantPageController extends Controller
             'profil'      => $tenant->profilUsaha,
             'produks'     => $tenant->produks,
             'portofolios' => $tenant->portofolios,
+            'custom'      => $tenant->customization_with_defaults,
         ]);
     }
 
