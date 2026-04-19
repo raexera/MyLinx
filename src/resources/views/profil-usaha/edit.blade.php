@@ -1,21 +1,12 @@
 <x-app-layout>
-    <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mt-2 lg:mt-0 w-full lg:pr-4 xl:pr-8 mb-2 relative z-10">
-            <div class="flex flex-col max-w-xl">
-                <h1 class="text-[2.75rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5">Profil Usaha</h1>
-                <p class="text-[14.5px] font-medium text-[#2E5136] opacity-80 leading-relaxed">
-                    Manage your business identity, brand story, and how<br>customers see you.
+            <div class="flex-1 w-full min-w-0 flex flex-col">
+                <h1 class="text-[2.75rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5 truncate">Profil Usaha</h1>
+                <p class="text-[14.5px] font-medium text-[#2E5136] opacity-80 leading-relaxed truncate">
+                    Manage your business identity, brand story, and how customers see you.
                 </p>
             </div>
-
-            @if(Auth::user()->tenant)
-            <div class="flex items-center gap-3 shrink-0 mb-2 sm:mb-4">
-                 <a href="{{ route('tenant.show', Auth::user()->tenant) }}" target="_blank" class="bg-transparent border border-[#E8EBED] hover:bg-white text-[#1A1C19] flex items-center justify-center px-8 py-[10px] rounded-full text-[13.5px] font-bold transition-all shadow-sm">
-                     Preview Store
-                 </a>
-            </div>
-            @endif
         </div>
     </x-slot>
 

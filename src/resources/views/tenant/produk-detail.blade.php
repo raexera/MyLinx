@@ -17,7 +17,7 @@
     .text-accent { color: var(--accent); }
     </style>
 </head>
-<body class="min-h-screen bg-gray-50 antialiased">
+<body class="min-h-screen bg-gray-50 antialiased flex flex-col">
 
     {{-- Header --}}
     <header class="bg-white shadow-sm">
@@ -44,7 +44,7 @@
         </div>
     </header>
 
-    <main class="mx-auto max-w-4xl px-6 py-10">
+    <main class="mx-auto max-w-4xl px-6 py-10 flex-1 w-full">
 
         {{-- Breadcrumb --}}
         <nav class="mb-8 flex items-center gap-2 text-sm text-gray-500">
@@ -113,7 +113,7 @@
     </main>
 
     {{-- Footer --}}
-    <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400">
+    <footer class="border-t border-gray-100 bg-white py-6 text-center text-sm text-gray-400 mt-auto">
         Dibuat dengan
         <a href="{{ route('landing') }}" class="font-medium text-accent hover:underline">MyLinx</a>
     </footer>

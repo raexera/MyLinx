@@ -1,6 +1,4 @@
 <x-app-layout>
-    <x-slot name="hideProfile">true</x-slot>
-
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mt-2 lg:mt-0 w-full lg:pr-4 xl:pr-8 mb-2">
             <div class="flex flex-col">

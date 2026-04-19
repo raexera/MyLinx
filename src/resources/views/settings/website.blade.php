@@ -1,6 +1,5 @@
 <x-app-layout>
     <x-slot name="whiteBg">true</x-slot>
-    <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
         <div class="flex flex-col pt-4 sm:pt-6 w-full lg:pr-4 xl:pr-8">
             <h1 class="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-serif text-[#1A1C19] tracking-tight leading-[1.1] mb-2.5">Website Settings</h1>

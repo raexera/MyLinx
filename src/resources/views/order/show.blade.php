@@ -1,5 +1,4 @@
 <x-app-layout>
-    <x-slot name="hideProfile">true</x-slot>
     <x-slot name="header">
         <div class="flex items-center pt-2 sm:pt-4 w-full text-[13.5px] font-bold text-gray-500 max-w-[900px] mx-auto">
             <a href="{{ route('order.index') }}" class="flex items-center gap-2 hover:text-[#1A1C19] transition-colors">
