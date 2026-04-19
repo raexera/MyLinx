@@ -2,54 +2,65 @@
 
 namespace App\Http\Requests;
 
+use App\Services\QrisValidator;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class UpdateProfilUsahaRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->tenant_id !== null;
+        return $this->user() !== null && $this->user()->tenant_id !== null;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         return [
-            'nama_usaha' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['required', 'string', 'max:5000'],
-            'alamat' => ['required', 'string', 'max:500'],
-            'no_hp' => ['required', 'string', 'max:20'],
-            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'nama_usaha' => ['required', 'string', 'max:150'],
+            'deskripsi'  => ['required', 'string', 'max:2000'],
+            'alamat'     => ['required', 'string', 'max:500'],
+            'no_hp'      => ['required', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:30'],
+            'logo'       => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+
+            // QRIS image: optional (may already have one stored); if provided, must be valid
+            'qris_image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:2048',
+                $this->qrisValidationRule(),
+            ],
         ];
     }
 
-    /**
-     * Get custom attribute names for validator errors.
-     */
-    public function attributes(): array
-    {
-        return [
-            'nama_usaha' => 'nama usaha',
-            'deskripsi' => 'deskripsi brand',
-            'alamat' => 'alamat',
-            'no_hp' => 'nomor WhatsApp',
-            'logo' => 'logo usaha',
-        ];
-    }
-
-    /**
-     * Get custom validation messages.
-     */
     public function messages(): array
     {
         return [
-            'logo.max' => 'Ukuran logo maksimal 2MB.',
-            'logo.mimes' => 'Format logo harus JPG, JPEG, atau PNG.',
+            'logo.max'       => 'Ukuran logo maksimal 2MB.',
+            'qris_image.max' => 'Ukuran gambar QRIS maksimal 2MB.',
+            'no_hp.regex'    => 'Format nomor WhatsApp tidak valid.',
         ];
+    }
+
+    /**
+     * Custom closure-based rule that runs our QrisValidator on the uploaded image.
+     */
+    private function qrisValidationRule(): ValidationRule
+    {
+        return new class implements ValidationRule {
+            public function validate(string $attribute, mixed $value, \Closure $fail): void
+            {
+                if (! $value) {
+                    return;
+                }
+
+                $result = app(QrisValidator::class)->validate($value);
+
+                if ($result['status'] !== QrisValidator::RESULT_OK) {
+                    $fail($result['message']);
+                }
+            }
+        };
     }
 }

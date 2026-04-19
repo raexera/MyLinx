@@ -3,63 +3,79 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfilUsahaRequest;
-use App\Models\ProfilUsaha;
+use App\Services\QrisValidator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfilUsahaController extends Controller
 {
-    /**
-     * Show the business profile edit form.
-     *
-     * Creates a blank profile record if one doesn't exist yet for the tenant.
-     * This uses firstOrCreate so the form always has a model to bind to.
-     */
     public function edit(): View
     {
-        if (! auth()->user()->tenant_id) {
-            abort(403, 'Akun Super Admin tidak memiliki profil usaha.');
-        }
-
-        $profil = ProfilUsaha::firstOrCreate(
-            ['tenant_id' => auth()->user()->tenant_id],
-            [
-                'nama_usaha' => auth()->user()->tenant->nama_tenant ?? '',
-                'deskripsi' => '',
-                'alamat' => '',
-                'no_hp' => '',
-            ]
-        );
+        $profil = auth()->user()->tenant->profilUsaha
+            ?? auth()->user()->tenant->profilUsaha()->create([]);
 
         return view('profil-usaha.edit', compact('profil'));
     }
 
-    /**
-     * Update the business profile.
-     *
-     * TENANCY RULE: Only updates the profile belonging to the user's tenant.
-     */
-    public function update(UpdateProfilUsahaRequest $request): RedirectResponse
+    public function update(UpdateProfilUsahaRequest $request, QrisValidator $qrisValidator): RedirectResponse
     {
-        $profil = ProfilUsaha::where('tenant_id', auth()->user()->tenant_id)->firstOrFail();
+        $tenant = auth()->user()->tenant;
+        $profil = $tenant->profilUsaha ?? $tenant->profilUsaha()->create([]);
 
-        $data = $request->validated();
+        $data = $request->only(['nama_usaha', 'deskripsi', 'alamat', 'no_hp']);
 
         // Handle logo upload
         if ($request->hasFile('logo')) {
-            // Delete old logo if it exists
             if ($profil->logo) {
                 Storage::disk('public')->delete($profil->logo);
             }
-
             $data['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        // Handle QRIS upload — request already validated it via form request
+        if ($request->hasFile('qris_image')) {
+            $result = $qrisValidator->validate($request->file('qris_image'));
+
+            if ($result['status'] !== QrisValidator::RESULT_OK) {
+                return back()
+                    ->withErrors(['qris_image' => $result['message']])
+                    ->withInput();
+            }
+
+            if ($profil->qris_image) {
+                Storage::disk('public')->delete($profil->qris_image);
+            }
+
+            $data['qris_image']         = $request->file('qris_image')->store('qris', 'public');
+            $data['qris_merchant_name'] = $result['merchant_name'];
+            $data['qris_nmid']          = $result['nmid'];
         }
 
         $profil->update($data);
 
         return redirect()
             ->route('profil-usaha.edit')
-            ->with('success', 'Profil usaha berhasil diperbarui!');
+            ->with('success', 'Profil usaha berhasil diperbarui.');
+    }
+
+    public function removeQris(): RedirectResponse
+    {
+        $tenant = auth()->user()->tenant;
+        $profil = $tenant->profilUsaha;
+
+        if ($profil && $profil->qris_image) {
+            Storage::disk('public')->delete($profil->qris_image);
+
+            $profil->update([
+                'qris_image'         => null,
+                'qris_merchant_name' => null,
+                'qris_nmid'          => null,
+            ]);
+        }
+
+        return redirect()
+            ->route('profil-usaha.edit')
+            ->with('success', 'QRIS berhasil dihapus.');
     }
 }

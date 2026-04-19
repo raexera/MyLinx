@@ -193,13 +193,121 @@
 
                 </div>
             </div>
+            <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
 
+            <!-- Pembayaran QRIS -->
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
+                <div class="md:w-[260px] shrink-0">
+                    <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">Pembayaran QRIS</h2>
+                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">
+                        Upload QRIS usahamu agar pelanggan bisa membayar langsung dengan scan.
+                        Sistem akan validasi otomatis bahwa gambar adalah QRIS resmi.
+                    </p>
+                </div>
+
+                <div class="flex-1">
+                    <input type="file" name="qris_image" id="qris_image" class="hidden" accept="image/jpeg,image/png">
+
+                    <div class="bg-white rounded-[2rem] p-6 sm:p-8 border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.015)]">
+                        @if($profil->qris_image)
+                            {{-- Has QRIS — show preview + details --}}
+                            <div class="flex flex-col sm:flex-row gap-6 items-start">
+                                <div class="w-[160px] h-[160px] rounded-2xl overflow-hidden border border-[#E8EBED] shrink-0 bg-white p-2">
+                                    <img src="{{ asset('storage/' . $profil->qris_image) }}"
+                                        alt="QRIS {{ $profil->qris_merchant_name }}"
+                                        class="w-full h-full object-contain">
+                                </div>
+
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#ECFDF5] text-[#059669] text-[10px] font-bold uppercase tracking-widest rounded-full border border-[#A7F3D0]">
+                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                            Terverifikasi
+                                        </span>
+                                    </div>
+
+                                    <div class="space-y-2 mb-5">
+                                        <div>
+                                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Atas Nama</p>
+                                            <p class="text-[14px] font-bold text-[#1A1C19]">{{ $profil->qris_merchant_name ?? 'Tidak diketahui' }}</p>
+                                        </div>
+                                        @if($profil->qris_nmid)
+                                            <div>
+                                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">NMID</p>
+                                                <p class="text-[12px] font-mono text-gray-600">{{ $profil->qris_nmid }}</p>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-3">
+                                        <button type="button"
+                                                onclick="document.getElementById('qris_image').click()"
+                                                class="inline-flex items-center gap-1.5 bg-white border border-[#E8EBED] hover:bg-gray-50 text-[#1A1C19] px-4 py-2 rounded-full text-[12px] font-bold transition-colors">
+                                            Ganti QRIS
+                                        </button>
+                                        <button type="button"
+                                                onclick="document.getElementById('qris-remove-form').submit()"
+                                                class="text-[12px] font-bold text-red-500 hover:text-red-700 transition-colors">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Preview after new upload (hidden until file picked) --}}
+                            <div id="qris-new-preview" class="mt-4 hidden p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                                <p class="text-[12px] font-bold text-amber-800 mb-2">File baru dipilih:</p>
+                                <img id="qris-new-img" class="w-[100px] h-[100px] object-contain rounded-lg bg-white border border-amber-100 p-1">
+                                <p class="text-[11px] text-amber-700 mt-2">Klik <strong>Simpan Profil</strong> di atas untuk memvalidasi & mengganti QRIS.</p>
+                            </div>
+                        @else
+                            {{-- No QRIS yet — upload prompt --}}
+                            <div onclick="document.getElementById('qris_image').click()"
+                                class="cursor-pointer group">
+                                <div class="border-2 border-dashed border-[#d1d5db] group-hover:border-[#2E5136]/50 rounded-2xl p-8 text-center bg-[#f9fafb] group-hover:bg-[#f2f4f3] transition-colors">
+                                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-white border border-[#E8EBED] flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-[#2E5136]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <p class="text-[14px] font-bold text-[#1A1C19] mb-1">Upload Gambar QRIS</p>
+                                    <p class="text-[12px] text-gray-500 mb-3">JPG atau PNG, maksimal 2MB</p>
+                                    <span class="inline-block bg-white border border-[#E8EBED] text-gray-500 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                        Akan divalidasi otomatis
+                                    </span>
+                                </div>
+
+                                {{-- Preview after upload (hidden until file picked) --}}
+                                <div id="qris-new-preview" class="mt-4 hidden p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                                    <p class="text-[12px] font-bold text-amber-800 mb-2">File dipilih:</p>
+                                    <img id="qris-new-img" class="w-[100px] h-[100px] object-contain rounded-lg bg-white border border-amber-100 p-1">
+                                    <p class="text-[11px] text-amber-700 mt-2">Klik <strong>Simpan Profil</strong> di atas untuk upload & validasi.</p>
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Info box --}}
+                        <div class="mt-5 p-4 bg-[#EFF6F2] rounded-xl flex items-start gap-3">
+                            <svg class="w-5 h-5 text-[#2E5136] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <div class="text-[12px] text-[#2E5136]/80 leading-relaxed">
+                                <strong>Bagaimana cara kerjanya?</strong><br>
+                                Saat pelanggan checkout, gambar QRIS kamu dikirim ke email mereka bersama invoice. Mereka scan &amp; bayar via e-wallet (GoPay, DANA, OVO, ShopeePay, dll). Setelah terima konfirmasi, kamu ubah status order ke "Lunas" secara manual.
+                            </div>
+                        </div>
+                    </div>
+
+                    @error('qris_image')
+                        <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
         </form>
-
+        {{-- Separate form for removing QRIS (can't be nested inside the main form) --}}
+        <form id="qris-remove-form" action="{{ route('profil-usaha.remove-qris') }}" method="POST" class="hidden">
+            @csrf @method('DELETE')
+        </form>
     </div>
 
-    {{-- Logo preview script --}}
     <script>
+        // Logo preview (existing)
         document.getElementById('logo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -208,6 +316,17 @@
                 preview.src = URL.createObjectURL(file);
                 preview.classList.remove('hidden');
                 if (placeholder) placeholder.classList.add('hidden');
+            }
+        });
+
+        // QRIS preview — confirms user has selected a file before they hit submit
+        document.getElementById('qris_image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const preview = document.getElementById('qris-new-preview');
+                const img     = document.getElementById('qris-new-img');
+                img.src = URL.createObjectURL(file);
+                preview.classList.remove('hidden');
             }
         });
     </script>

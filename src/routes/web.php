@@ -57,6 +57,8 @@ Route::middleware(['auth', 'verified', 'has.tenant'])->group(function () {
         ->name('profil-usaha.edit');
     Route::patch('/profil-usaha', [ProfilUsahaController::class, 'update'])
         ->name('profil-usaha.update');
+    Route::delete('/profil-usaha/qris', [ProfilUsahaController::class, 'removeQris'])
+    ->name('profil-usaha.remove-qris');
 
     // ── Portofolio CRUD ─────────────────────────────────────
     Route::resource('portfolio', PortofolioController::class)

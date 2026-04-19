@@ -26,6 +26,9 @@ class ProfilUsaha extends Model
         'alamat',
         'no_hp',
         'logo',
+        'qris_image',
+        'qris_merchant_name',
+        'qris_nmid',
     ];
 
     /*
