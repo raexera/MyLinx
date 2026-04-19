@@ -69,7 +69,6 @@
 
         <div class="grid gap-6 md:grid-cols-5">
 
-            {{-- Checkout Form --}}
             <div class="md:col-span-3">
                 <div class="rounded-2xl bg-[var(--card-bg)] p-6 border border-[var(--border-color)] shadow-sm">
                     <h1 class="text-xl font-bold text-[var(--text-main)]">Data Pemesanan</h1>
@@ -161,7 +160,6 @@
                 </div>
             </div>
 
-            {{-- Order Summary --}}
             <div class="md:col-span-2">
                 <div class="rounded-2xl bg-[var(--card-bg)] p-6 border border-[var(--border-color)] shadow-sm sticky top-6">
                     <h2 class="text-[15px] font-bold text-[var(--text-main)]">Ringkasan Pesanan</h2>

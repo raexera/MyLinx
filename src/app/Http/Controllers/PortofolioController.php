@@ -11,9 +11,6 @@ use Illuminate\View\View;
 
 class PortofolioController extends Controller
 {
-    /**
-     * Display the portfolio builder with existing items.
-     */
     public function index(): View
     {
         $portofolios = Portofolio::where('tenant_id', auth()->user()->tenant_id)
@@ -23,23 +20,16 @@ class PortofolioController extends Controller
         return view('portfolio.builder', compact('portofolios'));
     }
 
-    /**
-     * Store a newly created portfolio item.
-     *
-     * TENANCY RULE: Automatically attaches the logged-in user's tenant_id.
-     */
     public function store(StorePortofolioRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
-        // Attach tenant_id from the authenticated user
         $data['tenant_id'] = auth()->user()->tenant_id;
 
-        // Handle image upload to local public disk
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store(
-                'portofolio',    // folder inside storage/app/public/
-                'public'         // disk name
+                'portofolio',
+                'public'
             );
         }
 
@@ -50,11 +40,6 @@ class PortofolioController extends Controller
             ->with('success', 'Portofolio berhasil ditambahkan!');
     }
 
-    /**
-     * Show the form for editing a portfolio item.
-     *
-     * TENANCY RULE: Abort 403 if item doesn't belong to the user's tenant.
-     */
     public function edit(Portofolio $portfolio): View
     {
         $this->authorizeTenant($portfolio);
@@ -69,18 +54,12 @@ class PortofolioController extends Controller
         ]);
     }
 
-    /**
-     * Update an existing portfolio item.
-     *
-     * TENANCY RULE: Abort 403 if item doesn't belong to the user's tenant.
-     */
     public function update(UpdatePortofolioRequest $request, Portofolio $portfolio): RedirectResponse
     {
         $this->authorizeTenant($portfolio);
 
         $data = $request->validated();
 
-        // Handle image upload (replace old image if new one is provided)
         if ($request->hasFile('gambar')) {
             if ($portfolio->gambar) {
                 Storage::disk('public')->delete($portfolio->gambar);
@@ -96,16 +75,10 @@ class PortofolioController extends Controller
             ->with('success', 'Portofolio berhasil diperbarui!');
     }
 
-    /**
-     * Delete a portfolio item.
-     *
-     * TENANCY RULE: Abort 403 if item doesn't belong to the user's tenant.
-     */
     public function destroy(Portofolio $portfolio): RedirectResponse
     {
         $this->authorizeTenant($portfolio);
 
-        // Delete the associated image file
         if ($portfolio->gambar) {
             Storage::disk('public')->delete($portfolio->gambar);
         }
@@ -117,10 +90,6 @@ class PortofolioController extends Controller
             ->with('success', 'Portofolio berhasil dihapus!');
     }
 
-    /**
-     * Verify that the given model belongs to the authenticated user's tenant.
-     * Aborts with 403 Forbidden if it doesn't match.
-     */
     private function authorizeTenant(Portofolio $portofolio): void
     {
         if ($portofolio->tenant_id !== auth()->user()->tenant_id) {

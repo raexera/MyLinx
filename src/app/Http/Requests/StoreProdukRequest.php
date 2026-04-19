@@ -6,18 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProdukRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        // User must be authenticated and have a tenant
+
         return auth()->check() && auth()->user()->tenant_id !== null;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         return [
@@ -32,9 +26,6 @@ class StoreProdukRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get custom attribute names for validator errors.
-     */
     public function attributes(): array
     {
         return [
@@ -46,9 +37,6 @@ class StoreProdukRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get custom validation messages.
-     */
     public function messages(): array
     {
         return [

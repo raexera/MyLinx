@@ -11,9 +11,6 @@ class Invoice extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'order_id',
         'nomor_invoice',
@@ -21,15 +18,6 @@ class Invoice extends Model
         'status_pembayaran',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * An invoice belongs to one order.
-     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);

@@ -11,9 +11,6 @@ class OrderItem extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'order_id',
         'produk_id',
@@ -23,9 +20,6 @@ class OrderItem extends Model
         'subtotal',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected function casts(): array
     {
         return [
@@ -35,23 +29,11 @@ class OrderItem extends Model
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * An order item belongs to one order.
-     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * An order item references one product.
-     */
     public function produk(): BelongsTo
     {
         return $this->belongsTo(Produk::class);

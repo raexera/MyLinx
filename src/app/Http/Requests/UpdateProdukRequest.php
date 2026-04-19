@@ -6,17 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProdukRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return auth()->check() && auth()->user()->tenant_id !== null;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         return [
@@ -31,9 +25,6 @@ class UpdateProdukRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get custom attribute names for validator errors.
-     */
     public function attributes(): array
     {
         return [
@@ -45,9 +36,6 @@ class UpdateProdukRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get custom validation messages.
-     */
     public function messages(): array
     {
         return [

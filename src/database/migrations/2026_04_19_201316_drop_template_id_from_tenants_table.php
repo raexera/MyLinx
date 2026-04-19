@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tenants', function (Blueprint $table) {
-            // PostgreSQL: must drop foreign key constraint explicitly before dropping column
+
             $table->dropForeign(['template_id']);
             $table->dropColumn('template_id');
         });

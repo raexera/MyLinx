@@ -99,7 +99,6 @@
 <body>
 <div class="sheet">
 
-    {{-- Header --}}
     <div class="header">
         <table>
             <tr>
@@ -126,7 +125,6 @@
         </table>
     </div>
 
-    {{-- Parties --}}
     <table class="two-col">
         <tr>
             <td>
@@ -150,7 +148,6 @@
         </tr>
     </table>
 
-    {{-- Order meta --}}
     <table class="two-col" style="margin-top:8px;">
         <tr>
             <td>
@@ -164,7 +161,6 @@
         </tr>
     </table>
 
-    {{-- Items --}}
     <table class="items">
         <thead>
             <tr>
@@ -193,7 +189,6 @@
         </tbody>
     </table>
 
-    {{-- Totals --}}
     <table class="totals">
         <tr>
             <td class="muted">Subtotal</td>
@@ -211,7 +206,6 @@
         </tr>
     </table>
 
-    {{-- Shipping info (only if shipped) --}}
     @if($order->nomor_resi)
         <div class="shipping-box">
             <div class="label">Informasi Pengiriman</div>
@@ -227,7 +221,6 @@
         </div>
     @endif
 
-    {{-- Shipping address --}}
     @if($order->alamat_pengiriman)
         <div style="margin-top:24px;">
             <div class="label">Alamat Pengiriman</div>
@@ -246,7 +239,6 @@
         </div>
     @endif
 
-    {{-- Footer --}}
     <div class="footer">
         Dokumen ini dibuat otomatis oleh MyLinx. Untuk pertanyaan, hubungi penjual via WhatsApp.
     </div>

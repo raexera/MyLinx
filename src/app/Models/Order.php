@@ -14,9 +14,6 @@ class Order extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'tenant_id',
         'kode_order',
@@ -33,9 +30,6 @@ class Order extends Model
         'public_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected function casts(): array
     {
         return [
@@ -53,27 +47,12 @@ class Order extends Model
         });
     }
 
-    /**
-     * Use public_token for public-facing URLs.
-     * This is the route-model-binding column for Route::get('/invoice/{order:public_token}', ...)
-     */
     public function getRouteKeyName(): string
     {
-        // Default binding uses `id`; we override only on the specific public route below.
+
         return parent::getRouteKeyName();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Search orders by order code or buyer name.
-     *
-     * Usage: Order::search('ORD-2026')->get()
-     */
     public function scopeSearch(Builder $query, ?string $term): Builder
     {
         if (! $term) {
@@ -87,11 +66,6 @@ class Order extends Model
         });
     }
 
-    /**
-     * Filter orders by status.
-     *
-     * Usage: Order::status('pending')->get()
-     */
     public function scopeStatus(Builder $query, ?string $status): Builder
     {
         if (! $status || $status === 'all') {
@@ -101,31 +75,16 @@ class Order extends Model
         return $query->where('status', $status);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * An order belongs to one tenant.
-     */
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);
     }
 
-    /**
-     * An order has many line items.
-     */
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    /**
-     * An order has one invoice.
-     */
     public function invoice(): HasOne
     {
         return $this->hasOne(Invoice::class);

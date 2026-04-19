@@ -18,26 +18,11 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * Wraps the entire onboarding flow in a DB transaction:
-     * 1. Create Tenant (with unique slug)
-     * 2. Create User (linked to tenant)
-     * 3. Create empty ProfilUsaha (so /profil-usaha never 500s)
-     *
-     * If any step fails, everything rolls back cleanly.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -47,11 +32,10 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = DB::transaction(function () use ($request) {
-            // ── Create the Tenant ────────────────────────
+
             $storeName = $request->store_name ?: $request->name."'s Store";
             $baseSlug = Str::slug($storeName);
 
-            // Ensure slug uniqueness
             $slug = $baseSlug;
             $counter = 1;
             while (Tenant::where('slug', $slug)->exists()) {
@@ -65,7 +49,6 @@ class RegisteredUserController extends Controller
                 'status' => true,
             ]);
 
-            // ── Step 3: Create the User (linked to tenant) ──────
             $user = User::create([
                 'tenant_id' => $tenant->id,
                 'nama' => $request->name,
@@ -74,9 +57,6 @@ class RegisteredUserController extends Controller
                 'role' => 'tenant_admin',
             ]);
 
-            // ── Step 4: Create empty ProfilUsaha ─────────────────
-            // This prevents the 500 error when a new user visits /profil-usaha
-            // before filling out their business profile.
             ProfilUsaha::create([
                 'tenant_id' => $tenant->id,
                 'nama_usaha' => $storeName,

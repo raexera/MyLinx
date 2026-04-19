@@ -25,7 +25,6 @@ class ProfilUsahaController extends Controller
 
         $data = $request->only(['nama_usaha', 'deskripsi', 'alamat', 'no_hp']);
 
-        // Handle logo upload
         if ($request->hasFile('logo')) {
             if ($profil->logo) {
                 Storage::disk('public')->delete($profil->logo);
@@ -33,7 +32,6 @@ class ProfilUsahaController extends Controller
             $data['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        // Handle QRIS upload — request already validated it via form request
         if ($request->hasFile('qris_image')) {
             $result = $qrisValidator->validate($request->file('qris_image'));
 

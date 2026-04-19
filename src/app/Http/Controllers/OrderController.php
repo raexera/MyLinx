@@ -182,7 +182,6 @@ class OrderController extends Controller
         $callback = function () use ($orders) {
             $out = fopen('php://output', 'w');
 
-            // UTF-8 BOM so Excel opens Rupiah characters correctly
             fwrite($out, "\xEF\xBB\xBF");
 
             fputcsv($out, [
@@ -227,7 +226,6 @@ class OrderController extends Controller
                 ]);
             }
 
-            // Summary footer for accountants / tax reporting
             fputcsv($out, []);
             fputcsv($out, ['--- RINGKASAN ---']);
             fputcsv($out, ['Total pesanan', $orders->count()]);

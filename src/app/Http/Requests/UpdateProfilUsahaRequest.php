@@ -22,7 +22,6 @@ class UpdateProfilUsahaRequest extends FormRequest
             'no_hp' => ['required', 'string', 'regex:/^[\+\d\s\-\(\)]+$/', 'max:30'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
 
-            // QRIS image: optional (may already have one stored); if provided, must be valid
             'qris_image' => [
                 'nullable',
                 'image',
@@ -42,9 +41,6 @@ class UpdateProfilUsahaRequest extends FormRequest
         ];
     }
 
-    /**
-     * Custom closure-based rule that runs our QrisValidator on the uploaded image.
-     */
     private function qrisValidationRule(): ValidationRule
     {
         return new class implements ValidationRule

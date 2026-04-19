@@ -4,27 +4,7 @@ use Illuminate\Support\Str;
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Cache Store
-    |--------------------------------------------------------------------------
-    |
-    | Using the "database" driver for cache. Simple and requires no additional
-    | infrastructure beyond our existing PostgreSQL instance.
-    |
-    */
-
     'default' => env('CACHE_STORE', 'database'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cache Stores
-    |--------------------------------------------------------------------------
-    |
-    | Only local-compatible stores are configured. Cloud stores (DynamoDB,
-    | Memcached, Redis) have been intentionally removed for this MVP.
-    |
-    */
 
     'stores' => [
 
@@ -48,12 +28,6 @@ return [
         ],
 
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cache Key Prefix
-    |--------------------------------------------------------------------------
-    */
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
 

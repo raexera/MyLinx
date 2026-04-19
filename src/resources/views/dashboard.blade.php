@@ -28,7 +28,6 @@
         </div>
     </x-slot>
 
-    {{-- Flash Messages --}}
     @if(session('success'))
         <div class="mt-4 rounded-2xl bg-[#ECFDF5] border border-[#A7F3D0] px-5 py-4 text-[13.5px] font-semibold text-[#065F46] flex items-center gap-3 mb-6">
             <svg class="w-5 h-5 text-[#059669] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -46,12 +45,8 @@
 
         @if(Auth::user()->isTenantAdmin())
 
-            {{-- ═══════════════ TENANT ADMIN ═══════════════ --}}
-
-            {{-- 1. Stats Row: Revenue · Orders · Products · Views --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-8">
 
-                {{-- Total Revenue --}}
                 <div class="bg-white rounded-[1.5rem] p-6 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] flex flex-col justify-between">
                     <div class="flex justify-between items-start mb-6">
                         <div class="w-[42px] h-[42px] rounded-full bg-green-50 text-[#2E5136] flex items-center justify-center">
@@ -67,7 +62,6 @@
                     </div>
                 </div>
 
-                {{-- Orders This Month (with pending sub-stat) --}}
                 <div class="bg-white rounded-[1.5rem] p-6 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] flex flex-col justify-between">
                     <div class="flex justify-between items-start mb-6">
                         <div class="w-[42px] h-[42px] rounded-full bg-gray-50 text-gray-500 flex items-center justify-center border border-gray-100">
@@ -86,7 +80,6 @@
                     </div>
                 </div>
 
-                {{-- Active Products --}}
                 <div class="bg-white rounded-[1.5rem] p-6 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] flex flex-col justify-between">
                     <div class="flex justify-between items-start mb-6">
                         <div class="w-[42px] h-[42px] rounded-full bg-gray-50 text-gray-500 flex items-center justify-center border border-gray-100">
@@ -104,7 +97,6 @@
                     </div>
                 </div>
 
-                {{-- Page Views --}}
                 <div class="bg-white rounded-[1.5rem] p-6 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] flex flex-col justify-between">
                     <div class="flex justify-between items-start mb-6">
                         <div class="w-[42px] h-[42px] rounded-full bg-blue-50 text-blue-500 flex items-center justify-center border border-blue-100">
@@ -125,7 +117,6 @@
                 </div>
             </div>
 
-            {{-- Empty state: no orders at all --}}
             @if($recentOrders->isEmpty())
                 <div class="bg-white rounded-[2rem] p-10 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] text-center mb-8">
                     <div class="w-16 h-16 rounded-full bg-[#f9fafb] flex items-center justify-center text-3xl mx-auto mb-4">📦</div>
@@ -145,7 +136,6 @@
                 </div>
             @else
 
-            {{-- 2. Recent Orders Table --}}
             <div class="bg-white rounded-[2rem] shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] flex flex-col mb-8 overflow-hidden">
 
                 <div class="flex justify-between items-center px-6 sm:px-8 py-6 border-b border-[#E8EBED]">
@@ -159,7 +149,6 @@
                     </a>
                 </div>
 
-                {{-- Desktop table --}}
                 <div class="hidden md:block w-full overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -232,7 +221,6 @@
                     </table>
                 </div>
 
-                {{-- Mobile cards --}}
                 <div class="md:hidden divide-y divide-[#E8EBED]/60">
                     @foreach($recentOrders as $order)
                         @php
@@ -269,8 +257,6 @@
 
         @elseif(Auth::user()->isSuperAdmin())
 
-            {{-- ═══════════════ SUPER ADMIN ═══════════════ --}}
-
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-8">
                 <div class="bg-white rounded-[1.5rem] p-6 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED] flex flex-col justify-between">
                     <div class="w-[42px] h-[42px] rounded-full bg-green-50 text-[#2E5136] flex items-center justify-center mb-6">
@@ -302,7 +288,6 @@
                 </div>
             </div>
 
-            {{-- Recent Tenants --}}
             <div class="bg-white rounded-[2rem] px-6 sm:px-8 py-8 shadow-[0_2px_10px_rgb(0,0,0,0.015)] border border-[#E8EBED]">
                 <div class="flex items-center justify-between mb-6">
                     <div>

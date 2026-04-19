@@ -6,16 +6,10 @@ use App\Models\Produk;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Produk>
- */
 class ProdukFactory extends Factory
 {
     protected $model = Produk::class;
 
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
         $produkList = [
@@ -40,13 +34,10 @@ class ProdukFactory extends Factory
             'harga' => fake()->randomElement([25000, 49000, 75000, 125000, 185000, 250000, 350000, 675000, 1250000]),
             'stok' => fake()->numberBetween(0, 100),
             'gambar' => null,
-            'status' => fake()->boolean(85), // 85% chance active
+            'status' => fake()->boolean(85),
         ];
     }
 
-    /**
-     * Indicate that the product is out of stock.
-     */
     public function habis(): static
     {
         return $this->state(fn (array $attributes) => [

@@ -6,16 +6,10 @@ use App\Models\ProfilUsaha;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProfilUsaha>
- */
 class ProfilUsahaFactory extends Factory
 {
     protected $model = ProfilUsaha::class;
 
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
         $usahaList = [

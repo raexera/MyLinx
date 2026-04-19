@@ -25,7 +25,6 @@
         </div>
     </x-slot>
 
-    {{-- Flash Messages --}}
     @if(session('success'))
         <div class="mt-4 rounded-2xl bg-[#ECFDF5] border border-[#A7F3D0] px-5 py-4 text-[13.5px] font-semibold text-[#065F46] flex items-center gap-3">
             <svg class="w-5 h-5 text-[#059669] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -36,7 +35,6 @@
     <!-- Content wrapper -->
     <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-6">
 
-        {{-- Stat Cards (real data from controller) --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
             <div class="bg-white rounded-[1.5rem] p-6 border border-[#E8EBED] shadow-[0_2px_10px_rgb(0,0,0,0.015)] relative overflow-hidden group">
                 <div class="absolute -right-6 -top-6 text-[#f9fafb] group-hover:scale-110 transition-transform">
@@ -76,7 +74,6 @@
             </div>
         </div>
 
-        {{-- Toolbar: Filter pills + Search (single form, both preserve each other) --}}
         <form id="order-filter-form"
             action="{{ route('order.index') }}"
             method="GET"
@@ -84,7 +81,6 @@
 
             <input type="hidden" name="status" id="order-status-input" value="{{ request('status', '') }}">
 
-            {{-- Filter Pills --}}
             <div class="flex items-center bg-[#f9fafb] border border-[#E8EBED] rounded-full p-[5px] shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)] overflow-x-auto hide-scroll shrink-0">
                 @foreach(['' => 'Semua', 'pending' => 'Menunggu Bayar', 'paid' => 'Sudah Bayar', 'processing' => 'Diproses', 'shipped' => 'Dikirim', 'completed' => 'Selesai', 'cancelled' => 'Dibatalkan'] as $val => $label)
                     @php $isActive = request('status', '') === $val; @endphp
@@ -97,7 +93,6 @@
                 @endforeach
             </div>
 
-            {{-- Search --}}
             <div class="relative w-full lg:max-w-[420px]">
                 <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                     <svg class="h-[18px] w-[18px] text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -110,7 +105,6 @@
             </div>
         </form>
 
-        {{-- Active filters indicator --}}
         @if(request('search') || request('status'))
             <div class="flex items-center gap-2 mb-4 px-1">
                 <span class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Filter aktif:</span>
@@ -232,7 +226,6 @@
                 </table>
             </div>
 
-            {{-- Pagination --}}
             @if($orders->hasPages())
                 <div class="px-6 py-[22px] flex flex-col md:flex-row items-center justify-between gap-4 mt-auto border-t border-[#E8EBED]/60">
                     <div class="text-[13.5px] text-gray-500 font-medium">

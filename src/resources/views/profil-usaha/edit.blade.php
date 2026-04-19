@@ -13,7 +13,6 @@
     <!-- Content wrapper -->
     <div class="w-full lg:pr-4 xl:pr-8 pb-16 flex flex-col mt-8 relative z-10">
 
-        {{-- Flash success message --}}
         @if(session('success'))
             <div class="bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-5 py-3.5 rounded-2xl mb-6 flex items-center gap-2">
                 <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -21,7 +20,6 @@
             </div>
         @endif
 
-        {{-- Validation errors --}}
         @if($errors->any())
             <div class="bg-red-50 border border-red-200 text-red-700 text-sm font-medium px-5 py-4 rounded-2xl mb-6">
                 <p class="font-bold mb-1">Terdapat kesalahan pada form:</p>
@@ -50,7 +48,7 @@
                     </p>
                 </div>
                 <div class="flex-1">
-                    {{-- Hidden file input for logo --}}
+                    
                     <input type="file" name="logo" id="logo" class="hidden" accept="image/jpeg,image/png">
 
                     <div onclick="document.getElementById('logo').click()" class="bg-white rounded-[2rem] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.015)] group cursor-pointer hover:border-[#2E5136]/30 transition-colors">
@@ -190,7 +188,7 @@
 
                     <div class="bg-white rounded-[2rem] p-6 sm:p-8 border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.015)]">
                         @if($profil->qris_image)
-                            {{-- Has QRIS — show preview + details --}}
+                            
                             <div class="flex flex-col sm:flex-row gap-6 items-start">
                                 <div class="w-[160px] h-[160px] rounded-2xl overflow-hidden border border-[#E8EBED] shrink-0 bg-white p-2">
                                     <img src="{{ asset('storage/' . $profil->qris_image) }}"
@@ -234,14 +232,13 @@
                                 </div>
                             </div>
 
-                            {{-- Preview after new upload (hidden until file picked) --}}
                             <div id="qris-new-preview" class="mt-4 hidden p-4 bg-amber-50 border border-amber-200 rounded-xl">
                                 <p class="text-[12px] font-bold text-amber-800 mb-2">File baru dipilih:</p>
                                 <img id="qris-new-img" class="w-[100px] h-[100px] object-contain rounded-lg bg-white border border-amber-100 p-1">
                                 <p class="text-[11px] text-amber-700 mt-2">Klik <strong>Simpan Profil</strong> di atas untuk memvalidasi & mengganti QRIS.</p>
                             </div>
                         @else
-                            {{-- No QRIS yet — upload prompt --}}
+                            
                             <div onclick="document.getElementById('qris_image').click()"
                                 class="cursor-pointer group">
                                 <div class="border-2 border-dashed border-[#d1d5db] group-hover:border-[#2E5136]/50 rounded-2xl p-8 text-center bg-[#f9fafb] group-hover:bg-[#f2f4f3] transition-colors">
@@ -255,7 +252,6 @@
                                     </span>
                                 </div>
 
-                                {{-- Preview after upload (hidden until file picked) --}}
                                 <div id="qris-new-preview" class="mt-4 hidden p-4 bg-amber-50 border border-amber-200 rounded-xl">
                                     <p class="text-[12px] font-bold text-amber-800 mb-2">File dipilih:</p>
                                     <img id="qris-new-img" class="w-[100px] h-[100px] object-contain rounded-lg bg-white border border-amber-100 p-1">
@@ -264,7 +260,6 @@
                             </div>
                         @endif
 
-                        {{-- Info box --}}
                         <div class="mt-5 p-4 bg-[#EFF6F2] rounded-xl flex items-start gap-3">
                             <svg class="w-5 h-5 text-[#2E5136] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <div class="text-[12px] text-[#2E5136]/80 leading-relaxed">
@@ -291,14 +286,14 @@
                  </button>
             </div>
         </form>
-        {{-- Separate form for removing QRIS (can't be nested inside the main form) --}}
+        
         <form id="qris-remove-form" action="{{ route('profil-usaha.remove-qris') }}" method="POST" class="hidden">
             @csrf @method('DELETE')
         </form>
     </div>
 
     <script>
-        // Logo preview (existing)
+        
         document.getElementById('logo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -310,7 +305,6 @@
             }
         });
 
-        // QRIS preview — confirms user has selected a file before they hit submit
         document.getElementById('qris_image').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {

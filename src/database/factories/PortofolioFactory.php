@@ -6,16 +6,10 @@ use App\Models\Portofolio;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Portofolio>
- */
 class PortofolioFactory extends Factory
 {
     protected $model = Portofolio::class;
 
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
         $portofolioList = [

@@ -11,14 +11,8 @@ class ProfilUsaha extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The table associated with the model.
-     */
     protected $table = 'profil_usahas';
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'tenant_id',
         'nama_usaha',
@@ -31,15 +25,6 @@ class ProfilUsaha extends Model
         'qris_nmid',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * A business profile belongs to one tenant.
-     */
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);

@@ -82,7 +82,6 @@
 
     <main class="mx-auto max-w-3xl px-6 py-10 flex-1 w-full">
 
-        {{-- Success banner --}}
         <div class="mb-8 flex flex-col items-center rounded-3xl px-6 py-8 text-center border" style="background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, transparent);">
             <div class="flex h-14 w-14 items-center justify-center rounded-full text-2xl mb-4 bg-[var(--card-bg)] shadow-sm">🎉</div>
             <h1 class="text-[22px] font-bold text-[var(--accent)] mb-1">Pesanan Dibuat!</h1>
@@ -91,7 +90,6 @@
             </p>
         </div>
 
-        {{-- QRIS + Payment CTA --}}
         @if($profil?->qris_image)
             <div class="mb-8 rounded-3xl bg-[var(--card-bg)] p-6 sm:p-8 border border-[var(--border-color)] shadow-sm">
                 <div class="text-center">
@@ -132,7 +130,6 @@
             </div>
         @endif
 
-        {{-- WhatsApp CTA --}}
         @if($waLink)
             <a href="{{ $waLink }}" target="_blank"
                class="flex w-full items-center justify-center gap-2.5 rounded-2xl btn-accent px-6 py-4 text-[15px] font-bold shadow-[0_8px_16px_rgba(0,0,0,0.1)] transition-all transform hover:-translate-y-0.5">
@@ -148,7 +145,6 @@
             </div>
         @endif
 
-        {{-- Order details --}}
         <details class="mt-8 rounded-2xl bg-[var(--card-bg)] shadow-sm border border-[var(--border-color)]">
             <summary class="cursor-pointer list-none px-6 py-5 text-[14px] font-bold text-[var(--text-main)] hover:bg-[var(--input-bg)] transition-colors rounded-2xl">
                 <span class="inline-flex items-center gap-2.5">

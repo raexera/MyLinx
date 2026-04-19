@@ -12,7 +12,6 @@
         $c = $tenant->customization_with_defaults;
     @endphp
 
-    {{-- Flash Success --}}
     @if(session('success'))
         <div class="mt-6 mb-2 rounded-2xl bg-[#ECFDF5] border border-[#A7F3D0] px-5 py-4 text-[13.5px] font-semibold text-[#065F46] flex items-center gap-3">
             <svg class="w-5 h-5 text-[#059669] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -20,7 +19,6 @@
         </div>
     @endif
 
-    {{-- ═══════════════ MAIN FORM ═══════════════ --}}
     <form action="{{ route('settings.website.update') }}" method="POST"
           class="w-full pt-5 sm:pt-6 lg:pr-4 xl:pr-8">
         @csrf
@@ -121,7 +119,6 @@
                     }
                 }">
 
-                {{-- Accent Color --}}
                 <div>
                     <label class="block text-[13px] font-bold text-[#1A1C19] mb-2">Accent Color</label>
                     <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Applied to buttons, links, and highlights.</p>
@@ -143,7 +140,6 @@
                     @error('accent_color')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Background Color --}}
                 <div>
                     <label class="block text-[13px] font-bold text-[#1A1C19] mb-2">Background Color</label>
                     <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Page background of your storefront.</p>
@@ -165,7 +161,6 @@
                     @error('background_color')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Live preview --}}
                 <div class="rounded-2xl border border-[#E8EBED] p-6 shadow-inner transition-colors duration-300" :style="`background:${background}`">
                     <p class="text-[11px] font-bold uppercase tracking-widest mb-4 transition-colors" :class="isDark ? 'text-slate-400' : 'text-gray-400'">Live Preview</p>
                     <h3 class="text-2xl font-serif mb-3 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Produk Kami</h3>
@@ -179,7 +174,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 border-t border-[#F0F2F3]">
-                    {{-- Hero Style --}}
+                    
                     <div>
                         <label for="hero_style" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Hero Style</label>
                         <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">How the top of your page looks.</p>
@@ -192,7 +187,6 @@
                         @error('hero_style')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
                     </div>
 
-                    {{-- Content Order --}}
                     <div>
                         <label for="content_order" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Content Order</label>
                         <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">What shows first on your page.</p>
@@ -207,7 +201,6 @@
                         @error('content_order')<p class="text-xs text-red-500 mt-2">{{ $message }}</p>@enderror
                     </div>
 
-                    {{-- Product Layout --}}
                     <div>
                         <label for="product_layout" class="block text-[13px] font-bold text-[#1A1C19] mb-2">Product Layout</label>
                         <p class="text-[12px] text-[#6A7B8C] font-medium mb-3">How products are displayed.</p>

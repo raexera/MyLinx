@@ -33,7 +33,6 @@
             </button>
         </div>
 
-        {{-- Navigation Links --}}
         <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1 hide-scroll">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-[#2E5136] text-white' : 'text-[#8b9196] hover:text-white hover:bg-white/5' }} rounded-xl text-sm font-semibold transition-colors">
                 <span>Dashboard</span>
@@ -60,7 +59,6 @@
             @endif
         </nav>
 
-        {{-- Profile & Action Bottom Area --}}
         <div class="p-4 border-t border-white/5 space-y-1 bg-[#1A1C19] shrink-0">
             <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 transition-colors group">
                 <div class="w-9 h-9 rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[13px] text-[#A6785D] shrink-0 group-hover:scale-105 transition-transform ring-2 ring-transparent group-hover:ring-white/20">

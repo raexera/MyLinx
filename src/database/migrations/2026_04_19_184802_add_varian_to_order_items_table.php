@@ -9,8 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order_items', function (Blueprint $table) {
-            // What the buyer selected at checkout ("Coklat", "Size L", etc.)
-            // Free-text because we don't maintain variant stock or pricing.
+
             $table->string('varian', 100)->nullable()->after('jumlah');
         });
     }

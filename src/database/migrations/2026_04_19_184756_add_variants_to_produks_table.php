@@ -9,11 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('produks', function (Blueprint $table) {
-            // Label seller shows buyer: "Rasa", "Ukuran", "Warna", dsb.
+
             $table->string('varian_label', 50)->nullable()->after('stok');
 
-            // Comma-separated options: "Coklat, Stroberi, Vanila"
-            // Simpler than JSON — fits the MVP's low-complexity ethos
             $table->text('varian_opsi')->nullable()->after('varian_label');
         });
     }

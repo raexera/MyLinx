@@ -11,9 +11,6 @@ class Portofolio extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'tenant_id',
         'judul',
@@ -21,15 +18,6 @@ class Portofolio extends Model
         'gambar',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * A portfolio entry belongs to one tenant.
-     */
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);

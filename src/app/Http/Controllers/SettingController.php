@@ -10,9 +10,6 @@ use Illuminate\View\View;
 
 class SettingController extends Controller
 {
-    /**
-     * Show the website settings form (slug + tenant name).
-     */
     public function editWebsite(): View
     {
         $tenant = auth()->user()->tenant;
@@ -20,12 +17,6 @@ class SettingController extends Controller
         return view('settings.website', compact('tenant'));
     }
 
-    /**
-     * Update the tenant's website settings (slug and name).
-     *
-     * The slug becomes the tenant's public URL path:
-     * mylinx.com/{slug}
-     */
     public function updateWebsite(UpdateWebsiteSettingsRequest $request): RedirectResponse
     {
         $tenant = auth()->user()->tenant;
@@ -48,14 +39,6 @@ class SettingController extends Controller
             ->with('success', 'Pengaturan berhasil disimpan.');
     }
 
-    /**
-     * Check if a slug is available for the current tenant.
-     *
-     * Returns JSON: { available: bool, reason: string|null, slug: string }
-     *
-     * The current tenant's own slug is always "available" to them
-     * (so they can save without changing it).
-     */
     public function checkSlug(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -65,7 +48,6 @@ class SettingController extends Controller
         $slug = strtolower(trim($validated['slug']));
         $tenantId = auth()->user()->tenant_id;
 
-        // Rule 1: Format check
         if (! preg_match('/^[a-z0-9_-]+$/', $slug)) {
             return response()->json([
                 'available' => false,
@@ -74,7 +56,6 @@ class SettingController extends Controller
             ]);
         }
 
-        // Rule 2: Minimum length
         if (strlen($slug) < 3) {
             return response()->json([
                 'available' => false,
@@ -83,7 +64,6 @@ class SettingController extends Controller
             ]);
         }
 
-        // Rule 3: Reserved words (prevent conflicts with app routes)
         $reserved = ['login', 'register', 'dashboard', 'admin', 'api', 'produk',
             'order', 'payment', 'settings', 'profile', 'profil-usaha',
             'portfolio', 'checkout', 'logout', 'landing'];
@@ -96,7 +76,6 @@ class SettingController extends Controller
             ]);
         }
 
-        // Rule 4: Uniqueness (ignoring the current tenant's own slug)
         $taken = \App\Models\Tenant::where('slug', $slug)
             ->where('id', '!=', $tenantId)
             ->exists();

@@ -8,10 +8,6 @@ use Illuminate\Http\Response;
 
 class PublicInvoiceController extends Controller
 {
-    /**
-     * Render invoice PDF inline in browser.
-     * Accessed via unguessable public_token — used in WA-shared links.
-     */
     public function show(string $token): Response
     {
         $order = Order::where('public_token', $token)

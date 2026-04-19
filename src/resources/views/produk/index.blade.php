@@ -17,7 +17,6 @@
 
     <div class="w-full lg:pr-4 xl:pr-8 pb-12 flex flex-col h-full mt-6">
 
-        {{-- Flash success message --}}
         @if(session('success'))
             <div class="bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-5 py-3.5 rounded-2xl mb-6 flex items-center gap-2">
                 <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -25,7 +24,6 @@
             </div>
         @endif
 
-        {{-- Empty state --}}
         @if($produks->isEmpty())
             <div class="bg-white border border-[#E8EBED] rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-20">
                 <div class="text-5xl mb-4">📦</div>
@@ -36,7 +34,7 @@
                 </a>
             </div>
         @else
-            {{-- Product Table --}}
+            
             <div class="bg-white border border-[#E8EBED] rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.02)] flex flex-col flex-1 overflow-hidden">
 
                 <div class="overflow-x-auto">
@@ -54,7 +52,7 @@
                         <tbody class="divide-y divide-[#E8EBED]/60">
                             @foreach($produks as $produk)
                                 <tr class="hover:bg-gray-50/50 transition-colors group">
-                                    {{-- Image --}}
+                                    
                                     <td class="px-6 py-4">
                                         @if($produk->gambar)
                                             <div class="w-12 h-12 rounded-full overflow-hidden border border-[#E8EBED]">
@@ -67,18 +65,15 @@
                                         @endif
                                     </td>
 
-                                    {{-- Name --}}
                                     <td class="px-4 py-4">
                                         <div class="font-serif text-[17px] text-[#1A1C19] leading-tight mb-1">{{ $produk->nama_produk }}</div>
                                         <div class="text-[11px] font-bold text-gray-400">{{ Str::limit($produk->deskripsi, 40) }}</div>
                                     </td>
 
-                                    {{-- Price --}}
                                     <td class="px-4 py-4">
                                         <div class="font-bold text-[13.5px] text-[#1A1C19]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</div>
                                     </td>
 
-                                    {{-- Stock --}}
                                     <td class="px-4 py-4">
                                         @if($produk->stok > 10)
                                             <span class="bg-[#e4faeb] text-[#1fad55] text-[11px] font-bold px-2 py-0.5 rounded border border-[#bef0d1]">{{ $produk->stok }}</span>
@@ -89,7 +84,6 @@
                                         @endif
                                     </td>
 
-                                    {{-- Status --}}
                                     <td class="px-4 py-4">
                                         @if($produk->status)
                                             <span class="bg-[#ecfdf3] text-[#059669] text-[11px] font-bold px-2.5 py-[5px] rounded-full flex items-center gap-1.5 w-max">
@@ -104,7 +98,6 @@
                                         @endif
                                     </td>
 
-                                    {{-- Actions --}}
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <a href="{{ route('produk.edit', $produk) }}" class="p-2 text-gray-400 hover:text-[#2E5136] transition-colors rounded-full hover:bg-green-50" title="Edit">
@@ -125,7 +118,6 @@
                     </table>
                 </div>
 
-                {{-- Pagination --}}
                 @if($produks->hasPages())
                     <div class="px-6 py-5 border-t border-[#E8EBED]">
                         {{ $produks->links() }}

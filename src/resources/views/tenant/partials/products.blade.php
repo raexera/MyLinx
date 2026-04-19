@@ -8,7 +8,7 @@
         <h2 class="text-2xl font-serif text-[var(--text-main)] mb-6">Produk Kami</h2>
 
         @if($custom['product_layout'] === 'grid')
-            {{-- Grid layout --}}
+            
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                 @foreach($produks as $produk)
                     <a href="{{ route('tenant.produk.detail', [$tenant, $produk]) }}"
@@ -33,7 +33,7 @@
                 @endforeach
             </div>
         @else
-            {{-- List layout --}}
+            
             <div class="space-y-3">
                 @foreach($produks as $produk)
                     <a href="{{ route('tenant.produk.detail', [$tenant, $produk]) }}"

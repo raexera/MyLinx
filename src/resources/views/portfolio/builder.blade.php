@@ -26,16 +26,12 @@
     <!-- Builder Container -->
     <div class="flex flex-col lg:flex-row h-[calc(100vh-180px)] xl:h-[calc(100vh-140px)] gap-6 lg:gap-8 overflow-hidden pr-2 lg:pr-10 pt-4">
 
-        {{-- ================================================================
-             LEFT COLUMN: Portfolio Items List
-             ================================================================ --}}
         <div class="w-full lg:w-[320px] flex flex-col h-full flex-shrink-0">
 
             <div class="flex justify-between items-center mb-4 px-1">
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">PORTOFOLIO ({{ $portofolios->count() }})</span>
             </div>
 
-            {{-- Flash success --}}
             @if(session('success'))
                 <div class="bg-green-50 border border-green-200 text-green-700 text-xs font-medium px-4 py-2.5 rounded-xl mb-4 flex items-center gap-2">
                     <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -49,7 +45,7 @@
                 @forelse($portofolios as $item)
                     <div class="flex items-center justify-between p-4 {{ (isset($editing) && $editing->id === $item->id) ? 'bg-[#2E5136] text-white rounded-2xl shadow-md border border-[#1f3824]/50' : 'bg-white text-[#1A1C19] border border-[#E8EBED] rounded-2xl shadow-sm hover:border-gray-300' }} transition-colors">
                         <div class="flex items-center gap-3 min-w-0">
-                            {{-- Thumbnail --}}
+                            
                             @if($item->gambar)
                                 <div class="w-10 h-10 rounded-xl overflow-hidden shrink-0 border {{ (isset($editing) && $editing->id === $item->id) ? 'border-white/20' : 'border-[#E8EBED]' }}">
                                     <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover">
@@ -65,11 +61,11 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-1 shrink-0 ml-2">
-                            {{-- Edit button --}}
+                            
                             <a href="{{ route('portfolio.edit', $item) }}" class="{{ (isset($editing) && $editing->id === $item->id) ? 'text-white/80 hover:text-white' : 'text-gray-400 hover:text-[#2E5136]' }} transition-colors p-1" title="Edit">
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             </a>
-                            {{-- Delete form --}}
+                            
                             <form action="{{ route('portfolio.destroy', $item) }}" method="POST" onsubmit="return confirm('Hapus portofolio ini?')">
                                 @csrf
                                 @method('DELETE')
@@ -90,9 +86,6 @@
             </div>
         </div>
 
-        {{-- ================================================================
-             RIGHT COLUMN: Editor Panel
-             ================================================================ --}}
         <div class="flex-1 bg-white rounded-t-[2rem] lg:rounded-t-none lg:rounded-[2rem] border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex flex-col h-full relative overflow-hidden">
 
             <div class="flex-1 overflow-y-auto w-full p-6 lg:p-10 hide-scroll pb-24">
@@ -113,7 +106,6 @@
                     @endif
                 </div>
 
-                {{-- Validation errors --}}
                 @if($errors->any())
                     <div class="bg-red-50 border border-red-200 text-red-700 text-sm font-medium px-5 py-4 rounded-2xl mb-6">
                         <p class="font-bold mb-1">Terdapat kesalahan:</p>
@@ -125,7 +117,6 @@
                     </div>
                 @endif
 
-                {{-- Dynamic form: switches between store and update --}}
                 <form
                     action="{{ isset($editing) ? route('portfolio.update', $editing) : route('portfolio.store') }}"
                     method="POST"
@@ -178,14 +169,12 @@
 
                             <div onclick="document.getElementById('gambar').click()" class="w-full aspect-[21/9] rounded-[1.5rem] relative overflow-hidden group cursor-pointer border-[1.5px] border-dashed border-[#d1d5db] bg-[#f9fafb] hover:border-[#2E5136]/50 transition-colors">
 
-                                {{-- Current image (edit mode) --}}
                                 @if(isset($editing) && $editing->gambar)
                                     <div class="absolute inset-0" id="current-cover">
                                         <img src="{{ asset('storage/' . $editing->gambar) }}" class="w-full h-full object-cover" alt="Current cover">
                                     </div>
                                 @endif
 
-                                {{-- Preview for newly selected file --}}
                                 <div class="absolute inset-0 hidden" id="preview-cover">
                                     <img id="preview-cover-img" src="" class="w-full h-full object-cover" alt="New cover preview">
                                 </div>
@@ -211,7 +200,6 @@
 
                     </div>
 
-                    {{-- Submit button (fixed at bottom) --}}
                     <div class="mt-10">
                         <button type="submit" class="bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-8 py-[12px] font-bold text-[13.5px] shadow-[0_8px_20px_rgb(46,81,54,0.3)] flex items-center gap-2 transition-all transform hover:-translate-y-0.5">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -226,7 +214,6 @@
 
     </div>
 
-    {{-- Image preview script --}}
     <script>
         document.getElementById('gambar').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -238,7 +225,6 @@
                 previewImg.src = URL.createObjectURL(file);
                 previewCover.classList.remove('hidden');
 
-                // Hide current image if in edit mode
                 if (currentCover) currentCover.classList.add('hidden');
             }
         });

@@ -13,9 +13,6 @@ class Produk extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'tenant_id',
         'nama_produk',
@@ -28,9 +25,6 @@ class Produk extends Model
         'status',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected function casts(): array
     {
         return [
@@ -40,17 +34,6 @@ class Produk extends Model
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Search products by name or description.
-     *
-     * Usage: Produk::search('batik')->get()
-     */
     public function scopeSearch(Builder $query, ?string $term): Builder
     {
         if (! $term) {
@@ -63,11 +46,6 @@ class Produk extends Model
         });
     }
 
-    /**
-     * Filter products by stock status.
-     *
-     * Usage: Produk::stockStatus('available')->get()
-     */
     public function scopeStockStatus(Builder $query, ?string $status): Builder
     {
         return match ($status) {
@@ -78,32 +56,16 @@ class Produk extends Model
         };
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * A product belongs to one tenant.
-     */
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);
     }
 
-    /**
-     * A product can appear in many order items.
-     */
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    /**
-     * Return variant options as a clean array.
-     * "Coklat, Stroberi ,Vanila" → ['Coklat', 'Stroberi', 'Vanila']
-     */
     public function getVarianOpsiArrayAttribute(): array
     {
         if (empty($this->varian_opsi)) {

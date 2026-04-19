@@ -40,7 +40,6 @@
 </head>
 <body class="min-h-screen antialiased flex flex-col {{ $isDark ? 'is-dark' : '' }}">
 
-    {{-- Header --}}
     <header class="bg-[var(--card-bg)] shadow-sm border-b border-[var(--border-color)]">
         <div class="mx-auto max-w-4xl px-6 py-6">
             <div class="flex items-center gap-4">
@@ -67,7 +66,6 @@
 
     <main class="mx-auto max-w-4xl px-6 py-10 flex-1 w-full">
 
-        {{-- Breadcrumb --}}
         <nav class="mb-8 flex items-center gap-2 text-sm font-medium text-[var(--text-muted)]">
             <a href="{{ route('tenant.show', $tenant) }}" class="hover:text-[var(--accent)] transition-colors">Toko</a>
             <span class="opacity-50">/</span>
@@ -77,7 +75,6 @@
         <div class="overflow-hidden rounded-2xl bg-[var(--card-bg)] border border-[var(--border-color)] shadow-sm">
             <div class="grid gap-0 md:grid-cols-2">
 
-                {{-- Product Image --}}
                 <div class="bg-[var(--input-bg)] border-b md:border-b-0 md:border-r border-[var(--border-color)]">
                     @if($produk->gambar)
                         <img src="{{ asset('storage/' . $produk->gambar) }}"
@@ -90,7 +87,6 @@
                     @endif
                 </div>
 
-                {{-- Product Info --}}
                 <div class="flex flex-col justify-between p-8">
                     <div>
                         <h1 class="text-2xl font-bold text-[var(--text-main)]">{{ $produk->nama_produk }}</h1>
@@ -133,7 +129,6 @@
         </div>
     </main>
 
-    {{-- Footer --}}
     <footer class="border-t border-[var(--border-color)] bg-[var(--card-bg)] py-6 text-center text-sm text-[var(--text-muted)] mt-auto">
         Dibuat dengan
         <a href="{{ route('landing') }}" class="font-bold text-[var(--accent)] hover:underline">MyLinx</a>

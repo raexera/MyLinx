@@ -12,9 +12,6 @@ class Tenant extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'nama_tenant',
         'slug',
@@ -23,9 +20,6 @@ class Tenant extends Model
         'page_views',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected function casts(): array
     {
         return [
@@ -35,76 +29,42 @@ class Tenant extends Model
         ];
     }
 
-    /**
-     * Customization with safe defaults — single source of truth for storefront appearance.
-     */
     public function getCustomizationWithDefaultsAttribute(): array
     {
         return array_merge([
             'accent_color' => '#2E5136',
             'background_color' => '#FBFBF9',
-            'content_order' => 'products_first', // products_first | portfolio_first | products_only | portfolio_only
-            'product_layout' => 'grid',           // grid | list
-            'hero_style' => 'banner',         // banner | minimal
+            'content_order' => 'products_first',
+            'product_layout' => 'grid',
+            'hero_style' => 'banner',
         ], $this->customization ?? []);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * A tenant has many users (tenant admins, staff, etc.).
-     */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
 
-    /**
-     * A tenant has one business profile.
-     */
     public function profilUsaha(): HasOne
     {
         return $this->hasOne(ProfilUsaha::class);
     }
 
-    /**
-     * A tenant has many portfolio entries.
-     */
     public function portofolios(): HasMany
     {
         return $this->hasMany(Portofolio::class);
     }
 
-    /**
-     * A tenant has many products.
-     */
     public function produks(): HasMany
     {
         return $this->hasMany(Produk::class);
     }
 
-    /**
-     * A tenant has many orders.
-     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Route Model Binding
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Resolve route model binding by slug instead of UUID.
-     * Enables: mylinx.com/{tenant_slug}
-     */
     public function getRouteKeyName(): string
     {
         return 'slug';

@@ -18,7 +18,6 @@
             --accent-hover: color-mix(in srgb, var(--accent) 85%, black);
             --bg: {{ $custom['background_color'] ?? '#FBFBF9' }};
 
-            /* Light Mode Variables - Modernized */
             --text-main: #0f172a;
             --text-muted: #64748b;
             --card-bg: #ffffff;
@@ -28,7 +27,6 @@
             --ring-color: color-mix(in srgb, var(--text-main) 5%, transparent);
         }
 
-        /* Dark Mode Variables - Modernized */
         .is-dark {
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -45,7 +43,6 @@
 </head>
 <body class="min-h-screen antialiased flex flex-col {{ $isDark ? 'is-dark' : '' }}">
 
-    {{-- ═══════════════ HERO ═══════════════ --}}
     @if(($custom['hero_style'] ?? 'banner') === 'banner')
         <header class="relative bg-[var(--accent-soft)] border-b border-[var(--border-color)] overflow-hidden">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[var(--accent)]/10 blur-[80px] rounded-full pointer-events-none"></div>

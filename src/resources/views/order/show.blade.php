@@ -139,7 +139,6 @@
             @php
                 $invoiceUrl = route('public.invoice', $order->public_token);
 
-                // WA message templates (pre-filled, seller will review in WA)
                 $messageBayar = "Halo kak {$order->nama_pembeli},\n\n"
                     . "Pesanan *{$order->kode_order}* sudah kami konfirmasi ✓\n"
                     . "Invoice lengkap: {$invoiceUrl}\n\n"
@@ -157,7 +156,6 @@
                 $waResiLink  = $messageResi ? \App\Support\WaHelper::link($order->no_hp_pembeli, $messageResi) : null;
             @endphp
 
-            {{-- Action bar --}}
             <div class="px-8 sm:px-12 py-6 bg-[#fcfcfd] space-y-4">
 
                 @if(session('success'))
@@ -166,11 +164,10 @@
                     </div>
                 @endif
 
-                {{-- Contextual actions based on current status --}}
                 @switch($order->status)
 
                     @case('pending')
-                        {{-- Pending: waiting for buyer to pay --}}
+                        
                         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                             <form action="{{ route('order.mark-paid', $order) }}" method="POST" class="flex-1">
                                 @csrf @method('PATCH')
@@ -195,7 +192,7 @@
 
                     @case('paid')
                     @case('processing')
-                        {{-- Paid / Processing: seller should contact buyer via WA, then pack, then ship --}}
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             @if($waBayarLink)
                                 <a href="{{ $waBayarLink }}" target="_blank"
@@ -215,7 +212,7 @@
                         @break
 
                     @case('shipped')
-                        {{-- Shipped: seller can share resi via WA, or mark completed --}}
+                        
                         <div class="rounded-xl bg-blue-50 border border-blue-100 p-4 mb-2">
                             <div class="flex items-center gap-2 text-[12px] font-bold text-blue-700 uppercase tracking-widest mb-1">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -263,7 +260,6 @@
                         @break
                 @endswitch
 
-                {{-- Public invoice link (always visible) --}}
                 <div class="pt-4 border-t border-[#E8EBED] flex items-center justify-between gap-3 flex-wrap">
                     <div class="text-[11px] text-gray-400">
                         Link invoice publik (bisa dibagikan ke pembeli):
@@ -276,7 +272,6 @@
                 </div>
             </div>
 
-            {{-- Ship modal --}}
             <div id="ship-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center p-4">
                 <div class="bg-white rounded-2xl max-w-md w-full p-8">
                     <h3 class="text-xl font-serif text-[#1A1C19] mb-2">Kirim Pesanan</h3>

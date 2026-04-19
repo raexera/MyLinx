@@ -17,7 +17,6 @@
             <p class="text-[14px] font-medium text-[#6A7B8C]">Perbarui detail produk Anda.</p>
         </div>
 
-        {{-- Validation errors --}}
         @if($errors->any())
             <div class="bg-red-50 border border-red-200 text-red-700 text-sm font-medium px-5 py-4 rounded-2xl mb-6">
                 <p class="font-bold mb-1">Terdapat kesalahan pada form:</p>
@@ -50,7 +49,6 @@
                          <p class="text-[11px] font-medium text-gray-400">Kosongkan jika tidak ingin mengganti foto.</p>
                     </div>
 
-                    {{-- Current image preview --}}
                     <div id="preview-container" class="flex items-center gap-4 {{ $produk->gambar ? '' : 'hidden' }}">
                         <div class="w-16 h-16 rounded-full p-[2px] bg-white border border-[#E8EBED] shadow-sm relative">
                              <div class="w-full h-full rounded-full overflow-hidden">
@@ -96,7 +94,7 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    {{-- Varian (opsional) --}}
+                    
                     <div x-data="{ showVariants: {{ old('varian_label', $produk->varian_label ?? '') ? 'true' : 'false' }} }">
                         <div class="flex items-center gap-3 mb-3">
                             <label class="block font-serif text-[17px] font-bold text-[#1A1C19]">Varian Produk</label>
