@@ -174,7 +174,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <div
-                                            class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            class="flex items-center justify-end gap-1"
                                         >
                                             <a
                                                 href="{{ route('produk.edit', $produk) }}"
