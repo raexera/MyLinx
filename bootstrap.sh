@@ -4,6 +4,7 @@ set -uo pipefail
 
 REPO_URL="https://github.com/raexera/MyLinx.git"
 APP_DIR="/opt/mylinx"
+MARKER_FILE="$APP_DIR/.bootstrap_complete"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -20,6 +21,13 @@ must() {
     local rc=$?
     if [[ $rc -ne 0 ]]; then
         err "Command failed (exit $rc): $*"
+    fi
+}
+
+pin_cwd() {
+    cd "$APP_DIR" || err "Cannot cd to $APP_DIR"
+    if [[ "$PWD" != "$APP_DIR" ]]; then
+        err "CWD drifted: expected $APP_DIR, got $PWD"
     fi
 }
 
@@ -76,24 +84,24 @@ if [[ ! -d "$APP_DIR/.git" ]]; then
     ok "  Repo cloned to $APP_DIR"
 else
     log "  → Repo exists, pulling latest from main..."
-    cd "$APP_DIR"
+    pin_cwd
     must git fetch origin
     must git reset --hard origin/main
 fi
 
-cd "$APP_DIR"
+pin_cwd
 
 log "Step 6/11: Creating src/.env with APP_KEY pre-generated..."
 PUBLIC_IP=$(curl -fsSL -4 ifconfig.me 2>/dev/null || echo "YOUR_DROPLET_IP")
 
-if [[ ! -f "src/.env" ]]; then
-    cp src/.env.production.example src/.env
-    DB_PASSWORD=$(openssl rand -hex 16)
-    APP_KEY="base64:$(openssl rand -base64 32)"
+if [[ ! -f "$APP_DIR/src/.env" ]]; then
+    cp "$APP_DIR/src/.env.production.example" "$APP_DIR/src/.env"
+    DB_PASSWORD_VAL=$(openssl rand -hex 16)
+    APP_KEY_VAL="base64:$(openssl rand -base64 32)"
 
-    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${DB_PASSWORD}|" src/.env
-    sed -i "s|^APP_URL=.*|APP_URL=http://${PUBLIC_IP}|" src/.env
-    sed -i "s@^APP_KEY=.*@APP_KEY=${APP_KEY}@" src/.env
+    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${DB_PASSWORD_VAL}|" "$APP_DIR/src/.env"
+    sed -i "s|^APP_URL=.*|APP_URL=http://${PUBLIC_IP}|"       "$APP_DIR/src/.env"
+    sed -i "s@^APP_KEY=.*@APP_KEY=${APP_KEY_VAL}@"             "$APP_DIR/src/.env"
 
     ok "  Generated src/.env"
     log "    APP_URL:     http://${PUBLIC_IP}"
@@ -102,19 +110,19 @@ if [[ ! -f "src/.env" ]]; then
 else
     log "  → src/.env already exists, preserving"
 
-    if ! grep -q "^APP_KEY=base64:" src/.env; then
-        APP_KEY="base64:$(openssl rand -base64 32)"
-        sed -i "s@^APP_KEY=.*@APP_KEY=${APP_KEY}@" src/.env
+    if ! grep -q "^APP_KEY=base64:" "$APP_DIR/src/.env"; then
+        APP_KEY_VAL="base64:$(openssl rand -base64 32)"
+        sed -i "s@^APP_KEY=.*@APP_KEY=${APP_KEY_VAL}@" "$APP_DIR/src/.env"
         warn "    APP_KEY was empty, generated new key"
     fi
 fi
 
-chown 1000:1000 src/.env
-chmod 600 src/.env
+chown 1000:1000 "$APP_DIR/src/.env"
+chmod 600       "$APP_DIR/src/.env"
 
 log "  → Validating env config..."
 for key in APP_KEY APP_URL DB_DATABASE DB_USERNAME DB_PASSWORD; do
-    value=$(grep "^${key}=" src/.env | cut -d= -f2-)
+    value=$(grep "^${key}=" "$APP_DIR/src/.env" | cut -d= -f2-)
     if [[ -z "$value" ]]; then
         err "Required env key is empty: $key"
     fi
@@ -130,7 +138,7 @@ must docker run --rm \
     --ignore-platform-req=ext-pgsql --ignore-platform-req=ext-pdo_pgsql
 
 [[ -f "$APP_DIR/src/vendor/autoload.php" ]] || err "vendor/autoload.php missing after composer install"
-ok "  Composer install complete, vendor/autoload.php verified"
+ok "  Composer install complete"
 
 log "Step 8/11: Installing NPM dependencies + building assets (~3 min)..."
 must docker run --rm \
@@ -140,68 +148,67 @@ must docker run --rm \
     sh -c "npm ci --no-audit --no-fund && npm run build"
 
 [[ -f "$APP_DIR/src/public/build/manifest.json" ]] || err "public/build/manifest.json missing after npm build"
-ok "  NPM build complete, manifest.json verified"
+ok "  NPM build complete"
 
-log "  → Fixing ownership to 1000:1000 (matches container's www-data)..."
+log "  → Fixing ownership to 1000:1000..."
 chown -R 1000:1000 "$APP_DIR/src"
 
 log "Step 9/11: Clearing stale Laravel caches..."
-rm -f "$APP_DIR/src/bootstrap/cache/config.php"
-rm -f "$APP_DIR/src/bootstrap/cache/routes-v7.php"
-rm -f "$APP_DIR/src/bootstrap/cache/packages.php"
-rm -f "$APP_DIR/src/bootstrap/cache/services.php"
-find "$APP_DIR/src/storage/framework/views" -name "*.php" -type f -delete 2>/dev/null || true
+rm -f  "$APP_DIR/src/bootstrap/cache/config.php"
+rm -f  "$APP_DIR/src/bootstrap/cache/routes-v7.php"
+rm -f  "$APP_DIR/src/bootstrap/cache/packages.php"
+rm -f  "$APP_DIR/src/bootstrap/cache/services.php"
+find   "$APP_DIR/src/storage/framework/views" -name "*.php" -type f -delete 2>/dev/null || true
 ok "  Compiled caches cleared"
 
 log "Step 10/11: Building and starting containers..."
-DC="docker compose --env-file src/.env -f docker-compose.prod.yml"
+pin_cwd
 
-must $DC build
-must $DC up -d --force-recreate
+DC_ARGS=(docker compose --env-file "$APP_DIR/src/.env" -f "$APP_DIR/docker-compose.prod.yml")
+
+must "${DC_ARGS[@]}" build
+must "${DC_ARGS[@]}" up -d --force-recreate
 
 log "  → Waiting 25s for containers to fully initialize..."
 sleep 25
 
-log "  → Verifying container health..."
+log "  → Verifying all containers are running..."
 for svc in db app web; do
-    if ! $DC ps --format json 2>/dev/null | grep -q "\"Service\":\"$svc\".*\"State\":\"running\""; then
-        # Fallback check if json format differs
-        state=$($DC ps --services --filter "status=running" | grep -c "^$svc$" || echo "0")
-        if [[ "$state" -eq 0 ]]; then
-            err "Container '$svc' is not running. Check: $DC logs $svc"
-        fi
+    if ! "${DC_ARGS[@]}" ps --services --filter "status=running" | grep -q "^${svc}$"; then
+        err "Container '$svc' is not running. Check: ${DC_ARGS[*]} logs $svc"
     fi
 done
 ok "  All containers running"
 
 log "  → Reconciling storage permissions (non-fatal)..."
-$DC exec -T -u root app sh -c "chown -R www-data:www-data /var/www/html/storage 2>/dev/null; chmod -R 775 /var/www/html/storage 2>/dev/null; true"
-ok "  Storage permissions reconciled"
+"${DC_ARGS[@]}" exec -T -u root app chown -R www-data:www-data /var/www/html/storage 2>/dev/null || warn "  chown returned non-zero (usually harmless)"
+"${DC_ARGS[@]}" exec -T -u root app chmod -R 775 /var/www/html/storage 2>/dev/null || warn "  chmod returned non-zero (usually harmless)"
+ok "  Storage permissions step complete"
 
 log "Step 11/11: Running Laravel setup..."
 
 log "  → Running migrations..."
-must $DC exec -T app php artisan migrate --force
+must "${DC_ARGS[@]}" exec -T app php artisan migrate --force
 ok "  Migrations complete"
 
 log "  → Seeding database..."
-must $DC exec -T app php artisan db:seed --force
+must "${DC_ARGS[@]}" exec -T app php artisan db:seed --force
 ok "  Database seeded"
 
 log "  → Creating storage symlink..."
-$DC exec -T app php artisan storage:link 2>/dev/null || true
+"${DC_ARGS[@]}" exec -T app php artisan storage:link 2>/dev/null || true
 ok "  Storage symlink handled"
 
 log "  → Caching config..."
-must $DC exec -T app php artisan config:cache
+must "${DC_ARGS[@]}" exec -T app php artisan config:cache
 ok "  Config cached"
 
 log "  → Caching routes..."
-must $DC exec -T app php artisan route:cache
+must "${DC_ARGS[@]}" exec -T app php artisan route:cache
 ok "  Routes cached"
 
 log "  → Caching views..."
-must $DC exec -T app php artisan view:cache
+must "${DC_ARGS[@]}" exec -T app php artisan view:cache
 ok "  Views cached"
 
 log "  → Running HTTP sanity check..."
@@ -210,11 +217,12 @@ HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost || echo "0
 
 if [[ "$HTTP_STATUS" == "200" ]] || [[ "$HTTP_STATUS" == "302" ]]; then
     ok "  Site responding: HTTP $HTTP_STATUS"
+    touch "$MARKER_FILE"
 else
     warn "  Site returned HTTP $HTTP_STATUS (expected 200 or 302)"
     warn "  Check logs with:"
     warn "    cd $APP_DIR && make prod-logs"
-    warn "    $DC exec -T app tail -50 storage/logs/laravel.log"
+    warn "    ${DC_ARGS[*]} exec -T app tail -50 storage/logs/laravel.log"
 fi
 
 echo ""
