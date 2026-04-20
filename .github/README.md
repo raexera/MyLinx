@@ -9,7 +9,7 @@ The platform is built around a specific pain point cited in the page's research:
 - Marketplaces: Which charge high transaction commissions (averaging 6.5%) and keep business owners from owning their customer data.
 - Custom Websites: Which demand a steep technical learning curve, ongoing hosting fees, and constant maintenance.
 
-##Key Features
+## Key Features
 
 - Visual Product Catalogs: Users can create professional pages displaying product photos, descriptions, pricing, and stock.
 - Direct WhatsApp Ordering: Tailoring to the Indonesian market's habits, customer orders are routed directly to the seller's WhatsApp.
