@@ -156,7 +156,7 @@ APP_PROD := $(DC_PROD) exec app
 
 .PHONY: prod-build prod-up prod-down prod-restart prod-logs prod-shell prod-status
 .PHONY: prod-deploy prod-migrate prod-cache-clear prod-cache-warm
-.PHONY: prod-db-backup prod-db-restore
+.PHONY: prod-db-backup prod-db-restore prod-rebuild-assets
 
 prod-build:
 	$(DC_PROD) build
@@ -179,14 +179,29 @@ prod-logs:
 prod-shell:
 	$(APP_PROD) bash
 
+# Rebuild vendor/ and public/build/ on the host (after pulling new composer.lock or package.json)
+prod-rebuild-assets:
+	@echo "→ Reinstalling Composer deps..."
+	docker run --rm -v $(PWD)/src:/app -w /app composer:latest \
+		install --no-dev --optimize-autoloader --no-interaction --no-progress \
+		--ignore-platform-req=ext-pgsql --ignore-platform-req=ext-pdo_pgsql
+	@echo "→ Rebuilding JS assets..."
+	docker run --rm -v $(PWD)/src:/app -w /app node:20-bookworm-slim \
+		sh -c "npm ci --no-audit --no-fund && npm run build"
+	@echo "→ Fixing ownership..."
+	chown -R 1000:1000 src/vendor src/public/build src/node_modules 2>/dev/null || true
+	@echo "✓ Assets rebuilt."
+
+# Pull latest code, rebuild assets if needed, migrate, warm caches
 prod-deploy:
 	@echo "→ Pulling latest code from git..."
 	git pull origin main
-	@echo "→ Rebuilding containers..."
-	$(DC_PROD) build
+	@echo "→ Rebuilding vendor + assets..."
+	$(MAKE) prod-rebuild-assets
+	@echo "→ Rebuilding app image..."
+	$(DC_PROD) build app
 	@echo "→ Restarting services..."
 	$(DC_PROD) up -d
-	@echo "→ Waiting for db..."
 	@sleep 5
 	@echo "→ Running migrations..."
 	$(APP_PROD) php artisan migrate --force
@@ -211,13 +226,45 @@ prod-cache-warm:
 prod-db-backup:
 	@mkdir -p backups
 	@TS=$$(date +%Y-%m-%d-%H%M%S); \
-	$(DC_PROD) exec -T db pg_dump -U mylinx mylinx > backups/$$TS.sql && \
+	DB_NAME=$$(grep '^DB_DATABASE=' src/.env | cut -d= -f2); \
+	DB_USER=$$(grep '^DB_USERNAME=' src/.env | cut -d= -f2); \
+	$(DC_PROD) exec -T db pg_dump -U $$DB_USER $$DB_NAME > backups/$$TS.sql && \
 	echo "✓ Backup saved to backups/$$TS.sql"
 
 prod-db-restore:
 	@if [ -z "$(FILE)" ]; then echo "Usage: make prod-db-restore FILE=path/to/backup.sql"; exit 1; fi
-	@echo "⚠ This will OVERWRITE the production database."
-	@echo "   Restoring from: $(FILE)"
-	@read -p "   Type YES to continue: " confirm; [ "$$confirm" = "YES" ] || exit 1
-	cat $(FILE) | $(DC_PROD) exec -T db psql -U mylinx mylinx
+	@echo "⚠  This will OVERWRITE the production database."
+	@echo "    Restoring from: $(FILE)"
+	@read -p "    Type YES to continue: " confirm; [ "$$confirm" = "YES" ] || exit 1
+	@DB_NAME=$$(grep '^DB_DATABASE=' src/.env | cut -d= -f2); \
+	DB_USER=$$(grep '^DB_USERNAME=' src/.env | cut -d= -f2); \
+	cat $(FILE) | $(DC_PROD) exec -T db psql -U $$DB_USER $$DB_NAME
 	@echo "✓ Restore complete."
+
+prod-help:
+	@echo ""
+	@echo "  MyLinx Production Commands"
+	@echo "  =========================="
+	@echo ""
+	@echo "  LIFECYCLE:"
+	@echo "    make prod-build            - Build production images"
+	@echo "    make prod-up               - Start production stack"
+	@echo "    make prod-down             - Stop production stack"
+	@echo "    make prod-restart          - Restart all services"
+	@echo "    make prod-status           - Show container status"
+	@echo "    make prod-logs             - Tail logs"
+	@echo ""
+	@echo "  DEPLOYMENT:"
+	@echo "    make prod-deploy           - Full deploy: pull, rebuild, migrate, cache"
+	@echo "    make prod-rebuild-assets   - Rebuild vendor/ and public/build/"
+	@echo "    make prod-migrate          - Run pending migrations"
+	@echo "    make prod-cache-clear      - Clear all Laravel caches"
+	@echo "    make prod-cache-warm       - Warm Laravel caches"
+	@echo ""
+	@echo "  DATABASE:"
+	@echo "    make prod-db-backup                      - Backup DB to ./backups/"
+	@echo "    make prod-db-restore FILE=backup.sql     - Restore from backup"
+	@echo ""
+	@echo "  SHELL:"
+	@echo "    make prod-shell            - Bash into PHP container"
+	@echo ""

@@ -37,18 +37,23 @@ services:
     container_name: mylinx-db-prod
     restart: always
     environment:
-      POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE:-mylinx}
+      POSTGRES_USER: ${DB_USERNAME:-mylinx}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
     volumes:
       - mylinx-db-data-prod:/var/lib/postgresql/data
     networks:
       - mylinx-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}" ]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USERNAME:-mylinx} -d ${DB_DATABASE:-mylinx}",
+        ]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 10s
 
 volumes:
   mylinx-db-data-prod:
