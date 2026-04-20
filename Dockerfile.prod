@@ -49,9 +49,18 @@ RUN { \
 RUN userdel -f www-data || true \
     && groupdel www-data 2>/dev/null || true \
     && groupadd -g 1000 www-data \
-    && useradd -u 1000 -g www-data -m -s /bin/bash www-data \
-    && mkdir -p /var/www/html \
-    && chown -R www-data:www-data /var/www/html
+    && useradd -u 1000 -g www-data -m -s /bin/bash www-data
+
+RUN mkdir -p \
+    /var/www/html/storage/app/public \
+    /var/www/html/storage/app/private \
+    /var/www/html/storage/framework/cache/data \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/testing \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/logs \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage
 
 WORKDIR /var/www/html
 

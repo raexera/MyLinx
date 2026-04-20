@@ -118,6 +118,10 @@ $DC up -d
 log "  → Waiting 20s for Postgres to initialize..."
 sleep 20
 
+log "  → Reconciling storage volume permissions..."
+$DC exec -T -u root app chown -R www-data:www-data /var/www/html/storage
+$DC exec -T -u root app chmod -R 775 /var/www/html/storage
+
 log "Step 10/10: Running Laravel setup..."
 $DC exec -T app php artisan key:generate --force
 $DC exec -T app php artisan migrate --force
