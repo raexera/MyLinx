@@ -325,12 +325,12 @@
                             <option
                                 value="banner"
                                 @selected ($curHero === 'banner')
-                                >Banner — large logo + tagline
+                                >Banner - large logo + tagline
                             </option>
                             <option
                                 value="minimal"
                                 @selected ($curHero === 'minimal')
-                                >Minimal — compact header
+                                >Minimal - compact header
                             </option>
                         </select>
                         @error ('hero_style')
@@ -353,12 +353,12 @@
                             <option
                                 value="products_first"
                                 @selected ($curOrder === 'products_first')
-                                >Products First — then portfolio
+                                >Products First - then portfolio
                             </option>
                             <option
                                 value="portfolio_first"
                                 @selected ($curOrder === 'portfolio_first')
-                                >Portfolio First — then products
+                                >Portfolio First - then products
                             </option>
                             <option
                                 value="products_only"
@@ -391,12 +391,12 @@
                             <option
                                 value="grid"
                                 @selected ($curLayout === 'grid')
-                                >Grid — card-based, visual
+                                >Grid - card-based, visual
                             </option>
                             <option
                                 value="list"
                                 @selected ($curLayout === 'list')
-                                >List — compact, text-forward
+                                >List - compact, text-forward
                             </option>
                         </select>
                         @error ('product_layout')

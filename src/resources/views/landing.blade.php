@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MyLinx — Platform Digitalisasi untuk UMKM Indonesia</title>
+    <title>MyLinx - Platform Digitalisasi untuk UMKM Indonesia</title>
     <meta
         name="description"
         content="Solusi Low-Code gratis untuk UMKM Indonesia yang ingin go-digital. Bikin website katalog produk, terima pesanan via WhatsApp & QRIS, tanpa biaya hosting & maintenance yang mahal."
@@ -378,7 +378,7 @@
                     class="space-y-5 text-[15px] text-gray-600 leading-relaxed"
                 >
                     <p>UMKM menyumbang <span class="font-bold text-[#1A1C19]">61% PDB Indonesia</span> dan menyerap <span class="font-bold text-[#1A1C19]">97% tenaga kerja nasional</span>. Mereka adalah tulang punggung ekonomi kita. Tapi di era ekonomi digital yang tumbuh pesat, justru pelaku UMKM yang paling kesulitan ikut merasakan manfaatnya.</p>
-                    <p>Masalahnya bukan karena mereka tidak mau berubah. Masalahnya adalah pilihan yang tersedia hari ini tidak cocok untuk mereka — <span class="font-bold text-[#1A1C19]">marketplace memotong komisi yang besar</span>, sementara <span class="font-bold text-[#1A1C19]">CMS seperti WordPress terlalu rumit secara teknis</span>. Alat dari luar negeri pun jarang paham kebiasaan pasar lokal, seperti jualan via WhatsApp atau bayar pakai QRIS.</p>
+                    <p>Masalahnya bukan karena mereka tidak mau berubah. Masalahnya adalah pilihan yang tersedia hari ini tidak cocok untuk mereka - <span class="font-bold text-[#1A1C19]">marketplace memotong komisi yang besar</span>, sementara <span class="font-bold text-[#1A1C19]">CMS seperti WordPress terlalu rumit secara teknis</span>. Alat dari luar negeri pun jarang paham kebiasaan pasar lokal, seperti jualan via WhatsApp atau bayar pakai QRIS.</p>
                     <p>
                         <span class="font-bold text-[#1A1C19]"
                             >MyLinx hadir untuk mengisi celah itu.</span
@@ -457,7 +457,7 @@
                         Riset Pendukung
                     </div>
                     <p class="text-[13px] text-gray-300 leading-relaxed italic">"Hanya 23% UMKM yang benar-benar bisa memanfaatkan teknologi digital, padahal 65% sadar mereka membutuhkannya."</p>
-                    <p class="text-[11px] text-gray-500 mt-3">— Rajagukguk & Rusadi, 2025</p>
+                    <p class="text-[11px] text-gray-500 mt-3">- Rajagukguk & Rusadi, 2025</p>
                 </div>
             </div>
         </div>
@@ -477,7 +477,7 @@
                     href="{{ route('register') }}"
                     class="w-full sm:w-auto px-8 py-3.5 rounded-full text-white bg-[#1A1C19] hover:bg-black text-[12px] font-bold uppercase tracking-widest shadow-xl transition-transform hover:-translate-y-1 duration-200"
                 >
-                    Mulai Sekarang — Gratis
+                    Mulai Sekarang - Gratis
                 </a>
                 <a
                     href="#fitur"

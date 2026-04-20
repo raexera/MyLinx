@@ -4,7 +4,7 @@
     $items = $order->orderItems->map(function ($i) {
         $label = '• ' . $i->produk->nama_produk . ' (' . $i->jumlah . 'x)';
         if ($i->varian) {
-            $label .= ' — ' . $i->varian;
+            $label .= ' - ' . $i->varian;
         }
         return $label;
     })->implode("\n");
@@ -29,7 +29,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
-        Pesanan Berhasil — {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
+        Pesanan Berhasil - {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
     </title>
     @vite (['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -248,7 +248,7 @@
                                 @if ($item->varian)
                                     <span
                                         class="text-[var(--text-muted)] font-medium ml-1"
-                                        >— {{ $item->varian }}</span
+                                        >- {{ $item->varian }}</span
                                     >
                                 @endif
                                 <span class="text-[var(--text-muted)] ml-2"

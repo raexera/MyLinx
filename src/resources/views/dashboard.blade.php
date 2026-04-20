@@ -29,7 +29,7 @@
                             >{{ Auth::user()->nama }}</span
                         >. Ini ringkasan toko kamu.
                     @else
-                        Platform overview — {{ now()->translatedFormat('l, d F Y') }}
+                        Platform overview - {{ now()->translatedFormat('l, d F Y') }}
                     @endif
                 </p>
             </div>

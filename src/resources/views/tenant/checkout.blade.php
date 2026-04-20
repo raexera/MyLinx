@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Checkout — {{ $produk->nama_produk }}</title>
+    <title>Checkout - {{ $produk->nama_produk }}</title>
     @vite (['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
@@ -104,7 +104,7 @@
                     <h1 class="text-xl font-bold text-[var(--text-main)]">
                         Data Pemesanan
                     </h1>
-                    <p class="mt-1 text-sm text-[var(--text-muted)]">Pastikan data lengkap — penjual akan menghubungi kamu via WhatsApp.</p>
+                    <p class="mt-1 text-sm text-[var(--text-muted)]">Pastikan data lengkap - penjual akan menghubungi kamu via WhatsApp.</p>
                     @if (session('error'))
                         <div
                             class="mt-4 rounded-lg bg-red-50 border border-red-100 px-4 py-3 text-sm font-bold text-red-700"

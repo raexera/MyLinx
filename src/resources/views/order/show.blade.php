@@ -336,7 +336,7 @@
                                 Sudah Dikirim
                             </div>
                             <div class="text-[13px] text-blue-900">
-                                <strong>{{ $order->ekspedisi }}</strong> — Resi:
+                                <strong>{{ $order->ekspedisi }}</strong> - Resi:
                                 <span
                                     class="font-mono"
                                     >{{ $order->nomor_resi }}</span
