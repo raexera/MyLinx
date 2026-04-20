@@ -1,0 +1,95 @@
+# syntax=docker/dockerfile:1.6
+FROM php:8.3-fpm-bookworm AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    unzip \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libpq-dev \
+    libzip-dev \
+    libicu-dev \
+    libonig-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo_pgsql \
+    pgsql \
+    gd \
+    zip \
+    intl \
+    bcmath \
+    opcache \
+    mbstring \
+    exif
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/html
+
+COPY src/ /var/www/html/
+
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+RUN npm ci && npm run build && rm -rf node_modules
+
+FROM php:8.3-fpm-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpng16-16 \
+    libjpeg62-turbo \
+    libfreetype6 \
+    libpq5 \
+    libzip4 \
+    libicu72 \
+    libonig5 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN { \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.enable_cli=0'; \
+    echo 'opcache.jit=1255'; \
+    echo 'opcache.jit_buffer_size=64M'; \
+    echo 'opcache.memory_consumption=128'; \
+    echo 'opcache.max_accelerated_files=10000'; \
+    echo 'opcache.validate_timestamps=0'; \
+    echo 'opcache.interned_strings_buffer=16'; \
+    } > /usr/local/etc/php/conf.d/opcache-prod.ini
+
+RUN { \
+    echo 'expose_php=Off'; \
+    echo 'display_errors=Off'; \
+    echo 'display_startup_errors=Off'; \
+    echo 'log_errors=On'; \
+    echo 'upload_max_filesize=10M'; \
+    echo 'post_max_size=10M'; \
+    echo 'memory_limit=256M'; \
+    } > /usr/local/etc/php/conf.d/custom-prod.ini
+
+RUN groupadd -g 1000 www && useradd -u 1000 -g www -m -s /bin/bash www
+
+WORKDIR /var/www/html
+
+COPY --from=builder --chown=www:www /var/www/html /var/www/html
+
+USER www
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

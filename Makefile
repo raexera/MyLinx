@@ -1,6 +1,9 @@
 UID := $(shell id -u 2>/dev/null || echo 1000)
 GID := $(shell id -g 2>/dev/null || echo 1000)
 
+# =══════════════════════════════════════════════════════════
+# DEVELOPMENT TARGETS
+# =══════════════════════════════════════════════════════════
 DC := docker compose
 APP := $(DC) exec -u www-data app
 APP_ROOT := $(DC) exec app
@@ -143,3 +146,78 @@ help:
 	@echo "  COMBO:"
 	@echo "    make fresh-start    - Full reset (rebuild + install + migrate)"
 	@echo ""
+
+# ═══════════════════════════════════════════════════════════
+# PRODUCTION TARGETS
+# ═══════════════════════════════════════════════════════════
+
+DC_PROD := docker compose -f docker-compose.prod.yml
+APP_PROD := $(DC_PROD) exec app
+
+.PHONY: prod-build prod-up prod-down prod-restart prod-logs prod-shell prod-status
+.PHONY: prod-deploy prod-migrate prod-cache-clear prod-cache-warm
+.PHONY: prod-db-backup prod-db-restore
+
+prod-build:
+	$(DC_PROD) build
+
+prod-up:
+	$(DC_PROD) up -d
+
+prod-down:
+	$(DC_PROD) down
+
+prod-restart:
+	$(DC_PROD) restart
+
+prod-status:
+	$(DC_PROD) ps
+
+prod-logs:
+	$(DC_PROD) logs -f --tail=100
+
+prod-shell:
+	$(APP_PROD) bash
+
+prod-deploy:
+	@echo "→ Pulling latest code from git..."
+	git pull origin main
+	@echo "→ Rebuilding containers..."
+	$(DC_PROD) build
+	@echo "→ Restarting services..."
+	$(DC_PROD) up -d
+	@echo "→ Waiting for db..."
+	@sleep 5
+	@echo "→ Running migrations..."
+	$(APP_PROD) php artisan migrate --force
+	@echo "→ Warming caches..."
+	$(APP_PROD) php artisan config:cache
+	$(APP_PROD) php artisan route:cache
+	$(APP_PROD) php artisan view:cache
+	@echo ""
+	@echo "✓ Deploy complete."
+
+prod-migrate:
+	$(APP_PROD) php artisan migrate --force
+
+prod-cache-clear:
+	$(APP_PROD) php artisan optimize:clear
+
+prod-cache-warm:
+	$(APP_PROD) php artisan config:cache
+	$(APP_PROD) php artisan route:cache
+	$(APP_PROD) php artisan view:cache
+
+prod-db-backup:
+	@mkdir -p backups
+	@TS=$$(date +%Y-%m-%d-%H%M%S); \
+	$(DC_PROD) exec -T db pg_dump -U mylinx mylinx > backups/$$TS.sql && \
+	echo "✓ Backup saved to backups/$$TS.sql"
+
+prod-db-restore:
+	@if [ -z "$(FILE)" ]; then echo "Usage: make prod-db-restore FILE=path/to/backup.sql"; exit 1; fi
+	@echo "⚠ This will OVERWRITE the production database."
+	@echo "   Restoring from: $(FILE)"
+	@read -p "   Type YES to continue: " confirm; [ "$$confirm" = "YES" ] || exit 1
+	cat $(FILE) | $(DC_PROD) exec -T db psql -U mylinx mylinx
+	@echo "✓ Restore complete."

@@ -1,0 +1,61 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: mylinx-app:latest
+    container_name: mylinx-app-prod
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+      - mylinx-storage:/var/www/html/storage
+    networks:
+      - mylinx-network
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./src/.env
+
+  web:
+    image: nginx:1.25-bookworm
+    container_name: mylinx-web-prod
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html:ro
+      - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - mylinx-network
+    depends_on:
+      - app
+
+  db:
+    image: postgres:16-bookworm
+    container_name: mylinx-db-prod
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mylinx-db-data-prod:/var/lib/postgresql/data
+    networks:
+      - mylinx-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mylinx-db-data-prod:
+    driver: local
+  mylinx-storage:
+    driver: local
+
+networks:
+  mylinx-network:
+    driver: bridge
