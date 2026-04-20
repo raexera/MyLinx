@@ -125,7 +125,7 @@
                 <div
                     class="w-9 h-9 rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[13px] text-[#A6785D] shrink-0 group-hover:scale-105 transition-transform ring-2 ring-transparent group-hover:ring-white/20"
                 >
-                    {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->name ?? '?', 0, 2)) }}
+                    {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->nama ?? '?', 0, 2)) }}
                 </div>
                 <div class="flex flex-col min-w-0">
                     <span
@@ -180,7 +180,7 @@
                 <div
                     class="w-[34px] h-[34px] rounded-full bg-[#fcead8] uppercase flex items-center justify-center font-bold text-[12px] text-[#A6785D] ring-2 ring-white shrink-0 shadow-sm"
                 >
-                    {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->name ?? '?', 0, 2)) }}
+                    {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->nama ?? '?', 0, 2)) }}
                 </div>
             </a>
         </div>

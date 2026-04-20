@@ -22,18 +22,18 @@
         @csrf
         @method ('patch')
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="nama" :value="__('Nama')" />
             <x-text-input
-                id="name"
-                name="name"
+                id="nama"
+                name="nama"
                 type="text"
                 class="mt-1 block w-full"
-                :value="old('name', $user->name)"
+                :value="old('nama', $user->nama)"
                 required
                 autofocus
                 autocomplete="name"
             />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-input-error class="mt-2" :messages="$errors->get('nama')" />
         </div>
         <div>
             <x-input-label for="email" :value="__('Email')" />

@@ -30,15 +30,15 @@
                         id="name"
                         class="block w-full pl-12 pr-4 py-[14px] border border-[#DCE2D8] rounded-[24px] text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#A6B2A8]"
                         type="text"
-                        name="name"
-                        :value="old('name')"
+                        name="nama"
+                        :value="old('nama')"
                         required
                         autofocus
                         autocomplete="name"
                         placeholder="Nama Lengkap"
                     />
                 </div>
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                <x-input-error :messages="$errors->get('nama')" class="mt-2" />
             </div>
             <!-- Email (Email Bisnis) -->
             <div>
