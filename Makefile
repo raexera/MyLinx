@@ -151,7 +151,7 @@ help:
 # PRODUCTION TARGETS
 # ═══════════════════════════════════════════════════════════
 
-DC_PROD := docker compose -f docker-compose.prod.yml
+DC_PROD := docker compose --env-file ./src/.env -f docker-compose.prod.yml
 APP_PROD := $(DC_PROD) exec app
 
 .PHONY: prod-build prod-up prod-down prod-restart prod-logs prod-shell prod-status
