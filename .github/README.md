@@ -16,7 +16,7 @@ The platform is built around a specific pain point cited in the page's research:
 - QRIS Payment Integration: Sellers simply upload their business QRIS code once, allowing customers to scan and pay directly without intermediary aggregator fees.
 - Centralized Dashboard: Replaces manual record-keeping by automatically organizing incoming orders, payment statuses, and invoices.
 - Smart Customization: Flexible theming that automatically adapts to light and dark modes.
-- Zero Fees: The platform emphasizes a "No Hidden Fees" policy—no monthly hosting costs and no cuts taken from transactions.
+- Zero Fees: The platform emphasizes a "No Hidden Fees" policy, no monthly hosting costs and no cuts taken from transactions.
 
 ## Core Philosophy
 
