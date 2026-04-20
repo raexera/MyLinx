@@ -16,13 +16,13 @@ err()  { echo -e "${RED}[bootstrap]${NC} $*"; exit 1; }
 
 [[ $EUID -eq 0 ]] || err "Must run as root. Try: sudo bash bootstrap.sh"
 
-log "Step 1/10: Updating system packages..."
+log "Step 1/11: Updating system packages..."
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
 apt-get upgrade -y -qq
 apt-get install -y -qq ca-certificates curl gnupg lsb-release ufw git openssl make
 
-log "Step 2/10: Ensuring 2GB swap file exists..."
+log "Step 2/11: Ensuring 2GB swap file exists..."
 if [[ ! -f /swapfile ]]; then
     fallocate -l 2G /swapfile
     chmod 600 /swapfile
@@ -34,7 +34,7 @@ else
     log "  → Swap already exists"
 fi
 
-log "Step 3/10: Installing Docker..."
+log "Step 3/11: Installing Docker..."
 if ! command -v docker &>/dev/null; then
     install -m 0755 -d /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
@@ -53,7 +53,7 @@ else
     log "  → Docker already installed"
 fi
 
-log "Step 4/10: Configuring UFW firewall..."
+log "Step 4/11: Configuring UFW firewall..."
 ufw default deny incoming >/dev/null
 ufw default allow outgoing >/dev/null
 ufw allow 22/tcp  >/dev/null
@@ -61,7 +61,7 @@ ufw allow 80/tcp  >/dev/null
 ufw --force enable >/dev/null
 log "  → Firewall enabled (ports 22, 80)"
 
-log "Step 5/10: Cloning MyLinx repo..."
+log "Step 5/11: Cloning MyLinx repo..."
 if [[ ! -d "$APP_DIR/.git" ]]; then
     git clone "$REPO_URL" "$APP_DIR"
     log "  → Repo cloned to $APP_DIR"
@@ -74,24 +74,40 @@ fi
 
 cd "$APP_DIR"
 
-log "Step 6/10: Creating src/.env..."
+log "Step 6/11: Creating src/.env with APP_KEY pre-generated..."
 PUBLIC_IP=$(curl -fsSL -4 ifconfig.me 2>/dev/null || echo "YOUR_DROPLET_IP")
 
 if [[ ! -f "src/.env" ]]; then
     cp src/.env.production.example src/.env
     DB_PASSWORD=$(openssl rand -hex 16)
+    APP_KEY="base64:$(openssl rand -base64 32)"
+
     sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${DB_PASSWORD}|" src/.env
     sed -i "s|^APP_URL=.*|APP_URL=http://${PUBLIC_IP}|" src/.env
-    log "  → Generated src/.env (DB_PASSWORD randomized, APP_URL=http://${PUBLIC_IP})"
+    sed -i "s@^APP_KEY=.*@APP_KEY=${APP_KEY}@" src/.env
+
+    log "  → Generated src/.env"
+    log "    APP_URL:     http://${PUBLIC_IP}"
+    log "    DB_PASSWORD: (random 32 hex chars)"
+    log "    APP_KEY:     base64:(random 32 bytes)"
 else
     log "  → src/.env already exists, preserving"
+
+    if ! grep -q "^APP_KEY=base64:" src/.env; then
+        APP_KEY="base64:$(openssl rand -base64 32)"
+        sed -i "s@^APP_KEY=.*@APP_KEY=${APP_KEY}@" src/.env
+        log "    → APP_KEY was empty, generated new key"
+    fi
 fi
+
+chown 1000:1000 src/.env
 chmod 600 src/.env
 
-log "  → DB config from src/.env:"
-grep -E '^(DB_DATABASE|DB_USERNAME|APP_URL)' src/.env | sed 's/^/       /'
+log "  → Verified env config:"
+grep -E '^(DB_DATABASE|DB_USERNAME|APP_URL|APP_ENV)' src/.env | sed 's/^/       /'
+grep -E '^APP_KEY=' src/.env | sed 's/=.*$/=<set>/' | sed 's/^/       /'
 
-log "Step 7/10: Installing Composer dependencies (this takes ~2 min)..."
+log "Step 7/11: Installing Composer dependencies (~2 min)..."
 docker run --rm \
     -v "$APP_DIR/src:/app" \
     -w /app \
@@ -99,21 +115,29 @@ docker run --rm \
     install --no-dev --optimize-autoloader --no-interaction --no-progress \
     --ignore-platform-req=ext-pgsql --ignore-platform-req=ext-pdo_pgsql
 
-log "Step 8/10: Installing NPM dependencies + building assets (this takes ~3 min)..."
+log "Step 8/11: Installing NPM dependencies + building assets (~3 min)..."
 docker run --rm \
     -v "$APP_DIR/src:/app" \
     -w /app \
     node:20-bookworm-slim \
     sh -c "npm ci --no-audit --no-fund && npm run build"
 
-log "  → Fixing file ownership to 1000:1000 (matches container's www-data)..."
-chown -R 1000:1000 "$APP_DIR/src/vendor" "$APP_DIR/src/public/build" "$APP_DIR/src/node_modules" 2>/dev/null || true
+log "  → Fixing ownership to 1000:1000 (matches container's www-data)..."
+chown -R 1000:1000 "$APP_DIR/src"
 
-log "Step 9/10: Building and starting containers..."
+log "Step 9/11: Clearing stale Laravel caches..."
+rm -f "$APP_DIR/src/bootstrap/cache/config.php"
+rm -f "$APP_DIR/src/bootstrap/cache/routes-v7.php"
+rm -f "$APP_DIR/src/bootstrap/cache/packages.php"
+rm -f "$APP_DIR/src/bootstrap/cache/services.php"
+rm -rf "$APP_DIR/src/storage/framework/views"/*.php 2>/dev/null || true
+log "  → Compiled caches cleared"
+
+log "Step 10/11: Building and starting containers..."
 DC="docker compose --env-file src/.env -f docker-compose.prod.yml"
 
 $DC build
-$DC up -d
+$DC up -d --force-recreate
 
 log "  → Waiting 20s for Postgres to initialize..."
 sleep 20
@@ -122,14 +146,22 @@ log "  → Reconciling storage volume permissions..."
 $DC exec -T -u root app chown -R www-data:www-data /var/www/html/storage
 $DC exec -T -u root app chmod -R 775 /var/www/html/storage
 
-log "Step 10/10: Running Laravel setup..."
-$DC exec -T app php artisan key:generate --force
+log "Step 11/11: Running Laravel setup..."
 $DC exec -T app php artisan migrate --force
 $DC exec -T app php artisan db:seed --force
 $DC exec -T app php artisan storage:link
 $DC exec -T app php artisan config:cache
 $DC exec -T app php artisan route:cache
 $DC exec -T app php artisan view:cache
+
+log "  → Running sanity check (HTTP probe)..."
+sleep 2
+if curl -sI http://localhost | grep -q "HTTP.*200\|HTTP.*302"; then
+    log "  ✓ Site responding OK"
+else
+    warn "  ⚠ Site is not returning 200/302. Check logs:"
+    warn "      cd $APP_DIR && make prod-logs"
+fi
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"
