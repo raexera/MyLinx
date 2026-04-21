@@ -131,7 +131,7 @@
                         method="GET"
                         class="flex items-center bg-white border border-[#DCE2D8] rounded-full p-2 pl-6 shadow-sm focus-within:ring-2 focus-within:ring-[#2E5136] transition-all"
                     >
-                        <span class="text-gray-400 text-lg">mylinx.id/</span>
+                        <span class="text-gray-400 text-lg">mylinx.tech/</span>
                         <input
                             type="text"
                             name="domain"

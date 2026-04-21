@@ -92,7 +92,7 @@
                     />
                     <span
                         class="text-[14.5px] font-medium text-gray-400 pl-2 opacity-80"
-                        >.mylinx.id</span
+                        >.mylinx.tech</span
                     >
                     <div class="pl-3" x-cloak>
                         <template x-if="status === 'checking'">
@@ -449,7 +449,7 @@
                         const data = await res.json();
                         if (data.available) {
                             this.status = "available";
-                            this.message = `URL tersedia! "${data.slug}.mylinx.id" siap dipakai.`;
+                            this.message = `URL tersedia! "${data.slug}.mylinx.tech" siap dipakai.`;
                         } else {
                             this.status = "taken";
                             this.message = data.reason || "URL sudah dipakai.";
