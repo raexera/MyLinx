@@ -1,9 +1,11 @@
 <x-app-layout>
+    @php
+        $showFormMobile = isset($editing) || $errors->any();
+    @endphp
     <x-slot name="header">
         <div
             class="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-5 lg:gap-8 mt-2 lg:mt-0 xl:pr-10 w-full mb-4"
         >
-            <!-- Left Side: Titles -->
             <div class="flex flex-col">
                 <h1
                     class="text-4xl sm:text-5xl font-serif text-[#1A1C19] mb-0 tracking-tight"
@@ -12,7 +14,6 @@
                 </h1>
                 <p class="text-[13px] sm:text-[14px] font-medium text-[#6A7B8C] mt-2">Curate your professional online narrative.</p>
             </div>
-            <!-- Right Side: Action Buttons -->
             <div class="flex items-center gap-3 w-full sm:max-w-max">
                 @if (Auth::user()->tenant)
                     <a
@@ -30,16 +31,26 @@
             </div>
         </div>
     </x-slot>
-    <!-- Builder Container -->
     <div
-        class="flex flex-col lg:flex-row h-[calc(100vh-180px)] xl:h-[calc(100vh-140px)] gap-6 lg:gap-8 overflow-hidden pr-2 lg:pr-10 pt-4"
+        class="flex flex-col lg:flex-row h-[calc(100dvh-180px)] xl:h-[calc(100vh-140px)] gap-6 lg:gap-8 overflow-hidden lg:pr-10 pt-4"
     >
-        <div class="w-full lg:w-[320px] flex flex-col h-full flex-shrink-0">
+        <div
+            id="list-pane"
+            class="w-full lg:w-[360px] flex-col h-full flex-shrink-0 {{ $showFormMobile ? 'hidden lg:flex' : 'flex' }}"
+        >
             <div class="flex justify-between items-center mb-4 px-1">
                 <span
                     class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"
                     >PORTOFOLIO ({{ $portofolios->count() }})</span
                 >
+                <button
+                    type="button"
+                    onclick="createNewPortfolio()"
+                    class="lg:hidden flex items-center gap-1.5 bg-[#2E5136] hover:bg-[#1f3824] text-white px-4 py-2 rounded-full text-[12px] font-bold transition-colors"
+                >
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                    Tambah Baru
+                </button>
             </div>
             @if (session('success'))
                 <div
@@ -49,16 +60,17 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <!-- Sections List (Scrollable) -->
-            <div class="flex-1 overflow-y-auto space-y-3 pb-6 hide-scroll px-1">
+            <div
+                class="flex-1 overflow-y-auto space-y-3 pb-24 lg:pb-6 hide-scroll px-1"
+            >
                 @forelse ($portofolios as $item)
                     <div
-                        class="flex items-center justify-between p-4 {{ (isset($editing) && $editing->id === $item->id) ? 'bg-[#2E5136] text-white rounded-2xl shadow-md border border-[#1f3824]/50' : 'bg-white text-[#1A1C19] border border-[#E8EBED] rounded-2xl shadow-sm hover:border-gray-300' }} transition-colors"
+                        class="flex items-center justify-between p-4 bg-white text-[#1A1C19] border border-[#E8EBED] rounded-2xl shadow-sm hover:border-gray-300 transition-colors"
                     >
                         <div class="flex items-center gap-3 min-w-0">
                             @if ($item->gambar)
                                 <div
-                                    class="w-10 h-10 rounded-xl overflow-hidden shrink-0 border {{ (isset($editing) && $editing->id === $item->id) ? 'border-white/20' : 'border-[#E8EBED]' }}"
+                                    class="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-[#E8EBED]"
                                 >
                                     <img
                                         src="{{ asset('storage/' . $item->gambar) }}"
@@ -68,32 +80,38 @@
                                 </div>
                             @else
                                 <div
-                                    class="w-10 h-10 rounded-xl shrink-0 {{ (isset($editing) && $editing->id === $item->id) ? 'bg-white/10' : 'bg-gray-100' }} flex items-center justify-center"
+                                    class="w-12 h-12 rounded-xl shrink-0 bg-gray-100 flex items-center justify-center"
                                 >
-                                    <svg class="w-4 h-4 {{ (isset($editing) && $editing->id === $item->id) ? 'text-white/60' : 'text-gray-400' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </div>
                             @endif
                             <div class="min-w-0">
                                 <div
-                                    class="font-bold text-[13px] leading-tight truncate"
+                                    class="font-bold text-[14px] sm:text-[13px] leading-tight truncate"
                                 >
                                     {{ $item->judul }}
                                 </div>
                                 <div
-                                    class="text-[11px] {{ (isset($editing) && $editing->id === $item->id) ? 'text-white/70' : 'text-gray-400' }} font-medium truncate"
+                                    class="text-[12px] sm:text-[11px] text-gray-400 font-medium truncate mt-0.5"
                                 >
                                     {{ Str::limit($item->deskripsi, 30) }}
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-1 shrink-0 ml-2">
-                            <a
-                                href="{{ route('portfolio.edit', $item) }}"
-                                class="{{ (isset($editing) && $editing->id === $item->id) ? 'text-white/80 hover:text-white' : 'text-gray-400 hover:text-[#2E5136]' }} transition-colors p-1"
+                        <div class="flex items-center gap-0.5 shrink-0 ml-2">
+                            <button
+                                type="button"
+                                onclick="editPortfolio(this)"
+                                data-id="{{ $item->id }}"
+                                data-judul="{{ $item->judul }}"
+                                data-deskripsi="{{ $item->deskripsi }}"
+                                data-gambar="{{ $item->gambar ? asset('storage/' . $item->gambar) : '' }}"
+                                data-update-url="{{ route('portfolio.update', $item) }}"
+                                class="text-gray-400 hover:text-[#2E5136] hover:bg-green-50 rounded-full transition-colors p-2.5"
                                 title="Edit"
                             >
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            </a>
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </button>
                             <form
                                 action="{{ route('portfolio.destroy', $item) }}"
                                 method="POST"
@@ -105,10 +123,10 @@
                                 @method ('DELETE')
                                 <button
                                     type="submit"
-                                    class="{{ (isset($editing) && $editing->id === $item->id) ? 'text-white/60 hover:text-red-300' : 'text-gray-300 hover:text-red-500' }} transition-colors p-1"
+                                    class="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors p-2.5"
                                     title="Hapus"
                                 >
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
                             </form>
                         </div>
@@ -117,36 +135,43 @@
                     <div class="text-center py-10">
                         <div class="text-3xl mb-3">🖼️</div>
                         <p class="text-sm text-gray-400 font-medium">Belum ada portofolio.</p>
-                        <p class="text-xs text-gray-400 mt-1">Gunakan editor di sebelah kanan untuk menambahkan.</p>
+                        <p class="text-xs text-gray-400 mt-1 hidden lg:block">Gunakan editor di sebelah kanan untuk menambahkan.</p>
                     </div>
                 @endforelse
             </div>
         </div>
         <div
-            class="flex-1 bg-white rounded-t-[2rem] lg:rounded-t-none lg:rounded-[2rem] border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex flex-col h-full relative overflow-hidden"
+            id="editor-pane"
+            class="flex-1 bg-white rounded-t-[2rem] lg:rounded-[2rem] border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex-col h-full relative overflow-hidden {{ $showFormMobile ? 'flex' : 'hidden lg:flex' }}"
         >
             <div
-                class="flex-1 overflow-y-auto w-full p-6 lg:p-10 hide-scroll pb-24"
+                class="flex-1 overflow-y-auto w-full p-6 lg:p-10 hide-scroll pb-32"
             >
+                <div class="lg:hidden mb-6 border-b border-[#E8EBED] pb-4">
+                    <button
+                        type="button"
+                        onclick="showList()"
+                        class="flex items-center gap-2 text-gray-500 hover:text-black font-bold text-[13px] uppercase tracking-widest transition-colors"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Kembali ke Daftar
+                    </button>
+                </div>
                 <div class="flex items-start justify-between mb-8">
                     <div>
                         <div
+                            id="form-badge"
                             class="bg-[#EAF2ED] text-[#2E5136] text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 w-fit"
                         >
                             {{ isset($editing) ? 'EDITING' : 'NEW ITEM' }}
                         </div>
-                        <h2 class="text-[2rem] font-serif text-[#1A1C19]">
+                        <h2
+                            id="form-title"
+                            class="text-3xl lg:text-[2rem] font-serif text-[#1A1C19]"
+                        >
                             {{ isset($editing) ? $editing->judul : 'Tambah Portofolio' }}
                         </h2>
                     </div>
-                    @if (isset($editing))
-                        <a
-                            href="{{ route('portfolio.index') }}"
-                            class="text-[#aab2bf] hover:text-[#1A1C19] transition-colors pt-1 text-xs font-bold"
-                        >
-                            ✕ Batal Edit
-                        </a>
-                    @endif
                 </div>
                 @if ($errors->any())
                     <div
@@ -161,17 +186,18 @@
                     </div>
                 @endif
                 <form
+                    id="portfolio-form"
                     action="{{ isset($editing) ? route('portfolio.update', $editing) : route('portfolio.store') }}"
                     method="POST"
                     enctype="multipart/form-data"
                 >
                     @csrf
-                    @if (isset($editing))
-                        @method ('PUT')
-                    @endif
-                    <!-- Form Fields -->
+                    <div id="method-container">
+                        @if (isset($editing))
+                            <input type="hidden" name="_method" value="PUT" />
+                        @endif
+                    </div>
                     <div class="space-y-6 max-w-2xl">
-                        <!-- Judul -->
                         <div>
                             <label
                                 for="judul"
@@ -184,14 +210,10 @@
                                 id="judul"
                                 value="{{ old('judul', $editing->judul ?? '') }}"
                                 placeholder="e.g. Koleksi Lebaran 2025"
-                                class="w-full h-[48px] bg-white border border-[#E8EBED] rounded-full px-6 text-[15px] text-[#1A1C19] font-serif shadow-sm focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
+                                class="w-full h-[48px] bg-white border border-[#E8EBED] rounded-full px-6 text-[16px] lg:text-[15px] text-[#1A1C19] font-serif shadow-sm focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
                                 required
                             />
-                            @error ('judul')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
                         </div>
-                        <!-- Deskripsi -->
                         <div>
                             <label
                                 for="deskripsi"
@@ -201,7 +223,6 @@
                             <div
                                 class="border border-[#E8EBED] rounded-2xl bg-white overflow-hidden shadow-sm focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors"
                             >
-                                <!-- Toolbar (decorative for MVP) -->
                                 <div
                                     class="flex items-center gap-4 px-5 py-3 border-b border-[#E8EBED] bg-white"
                                 >
@@ -217,33 +238,17 @@
                                     >
                                         I
                                     </button>
-                                    <button
-                                        type="button"
-                                        class="text-gray-500 hover:text-black"
-                                    >
-                                        <svg class="w-[15px] h-[15px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16M8 6h.01M8 12h.01M8 18h.01"></path></svg>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="text-gray-500 hover:text-black"
-                                    >
-                                        <svg class="w-[15px] h-[15px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                                    </button>
                                 </div>
                                 <textarea
                                     name="deskripsi"
                                     id="deskripsi"
-                                    class="w-full min-h-[100px] bg-white border-none px-5 py-4 text-[13.5px] text-[#1A1C19] font-medium leading-relaxed resize-none focus:ring-0 outline-none placeholder:text-gray-300"
+                                    class="w-full min-h-[120px] bg-white border-none px-5 py-4 text-[16px] lg:text-[14px] text-[#1A1C19] font-medium leading-relaxed resize-none focus:ring-0 outline-none placeholder:text-gray-300"
                                     placeholder="Ceritakan tentang proyek ini, proses pembuatan, dan hasilnya..."
                                     required
                                     >{{ old('deskripsi', $editing->deskripsi ?? '') }}</textarea
                                 >
                             </div>
-                            @error ('deskripsi')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
                         </div>
-                        <!-- Cover Image -->
                         <div>
                             <label
                                 class="block text-[13px] font-bold text-gray-500 mb-2"
@@ -262,30 +267,17 @@
                                 "
                                 class="w-full aspect-[21/9] rounded-[1.5rem] relative overflow-hidden group cursor-pointer border-[1.5px] border-dashed border-[#d1d5db] bg-[#f9fafb] hover:border-[#2E5136]/50 transition-colors"
                             >
-                                @if (isset($editing) && $editing->gambar)
-                                    <div
-                                        class="absolute inset-0"
-                                        id="current-cover"
-                                    >
-                                        <img
-                                            src="{{ asset('storage/' . $editing->gambar) }}"
-                                            class="w-full h-full object-cover"
-                                            alt="Current cover"
-                                        />
-                                    </div>
-                                @endif
                                 <div
-                                    class="absolute inset-0 hidden"
+                                    class="absolute inset-0 {{ isset($editing) && $editing->gambar ? '' : 'hidden' }}"
                                     id="preview-cover"
                                 >
                                     <img
                                         id="preview-cover-img"
-                                        src=""
+                                        src="{{ isset($editing) && $editing->gambar ? asset('storage/' . $editing->gambar) : '' }}"
                                         class="w-full h-full object-cover"
-                                        alt="New cover preview"
+                                        alt="Cover preview"
                                     />
                                 </div>
-                                <!-- Upload Box Overlay -->
                                 <div
                                     class="absolute inset-0 flex items-center justify-center"
                                     id="upload-overlay"
@@ -299,30 +291,31 @@
                                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                                         </div>
                                         <span
-                                            class="text-[14px] font-bold text-[#1A1C19]"
+                                            id="upload-text"
+                                            class="text-[14px] font-bold text-[#1A1C19] text-center"
                                         >
-                                            {{ isset($editing) ? 'Klik untuk ganti gambar' : 'Click or drag image here' }}
+                                            {{ isset($editing) ? 'Ganti gambar' : 'Upload image' }}
                                         </span>
                                         <span
-                                            class="text-[10px] text-gray-400 font-medium text-center"
-                                            >Recommended: 1920x1080px (Max
-                                            5MB)</span
+                                            class="text-[10px] text-gray-400 font-medium text-center hidden sm:block"
+                                            >Max 5MB</span
                                         >
                                     </div>
                                 </div>
                             </div>
-                            @error ('gambar')
-                                <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
-                            @enderror
                         </div>
                     </div>
-                    <div class="mt-10">
+                    <div class="mt-8 mb-8 lg:mb-0">
                         <button
                             type="submit"
-                            class="bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-8 py-[12px] font-bold text-[13.5px] shadow-[0_8px_20px_rgb(46,81,54,0.3)] flex items-center gap-2 transition-all transform hover:-translate-y-0.5"
+                            id="submit-btn"
+                            class="w-full lg:w-auto justify-center bg-[#2E5136] hover:bg-[#1f3824] text-white rounded-full px-8 py-[14px] lg:py-[12px] font-bold text-[14px] lg:text-[13.5px] shadow-[0_8px_20px_rgb(46,81,54,0.3)] flex items-center gap-2 transition-all transform hover:-translate-y-0.5"
                         >
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                            {{ isset($editing) ? 'Perbarui Portofolio' : 'Simpan Portofolio' }}
+                            <span
+                                id="submit-btn-text"
+                                >{{ isset($editing) ? 'Perbarui Portofolio' : 'Simpan Portofolio' }}</span
+                            >
                         </button>
                     </div>
                 </form>
@@ -330,21 +323,79 @@
         </div>
     </div>
     <script>
-        document
-            .getElementById("gambar")
-            .addEventListener("change", function (e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const previewCover =
-                        document.getElementById("preview-cover");
-                    const previewImg =
-                        document.getElementById("preview-cover-img");
-                    const currentCover =
-                        document.getElementById("current-cover");
-                    previewImg.src = URL.createObjectURL(file);
-                    previewCover.classList.remove("hidden");
-                    if (currentCover) currentCover.classList.add("hidden");
-                }
-            });
+        function showEditor() {
+            document.getElementById("list-pane").classList.remove("flex");
+            document.getElementById("list-pane").classList.add("hidden");
+            document.getElementById("editor-pane").classList.remove("hidden");
+            document.getElementById("editor-pane").classList.add("flex");
+        }
+
+        function showList() {
+            document.getElementById("editor-pane").classList.remove("flex");
+            document.getElementById("editor-pane").classList.add("hidden");
+            document.getElementById("list-pane").classList.remove("hidden");
+            document.getElementById("list-pane").classList.add("flex");
+        }
+
+        function editPortfolio(btn) {
+            const judul = btn.getAttribute("data-judul");
+            const deskripsi = btn.getAttribute("data-deskripsi");
+            const gambar = btn.getAttribute("data-gambar");
+            const updateUrl = btn.getAttribute("data-update-url");
+            const form = document.getElementById("portfolio-form");
+            form.action = updateUrl;
+            document.getElementById("method-container").innerHTML =
+                '<input type="hidden" name="_method" value="PUT">';
+
+            document.getElementById("judul").value = judul;
+            document.getElementById("deskripsi").value = deskripsi;
+            document.getElementById("form-title").innerText = judul;
+            document.getElementById("form-badge").innerText = "EDITING";
+            document.getElementById("submit-btn-text").innerText =
+                "Perbarui Portofolio";
+            document.getElementById("upload-text").innerText = "Ganti gambar";
+
+            const previewCover = document.getElementById("preview-cover");
+            const previewImg = document.getElementById("preview-cover-img");
+
+            if (gambar) {
+                previewImg.src = gambar;
+                previewCover.classList.remove("hidden");
+            } else {
+                previewImg.src = "";
+                previewCover.classList.add("hidden");
+            }
+
+            showEditor();
+        }
+
+        // SPA-like Create Logic
+        function createNewPortfolio() {
+            const form = document.getElementById("portfolio-form");
+            form.action = "{{ route('portfolio.store') }}";
+            document.getElementById("method-container").innerHTML = "";
+
+            form.reset();
+
+            document.getElementById("deskripsi").value = "";
+            document.getElementById("form-title").innerText = "Tambah Portofolio";
+            document.getElementById("form-badge").innerText = "NEW ITEM";
+            document.getElementById("submit-btn-text").innerText = "Simpan Portofolio";
+            document.getElementById("upload-text").innerText = "Upload image";
+            document.getElementById("preview-cover").classList.add("hidden");
+            document.getElementById("preview-cover-img").src = "";
+
+            showEditor();
+        }
+
+        document.getElementById("gambar").addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const previewCover = document.getElementById("preview-cover");
+                const previewImg = document.getElementById("preview-cover-img");
+                previewImg.src = URL.createObjectURL(file);
+                previewCover.classList.remove("hidden");
+            }
+        });
     </script>
 </x-app-layout>
