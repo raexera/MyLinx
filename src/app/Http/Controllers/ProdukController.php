@@ -14,6 +14,7 @@ class ProdukController extends Controller
     public function index(): View
     {
         $produks = Produk::where('tenant_id', auth()->user()->tenant_id)
+            ->withCount('orderItems')
             ->search(request('search'))
             ->stockStatus(request('stock'))
             ->orderBy('created_at', 'desc')
@@ -81,20 +82,35 @@ class ProdukController extends Controller
             ->with('success', 'Produk berhasil diperbarui!');
     }
 
-    public function destroy(Produk $produk): RedirectResponse
-    {
-        $this->authorizeTenant($produk);
+public function destroy(Produk $produk): RedirectResponse
+{
+    $this->authorizeTenant($produk);
 
-        if ($produk->gambar) {
-            Storage::disk('public')->delete($produk->gambar);
-        }
-
-        $produk->delete();
-
+    if ($produk->orderItems()->exists()) {
         return redirect()
             ->route('produk.index')
-            ->with('success', 'Produk berhasil dihapus!');
+            ->with('error', 'Produk tidak bisa dihapus karena sudah memiliki pesanan. Nonaktifkan produk untuk menyembunyikannya dari storefront.');
     }
+
+    if ($produk->gambar) {
+        Storage::disk('public')->delete($produk->gambar);
+    }
+
+    try {
+        $produk->delete();
+    } catch (\Illuminate\Database\QueryException $e) {
+        if ($e->getCode() === '23503') {
+            return redirect()
+                ->route('produk.index')
+                ->with('error', 'Produk tidak bisa dihapus karena sudah memiliki pesanan. Nonaktifkan produk untuk menyembunyikannya dari storefront.');
+        }
+        throw $e;
+    }
+
+    return redirect()
+        ->route('produk.index')
+        ->with('success', 'Produk berhasil dihapus!');
+}
 
     private function authorizeTenant(Produk $produk): void
     {

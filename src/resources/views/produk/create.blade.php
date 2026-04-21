@@ -1,12 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center pt-2 sm:pt-4 w-full">
-            <a
-                href="{{ route('produk.index') }}"
-                class="flex items-center gap-2 text-[14px] font-bold text-[#1A1C19] hover:text-[#2E5136] transition-colors"
-            >
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Tambah Produk Baru
+            href="{{ route('produk.index') }}" class="flex items-center gap-2
+            text-[14px] font-bold text-[#1A1C19] hover:text-[#2E5136]
+            transition-colors" >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Tambah Produk Baru
             </a>
         </div>
     </x-slot>
@@ -57,7 +56,6 @@
                         class="hidden"
                         accept="image/jpeg,image/png"
                     />
-                    <!-- Dropzone (clicks trigger file input) -->
                     <div
                         onclick="document.getElementById('gambar').click()"
                         class="w-full h-[180px] rounded-2xl bg-[#f9fafb] border-2 border-dashed border-[#e5e7eb] flex flex-col items-center justify-center cursor-pointer hover:border-[#2E5136]/40 hover:bg-[#F4F6F9] transition-colors mb-5 group"
@@ -176,7 +174,7 @@
                         @enderror
                     </div>
                     <div
-                        x-data="{ showVariants: {{ old('varian_label', $produk->varian_label ?? '') ? 'true' : 'false' }} }"
+                        x-data="{ showVariants: {{ old('varian_label') ? 'true' : 'false' }} }"
                     >
                         <div class="flex items-center gap-3 mb-3">
                             <label
@@ -207,7 +205,7 @@
                                 <input
                                     type="text"
                                     name="varian_label"
-                                    value="{{ old('varian_label', $produk->varian_label ?? '') }}"
+                                    value="{{ old('varian_label') }}"
                                     placeholder="mis. Rasa, Ukuran, Warna"
                                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
                                 />
@@ -221,7 +219,7 @@
                                 <input
                                     type="text"
                                     name="varian_opsi"
-                                    value="{{ old('varian_opsi', $produk->varian_opsi ?? '') }}"
+                                    value="{{ old('varian_opsi') }}"
                                     placeholder="mis. Coklat, Stroberi, Vanila"
                                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
                                 />
@@ -240,7 +238,6 @@
                     <div
                         class="border border-[#E8EBED] rounded-[1.25rem] bg-[#f9fafb] overflow-hidden focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors relative"
                     >
-                        <!-- Toolbar (decorative for MVP) -->
                         <div
                             class="flex items-center gap-4 px-5 py-3 border-b border-[#E8EBED] bg-[#fcfcfd]"
                         >
@@ -283,7 +280,6 @@
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                             </button>
                         </div>
-                        <!-- Textarea -->
                         <textarea
                             name="deskripsi"
                             id="deskripsi"
@@ -304,6 +300,105 @@
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                <!-- Status Produk -->
+                <div x-data="{ status: '{{ old('status', '1') }}' }">
+                    <label
+                        class="block font-serif text-[17px] font-bold text-[#1A1C19] mb-4"
+                    >
+                        Status Produk
+                    </label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Aktif Card -->
+                        <label
+                            class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
+                            :class="status === '1'
+                                ? 'border-[#2E5136] bg-green-50 shadow-[0_4px_16px_rgb(46,81,54,0.1)]'
+                                : 'border-[#E8EBED] bg-white hover:border-[#2E5136]/40'"
+                        >
+                            <input
+                                type="radio"
+                                name="status"
+                                value="1"
+                                x-model="status"
+                                class="sr-only"
+                            />
+                            <div
+                                class="absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all"
+                                :class="status === '1'
+                                    ? 'bg-[#2E5136]'
+                                    : 'bg-transparent border-2 border-gray-200'"
+                            >
+                                <svg x-show="
+                                        status === '1'
+                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="font-serif text-[17px] font-bold"
+                                    :class="status === '1'
+                                        ? 'text-[#2E5136]'
+                                        : 'text-[#1A1C19]'"
+                                >
+                                    Aktif
+                                </div>
+                            </div>
+                            <p
+                                class="text-[12px] font-medium leading-snug"
+                                :class="status === '1'
+                                    ? 'text-[#2E5136]/70'
+                                    : 'text-gray-500'"
+                            >Produk muncul di storefront dan bisa dipesan pembeli.</p>
+                        </label>
+                        <!-- Nonaktif Card -->
+                        <label
+                            class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
+                            :class="status === '0'
+                                ? 'border-[#2E5136] bg-green-50 shadow-[0_4px_16px_rgb(46,81,54,0.1)]'
+                                : 'border-[#E8EBED] bg-white hover:border-[#2E5136]/40'"
+                        >
+                            <input
+                                type="radio"
+                                name="status"
+                                value="0"
+                                x-model="status"
+                                class="sr-only"
+                            />
+                            <div
+                                class="absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all"
+                                :class="status === '0'
+                                    ? 'bg-[#2E5136]'
+                                    : 'bg-transparent border-2 border-gray-200'"
+                            >
+                                <svg x-show="
+                                        status === '0'
+                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="font-serif text-[17px] font-bold"
+                                    :class="status === '0'
+                                        ? 'text-[#2E5136]'
+                                        : 'text-[#1A1C19]'"
+                                >
+                                    Nonaktif
+                                </div>
+                            </div>
+                            <p
+                                class="text-[12px] font-medium leading-snug"
+                                :class="status === '0'
+                                    ? 'text-[#2E5136]/70'
+                                    : 'text-gray-500'"
+                            >Produk disembunyikan dari storefront, tapi data pesanan lama tetap aman.</p>
+                        </label>
+                    </div>
+                    @error ('status')
+                        <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
                 <!-- Submit Action (Inside Card) -->
                 <div class="flex flex-col items-center pt-2 gap-4">
                     <button
@@ -313,11 +408,10 @@
                         Simpan Produk
                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
-                    <a
-                        href="{{ route('produk.index') }}"
-                        class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors"
-                    >
-                        Batal & Kembali
+
+                    href="{{ route('produk.index') }}" class="text-[12.5px]
+                    font-bold text-gray-400 hover:text-[#1A1C19]
+                    transition-colors" > Batal & Kembali
                     </a>
                 </div>
             </form>

@@ -275,6 +275,107 @@
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                <!-- Status Produk -->
+                <div
+                    x-data="{ status: '{{ old('status', $produk->status ? '1' : '0') }}' }"
+                >
+                    <label
+                        class="block font-serif text-[17px] font-bold text-[#1A1C19] mb-4"
+                    >
+                        Status Produk
+                    </label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Aktif Card -->
+                        <label
+                            class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
+                            :class="status === '1'
+                                ? 'border-[#2E5136] bg-green-50 shadow-[0_4px_16px_rgb(46,81,54,0.1)]'
+                                : 'border-[#E8EBED] bg-white hover:border-[#2E5136]/40'"
+                        >
+                            <input
+                                type="radio"
+                                name="status"
+                                value="1"
+                                x-model="status"
+                                class="sr-only"
+                            />
+                            <div
+                                class="absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all"
+                                :class="status === '1'
+                                    ? 'bg-[#2E5136]'
+                                    : 'bg-transparent border-2 border-gray-200'"
+                            >
+                                <svg x-show="
+                                        status === '1'
+                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="font-serif text-[17px] font-bold"
+                                    :class="status === '1'
+                                        ? 'text-[#2E5136]'
+                                        : 'text-[#1A1C19]'"
+                                >
+                                    Aktif
+                                </div>
+                            </div>
+                            <p
+                                class="text-[12px] font-medium leading-snug"
+                                :class="status === '1'
+                                    ? 'text-[#2E5136]/70'
+                                    : 'text-gray-500'"
+                            >Produk muncul di storefront dan bisa dipesan pembeli.</p>
+                        </label>
+                        <!-- Nonaktif Card -->
+                        <label
+                            class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
+                            :class="status === '0'
+                                ? 'border-[#2E5136] bg-green-50 shadow-[0_4px_16px_rgb(46,81,54,0.1)]'
+                                : 'border-[#E8EBED] bg-white hover:border-[#2E5136]/40'"
+                        >
+                            <input
+                                type="radio"
+                                name="status"
+                                value="0"
+                                x-model="status"
+                                class="sr-only"
+                            />
+                            <div
+                                class="absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all"
+                                :class="status === '0'
+                                    ? 'bg-[#2E5136]'
+                                    : 'bg-transparent border-2 border-gray-200'"
+                            >
+                                <svg x-show="
+                                        status === '0'
+                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="font-serif text-[17px] font-bold"
+                                    :class="status === '0'
+                                        ? 'text-[#2E5136]'
+                                        : 'text-[#1A1C19]'"
+                                >
+                                    Nonaktif
+                                </div>
+                            </div>
+                            <p
+                                class="text-[12px] font-medium leading-snug"
+                                :class="status === '0'
+                                    ? 'text-[#2E5136]/70'
+                                    : 'text-gray-500'"
+                            >Produk disembunyikan dari storefront, tapi data pesanan lama tetap aman.</p>
+                        </label>
+                    </div>
+                    @error ('status')
+                        <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
                 <!-- Submit -->
                 <div class="flex flex-col items-center pt-2 gap-4">
                     <button
