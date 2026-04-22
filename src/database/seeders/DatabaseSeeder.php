@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'nama_usaha' => 'Toko Baju Jaya',
             'deskripsi' => 'Toko fashion terpercaya sejak 2020. Menyediakan berbagai koleksi pakaian pria dan wanita berkualitas dengan harga terjangkau.',
             'alamat' => 'Jl. Sudirman No. 123, Jakarta Selatan',
-            'no_hp' => '081234567890',
+            'no_hp' => '+6281234567890',
             'logo' => null,
         ]);
 

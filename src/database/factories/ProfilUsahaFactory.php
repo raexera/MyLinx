@@ -35,7 +35,7 @@ class ProfilUsahaFactory extends Factory
             'nama_usaha' => $usaha['nama'],
             'deskripsi' => $usaha['desk'],
             'alamat' => fake()->randomElement($cities),
-            'no_hp' => '08'.fake()->numerify('##########'),
+            'no_hp' => '+628'.fake()->numerify('#########'),
             'logo' => null,
         ];
     }

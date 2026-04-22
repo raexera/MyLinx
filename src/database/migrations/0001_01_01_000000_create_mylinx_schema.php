@@ -48,7 +48,7 @@ return new class extends Migration
             $table->string('nama_usaha');
             $table->text('deskripsi');
             $table->string('alamat');
-            $table->string('no_hp');
+            $table->string('no_hp', 16);
             $table->string('logo')->nullable();
             $table->string('qris_image')->nullable();
             $table->string('qris_merchant_name')->nullable();
@@ -95,7 +95,7 @@ return new class extends Migration
             $table->string('kode_order')->unique();
             $table->string('nama_pembeli');
             $table->string('email_pembeli');
-            $table->string('no_hp_pembeli', 30)->nullable();
+            $table->string('no_hp_pembeli', 16)->nullable();
             $table->text('alamat_pengiriman')->nullable();
             $table->text('catatan_pembeli')->nullable();
             $table->decimal('total_harga', 12, 2)->default(0);

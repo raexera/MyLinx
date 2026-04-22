@@ -199,26 +199,55 @@
                     class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8"
                 >
                     <!-- WhatsApp Kontak -->
-                    <div>
+                    <div
+                        x-data="{
+                        localNumber: '{{ old('no_hp_local', preg_replace('/^(\+?62|0+)/', '', old('no_hp', $profil->no_hp ?? ''))) }}',
+                        get fullNumber() {
+                            const cleaned = this.localNumber.replace(/\D/g, '').replace(/^(62|0)+/, '');
+                            return cleaned ? '+62' + cleaned : '';
+                        }
+                    }"
+                    >
                         <label
-                            for="no_hp"
+                            for="no_hp_local"
                             class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
-                            >WHATSAPP KONTAK</label
                         >
+                            WHATSAPP KONTAK
+                        </label>
                         <div
                             class="flex items-center bg-white border border-[#E8EBED] rounded-full h-14 px-5 shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors"
                         >
-                            <svg class="w-5 h-5 text-gray-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <svg class="w-5 h-5 text-gray-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            <span
+                                class="mr-2 px-2.5 py-1 rounded-full bg-[#EAF2ED] text-[#2E5136] text-[13px] font-bold shrink-0"
+                            >
+                                +62
+                            </span>
                             <input
-                                type="text"
-                                name="no_hp"
-                                id="no_hp"
-                                value="{{ old('no_hp', $profil->no_hp) }}"
-                                placeholder="+62 812 3456 7890"
-                                class="flex-1 bg-transparent border-none outline-none text-[14px] text-[#1A1C19] font-medium p-0 focus:ring-0 placeholder:text-gray-300 w-full placeholder:font-normal"
+                                type="tel"
+                                id="no_hp_local"
+                                x-model="localNumber"
+                                @input="
+                                    localNumber = localNumber
+                                        .replace(/\D/g, '')
+                                        .replace(/^(62|0)+/, '')
+                                "
                                 required
+                                maxlength="13"
+                                inputmode="numeric"
+                                autocomplete="tel-national"
+                                placeholder="8123456789"
+                                class="flex-1 bg-transparent border-none outline-none text-[14px] text-[#1A1C19] font-medium p-0 focus:ring-0 placeholder:text-gray-300 w-full placeholder:font-normal"
+                            />
+                            <input
+                                type="hidden"
+                                name="no_hp"
+                                :value="fullNumber"
                             />
                         </div>
+                        <p class="mt-1.5 text-[11px] font-medium text-gray-400">Tanpa angka 0 di depan. Contoh: 8123456789.</p>
                         @error ('no_hp')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -429,29 +458,59 @@
         </form>
     </div>
     <script>
+        const MAX_FILE_SIZE_MB = 2;
+        const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
+
+        function validateFile(file, label) {
+            if (!ALLOWED_TYPES.includes(file.type)) {
+                alert(
+                    `Format ${label} harus JPG, JPEG, atau PNG.\n\nSilakan pilih file dengan format yang benar.`,
+                );
+                return false;
+            }
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                const actualMb = (file.size / 1024 / 1024).toFixed(1);
+                alert(
+                    `Ukuran ${label} (${actualMb}MB) terlalu besar.\n\nMaksimal ${MAX_FILE_SIZE_MB}MB. Silakan kompres gambar atau pilih file lain.`,
+                );
+                return false;
+            }
+            return true;
+        }
+
         document
             .getElementById("logo")
             .addEventListener("change", function (e) {
                 const file = e.target.files[0];
-                if (file) {
-                    const preview = document.getElementById("logo-preview");
-                    const placeholder =
-                        document.getElementById("logo-placeholder");
-                    preview.src = URL.createObjectURL(file);
-                    preview.classList.remove("hidden");
-                    if (placeholder) placeholder.classList.add("hidden");
+                if (!file) return;
+
+                if (!validateFile(file, "logo")) {
+                    e.target.value = "";
+                    return;
                 }
+
+                const preview = document.getElementById("logo-preview");
+                const placeholder = document.getElementById("logo-placeholder");
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove("hidden");
+                if (placeholder) placeholder.classList.add("hidden");
             });
+
         document
             .getElementById("qris_image")
             .addEventListener("change", function (e) {
                 const file = e.target.files[0];
-                if (file) {
-                    const preview = document.getElementById("qris-new-preview");
-                    const img = document.getElementById("qris-new-img");
-                    img.src = URL.createObjectURL(file);
-                    preview.classList.remove("hidden");
+                if (!file) return;
+
+                if (!validateFile(file, "gambar QRIS")) {
+                    e.target.value = "";
+                    return;
                 }
+
+                const preview = document.getElementById("qris-new-preview");
+                const img = document.getElementById("qris-new-img");
+                img.src = URL.createObjectURL(file);
+                preview.classList.remove("hidden");
             });
     </script>
 </x-app-layout>

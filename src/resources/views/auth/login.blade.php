@@ -50,12 +50,6 @@
                         class="block text-xs font-semibold text-gray-700"
                         >Password</label
                     >
-                    <a
-                        class="text-[10px] text-gray-500 hover:text-[#2E5136] transition-colors hidden sm:block"
-                        href="{{ route('password.request') }}"
-                    >
-                        Forgot password?
-                    </a>
                 </div>
                 <div class="relative">
                     <div
