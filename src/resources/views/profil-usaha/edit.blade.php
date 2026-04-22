@@ -415,11 +415,11 @@
                                 class="text-[12px] text-[#2E5136]/80 leading-relaxed"
                             >
                                 <strong>Bagaimana cara kerjanya?</strong><br />
-                                Saat pelanggan checkout, gambar QRIS kamu
-                                dikirim ke email mereka bersama invoice. Mereka
-                                scan &amp; bayar via e-wallet (GoPay, DANA, OVO,
-                                ShopeePay, dll). Setelah terima konfirmasi, kamu
-                                ubah status order ke "Lunas" secara manual.
+                                Saat pelanggan checkout, gambar QRIS kamu akan
+                                ditampilkan untuk meereka scan &amp; bayar via
+                                e-wallet (GoPay, DANA, OVO, ShopeePay, dll).
+                                Setelah terima konfirmasi, kamu ubah status
+                                order ke "Lunas" secara manual.
                             </div>
                         </div>
                     </div>

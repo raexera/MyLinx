@@ -249,7 +249,6 @@
                                     placeholder="nama@email.com"
                                     class="block w-full rounded-xl bg-[var(--input-bg)] border border-[var(--border-color)] px-4 py-3 text-[14px] text-[var(--text-main)] placeholder-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-colors"
                                 />
-                                <p class="mt-1.5 text-[11px] font-medium text-[var(--text-muted)]">Invoice &amp; pembayaran akan dikirim ke email ini.</p>
                                 @error ('email_pembeli')
                                     <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
                                 @enderror
