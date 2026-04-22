@@ -8,7 +8,6 @@ class StoreProdukRequest extends FormRequest
 {
     public function authorize(): bool
     {
-
         return auth()->check() && auth()->user()->tenant_id !== null;
     }
 
@@ -16,13 +15,19 @@ class StoreProdukRequest extends FormRequest
     {
         return [
             'nama_produk' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['required', 'string', 'max:2000'],
-            'harga' => ['required', 'numeric', 'min:0', 'max:9999999999'],
-            'stok' => ['required', 'integer', 'min:0'],
-            'gambar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
-            'status' => ['sometimes', 'boolean'],
+            'deskripsi'   => ['required', 'string', 'max:2000'],
+            'harga'       => ['required', 'numeric', 'min:0', 'max:9999999999'],
+            'stok'        => ['required', 'integer', 'min:0', 'max:999999'],
+            'gambar'      => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:5120',
+                'dimensions:max_width=4000,max_height=4000',
+            ],
+            'status'       => ['nullable', 'boolean'],
             'varian_label' => ['nullable', 'string', 'max:50'],
-            'varian_opsi' => ['nullable', 'string', 'max:500'],
+            'varian_opsi'  => ['nullable', 'string', 'max:500'],
         ];
     }
 
@@ -30,18 +35,34 @@ class StoreProdukRequest extends FormRequest
     {
         return [
             'nama_produk' => 'nama produk',
-            'deskripsi' => 'deskripsi',
-            'harga' => 'harga',
-            'stok' => 'stok',
-            'gambar' => 'foto produk',
+            'deskripsi'   => 'deskripsi',
+            'harga'       => 'harga',
+            'stok'        => 'stok',
+            'gambar'      => 'foto produk',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'gambar.max' => 'Ukuran foto produk maksimal 5MB.',
-            'gambar.mimes' => 'Format foto harus JPG, JPEG, atau PNG.',
+            'nama_produk.required' => 'Nama produk wajib diisi.',
+            'nama_produk.max'      => 'Nama produk maksimal 255 karakter.',
+            'deskripsi.required'   => 'Deskripsi wajib diisi.',
+            'deskripsi.max'        => 'Deskripsi maksimal 2000 karakter.',
+            'harga.required'       => 'Harga wajib diisi.',
+            'harga.numeric'        => 'Harga harus berupa angka.',
+            'harga.min'            => 'Harga tidak boleh negatif.',
+            'harga.max'            => 'Harga melebihi batas maksimal.',
+            'stok.required'        => 'Stok wajib diisi.',
+            'stok.integer'         => 'Stok harus berupa angka bulat.',
+            'stok.min'             => 'Stok tidak boleh negatif.',
+            'stok.max'             => 'Stok maksimal 999.999 unit.',
+            'gambar.image'         => 'File harus berupa gambar.',
+            'gambar.mimes'         => 'Format foto harus JPG, JPEG, atau PNG.',
+            'gambar.max'           => 'Ukuran foto produk maksimal 5MB.',
+            'gambar.dimensions'    => 'Dimensi foto maksimal 4000x4000 pixel.',
+            'varian_label.max'     => 'Nama varian maksimal 50 karakter.',
+            'varian_opsi.max'      => 'Opsi varian maksimal 500 karakter.',
         ];
     }
 }

@@ -39,7 +39,8 @@ class UpdateOrderStatusRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'status.in' => 'Status order harus salah satu dari: pending, confirmed, processing, completed, atau cancelled.',
+            'status.required' => 'Status order wajib dipilih.',
+            'status.in'       => 'Status order tidak valid. Harus salah satu dari: pending, confirmed, processing, completed, atau cancelled.',
         ];
     }
 }

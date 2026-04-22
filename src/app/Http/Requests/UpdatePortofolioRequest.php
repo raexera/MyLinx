@@ -14,26 +14,38 @@ class UpdatePortofolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'judul' => ['required', 'string', 'max:255'],
+            'judul'     => ['required', 'string', 'max:255'],
             'deskripsi' => ['required', 'string', 'max:5000'],
-            'gambar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
+            'gambar'    => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:5120',
+                'dimensions:max_width=4000,max_height=4000',
+            ],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'judul' => 'judul portofolio',
+            'judul'     => 'judul portofolio',
             'deskripsi' => 'deskripsi',
-            'gambar' => 'gambar cover',
+            'gambar'    => 'gambar cover',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'gambar.max' => 'Ukuran gambar maksimal 5MB.',
-            'gambar.mimes' => 'Format gambar harus JPG, JPEG, atau PNG.',
+            'judul.required'      => 'Judul portofolio wajib diisi.',
+            'judul.max'           => 'Judul portofolio maksimal 255 karakter.',
+            'deskripsi.required'  => 'Deskripsi wajib diisi.',
+            'deskripsi.max'       => 'Deskripsi maksimal 5000 karakter.',
+            'gambar.image'        => 'File harus berupa gambar.',
+            'gambar.mimes'        => 'Format gambar harus JPG, JPEG, atau PNG.',
+            'gambar.max'          => 'Ukuran gambar maksimal 5MB.',
+            'gambar.dimensions'   => 'Dimensi gambar maksimal 4000x4000 pixel.',
         ];
     }
 }

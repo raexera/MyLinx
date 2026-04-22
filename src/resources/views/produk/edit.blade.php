@@ -382,19 +382,41 @@
         </div>
     </div>
     <script>
+        const MAX_FILE_SIZE_MB = 5;
+        const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
+
         document
             .getElementById("gambar")
             .addEventListener("change", function (e) {
                 const file = e.target.files[0];
-                if (file) {
-                    const container =
-                        document.getElementById("preview-container");
-                    const img = document.getElementById("preview-image");
-                    const name = document.getElementById("preview-name");
-                    img.src = URL.createObjectURL(file);
-                    name.textContent = file.name;
-                    container.classList.remove("hidden");
+                if (!file) return;
+
+                // Type validation
+                if (!ALLOWED_TYPES.includes(file.type)) {
+                    alert(
+                        "Format file harus JPG, JPEG, atau PNG.\n\nSilakan pilih foto dengan format yang benar.",
+                    );
+                    e.target.value = "";
+                    return;
                 }
+
+                // Size validation
+                if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                    const actualMb = (file.size / 1024 / 1024).toFixed(1);
+                    alert(
+                        `Ukuran foto (${actualMb}MB) terlalu besar.\n\nMaksimal ${MAX_FILE_SIZE_MB}MB. Silakan kompres foto Anda terlebih dahulu atau pilih foto lain yang ukurannya lebih kecil.`,
+                    );
+                    e.target.value = "";
+                    return;
+                }
+
+                // Preview
+                const container = document.getElementById("preview-container");
+                const img = document.getElementById("preview-image");
+                const name = document.getElementById("preview-name");
+                img.src = URL.createObjectURL(file);
+                name.textContent = file.name;
+                container.classList.remove("hidden");
             });
     </script>
 </x-app-layout>

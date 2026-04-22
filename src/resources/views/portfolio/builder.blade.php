@@ -372,14 +372,36 @@
             showEditor();
         }
 
+        const MAX_FILE_SIZE_MB = 5;
+        const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
+
         document.getElementById("gambar").addEventListener("change", function (e) {
             const file = e.target.files[0];
-            if (file) {
-                const previewCover = document.getElementById("preview-cover");
-                const previewImg = document.getElementById("preview-cover-img");
-                previewImg.src = URL.createObjectURL(file);
-                previewCover.classList.remove("hidden");
+            if (!file) return;
+
+            if (!ALLOWED_TYPES.includes(file.type)) {
+                alert(
+                    "Format file harus JPG, JPEG, atau PNG.\n\nSilakan pilih foto dengan format yang benar.",
+                );
+                e.target.value = "";
+                return;
             }
+
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                const actualMb = (file.size / 1024 / 1024).toFixed(1);
+                alert(
+                    `Ukuran foto (${actualMb}MB) terlalu besar.\n\nMaksimal ${MAX_FILE_SIZE_MB}MB. Silakan kompres foto Anda terlebih dahulu atau pilih foto lain yang ukurannya lebih kecil.`,
+                );
+                e.target.value = "";
+                return;
+            }
+
+            const previewCover = document.getElementById("preview-cover");
+            const previewImg = document.getElementById("preview-cover-img");
+            const currentCover = document.getElementById("current-cover");
+            previewImg.src = URL.createObjectURL(file);
+            previewCover.classList.remove("hidden");
+            if (currentCover) currentCover.classList.add("hidden");
         });
     </script>
 </x-app-layout>
