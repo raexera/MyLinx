@@ -230,7 +230,7 @@
                                     class="muted"
                                     style="margin-top: 2px; font-size: 10px"
                                 >
-                                    {{ $item->produk->varian_label ?? 'Varian' }}: {{ $item->varian }}
+                                    Varian: {{ $item->varian }}
                                 </div>
                             @endif
                         </td>

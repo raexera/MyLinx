@@ -19,8 +19,7 @@ class Produk extends Model
         'deskripsi',
         'harga',
         'stok',
-        'varian_label',
-        'varian_opsi',
+        'variants',
         'gambar',
         'status',
     ];
@@ -31,6 +30,7 @@ class Produk extends Model
             'harga' => 'decimal:2',
             'stok' => 'integer',
             'status' => 'boolean',
+            'variants' => 'array',
         ];
     }
 
@@ -66,21 +66,8 @@ class Produk extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function getVarianOpsiArrayAttribute(): array
-    {
-        if (empty($this->varian_opsi)) {
-            return [];
-        }
-
-        return collect(explode(',', $this->varian_opsi))
-            ->map(fn ($o) => trim($o))
-            ->filter()
-            ->values()
-            ->all();
-    }
-
     public function hasVariants(): bool
     {
-        return ! empty($this->varian_opsi) && count($this->varian_opsi_array) > 0;
+        return ! empty($this->variants) && is_array($this->variants) && count($this->variants) > 0;
     }
 }

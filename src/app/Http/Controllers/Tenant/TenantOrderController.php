@@ -38,24 +38,31 @@ class TenantOrderController extends Controller
 
     public function store(StoreTenantOrderRequest $request, Tenant $tenant, Produk $produk): RedirectResponse
     {
-
         abort_if($produk->tenant_id !== $tenant->id || ! $produk->status, 404);
 
-        if ($produk->hasVariants() && blank($request->validated('varian'))) {
-            return back()
-                ->withInput()
-                ->withErrors(['varian' => "Pilih {$produk->varian_label} terlebih dahulu."]);
-        }
+        $selectedVariantsStr = null;
 
-        if ($produk->hasVariants() && ! in_array($request->validated('varian'), $produk->varian_opsi_array, true)) {
-            return back()
-                ->withInput()
-                ->withErrors(['varian' => 'Varian yang dipilih tidak valid.']);
+        if ($produk->hasVariants()) {
+            $selected = $request->validated('varian');
+            if (empty($selected) || ! is_array($selected)) {
+                return back()->withInput()->withErrors(['varian' => 'Silakan pilih semua varian produk.']);
+            }
+
+            $variantStrings = [];
+            foreach ($produk->variants as $index => $group) {
+                $options = array_filter(array_map('trim', explode(',', $group['options'])));
+                $userChoice = $selected[$index] ?? null;
+
+                if (! $userChoice || ! in_array($userChoice, $options, true)) {
+                    return back()->withInput()->withErrors(['varian' => "Pilihan {$group['label']} tidak valid."]);
+                }
+                $variantStrings[] = $group['label'].': '.$userChoice;
+            }
+            $selectedVariantsStr = implode(', ', $variantStrings); // Hasil: "Warna: Hitam, Ukuran: XL"
         }
 
         try {
-            $order = DB::transaction(function () use ($request, $tenant, $produk) {
-
+            $order = DB::transaction(function () use ($request, $tenant, $produk, $selectedVariantsStr) {
                 $locked = Produk::where('id', $produk->id)->lockForUpdate()->first();
 
                 if (! $locked || $locked->stok < $request->validated('jumlah')) {
@@ -74,13 +81,12 @@ class TenantOrderController extends Controller
                     'catatan_pembeli' => $request->validated('catatan_pembeli'),
                     'total_harga' => $subtotal,
                     'status' => 'pending',
-
                 ]);
 
                 $order->orderItems()->create([
                     'produk_id' => $locked->id,
                     'jumlah' => $request->validated('jumlah'),
-                    'varian' => $request->validated('varian'),
+                    'varian' => $selectedVariantsStr, // Simpan string hasil kombinasi
                     'harga' => $locked->harga,
                     'subtotal' => $subtotal,
                 ]);
@@ -100,9 +106,7 @@ class TenantOrderController extends Controller
                 return $order;
             });
         } catch (\RuntimeException $e) {
-            return back()
-                ->withInput()
-                ->with('error', $e->getMessage());
+            return back()->withInput()->with('error', $e->getMessage());
         }
 
         return redirect()->route('tenant.order.success', [$tenant, $order]);

@@ -20,7 +20,8 @@ class StoreTenantOrderRequest extends FormRequest
             'alamat_pengiriman' => ['required', 'string', 'min:10', 'max:500'],
             'catatan_pembeli' => ['nullable', 'string', 'max:500'],
             'jumlah' => ['required', 'integer', 'min:1', 'max:9999'],
-            'varian' => ['nullable', 'string', 'max:100'],
+            'varian' => ['nullable', 'array'],
+            'varian.*' => ['string', 'max:100'],
         ];
     }
 

@@ -176,101 +176,121 @@
                     </div>
                     <div
                         x-data="{
-                            showVariants: {{ old('varian_label', $produk->varian_label ?? '') ? 'true' : 'false' }},
-                            opsiRaw: '{{ old('varian_opsi', $produk->varian_opsi ?? '') }}',
-                            get parsedOpsi() {
-                                return this.opsiRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+                        variants: {{ old('variants') ? json_encode(old('variants')) : (isset($produk) && $produk->variants ? json_encode($produk->variants) : '[]') }},
+                        addVariant() {
+                            if(this.variants.length < 3) {
+                                this.variants.push({ label: '', options: '' });
                             }
-                        }"
+                        },
+                        removeVariant(index) {
+                            this.variants.splice(index, 1);
+                        },
+                        parseOptions(optionsStr) {
+                            return (optionsStr || '').split(',').map(s => s.trim()).filter(s => s.length > 0);
+                        }
+                    }"
                     >
-                        <div class="flex items-center gap-3 mb-3">
+                        <div class="flex items-center justify-between mb-3">
                             <label
                                 class="block font-serif text-[17px] font-bold text-[#1A1C19]"
-                                >Varian Produk</label
+                                >Varian Produk (Opsional)</label
                             >
                             <button
                                 type="button"
-                                @click="
-                                    showVariants = !showVariants;
-                                    if (!showVariants) {
-                                        opsiRaw = '';
-                                        document.getElementById(
-                                            'varian_label',
-                                        ).value = '';
-                                    }
-                                "
+                                @click="addVariant"
+                                x-show="variants.length < 3"
                                 class="text-[12px] font-bold text-[#2E5136] hover:underline"
                             >
-                                <span x-show="!showVariants"
-                                    >+ Tambah varian</span
-                                >
-                                <span x-show="showVariants"
-                                    >− Sembunyikan & Hapus</span
-                                >
+                                + Tambah Grup Varian
                             </button>
                         </div>
-                        <div
-                            x-show="showVariants"
-                            x-cloak
-                            class="space-y-4 p-5 bg-[#f9fafb] border border-[#E8EBED] rounded-2xl"
-                        >
-                            <div>
-                                <label
-                                    class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2"
-                                    >Nama Varian</label
-                                >
-                                <input
-                                    type="text"
-                                    name="varian_label"
-                                    id="varian_label"
-                                    value="{{ old('varian_label', $produk->varian_label ?? '') }}"
-                                    placeholder="mis. Rasa, Ukuran, Warna"
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
-                                />
-                                @error ('varian_label')
-                                    <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
-                                @else
-                                    <p class="mt-1 text-[11px] text-gray-400">Label yang dilihat pembeli.</p>
-                                @enderror
-                            </div>
-                            <div>
-                                <label
-                                    class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2"
-                                    >Opsi Varian</label
-                                >
-                                <input
-                                    type="text"
-                                    name="varian_opsi"
-                                    x-model="opsiRaw"
-                                    placeholder="mis. Coklat, Stroberi, Vanila"
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
-                                />
-                                @error ('varian_opsi')
-                                    <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
-                                @else
-                                    <p class="mt-1 text-[11px] text-gray-400">Pisahkan dengan koma. Stok dan harga tetap sama untuk semua opsi.</p>
-                                @enderror
 
+                        <div class="space-y-4">
+                            <template
+                                x-for="(variant, index) in variants"
+                                :key="index"
+                            >
                                 <div
-                                    class="mt-3"
-                                    x-show="parsedOpsi.length > 0"
-                                    x-cloak
+                                    class="p-5 bg-[#f9fafb] border border-[#E8EBED] rounded-2xl relative transition-all"
                                 >
-                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Preview Tampilan Checkout:</p>
-                                    <div class="flex flex-wrap gap-2">
-                                        <template
-                                            x-for="(opsi, index) in parsedOpsi"
-                                            :key="index"
-                                        >
-                                            <span
-                                                class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#DCE2D8] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
-                                                x-text="opsi"
-                                            ></span>
-                                        </template>
+                                    <button
+                                        type="button"
+                                        @click="removeVariant(index)"
+                                        class="absolute top-4 right-4 text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 p-1.5 rounded-lg transition-colors"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+
+                                    <div class="grid sm:grid-cols-2 gap-4 pr-8">
+                                        <div>
+                                            <label
+                                                class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2"
+                                                >Nama Grup
+                                                <span x-text="index + 1"></span
+                                            ></label>
+                                            <input
+                                                type="text"
+                                                :name="`variants[${index}][label]`"
+                                                x-model="variant.label"
+                                                placeholder="mis. Warna"
+                                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2"
+                                                >Pilihan (Pisahkan dgn
+                                                koma)</label
+                                            >
+                                            <input
+                                                type="text"
+                                                :name="`variants[${index}][options]`"
+                                                x-model="variant.options"
+                                                placeholder="mis. Hitam, Putih"
+                                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="mt-4"
+                                        x-show="
+                                            parseOptions(variant.options)
+                                                .length > 0
+                                        "
+                                    >
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Preview Pilihan:</p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <template
+                                                x-for="
+                                                    (opsi, i) in
+                                                    parseOptions(
+                                                        variant.options,
+                                                    )
+                                                "
+                                                :key="i"
+                                            >
+                                                <span
+                                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#DCE2D8] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
+                                                    x-text="opsi"
+                                                ></span>
+                                            </template>
+                                        </div>
                                     </div>
                                 </div>
+                            </template>
+                            <div
+                                x-show="variants.length === 0"
+                                class="p-6 border-2 border-dashed border-[#E8EBED] rounded-2xl text-center text-gray-400 text-sm font-medium"
+                            >
+                                Klik "+ Tambah Grup Varian" jika produk ini
+                                memiliki pilihan warna, ukuran, dll.
                             </div>
                         </div>
+                        @error ('variants')
+                            <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <!-- Deskripsi Lengkap -->

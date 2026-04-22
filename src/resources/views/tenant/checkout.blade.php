@@ -278,29 +278,48 @@
                             </div>
 
                             @if ($produk->hasVariants())
-                                <div>
-                                    <label
-                                        class="block text-[13px] font-bold text-[var(--text-main)] mb-2"
+                                <div
+                                    class="space-y-4 rounded-xl border border-[var(--border-color)] bg-[var(--input-bg)] p-5"
+                                >
+                                    <div
+                                        class="text-[14px] font-bold text-[var(--text-main)] mb-2"
                                     >
-                                        {{ $produk->varian_label ?? 'Varian' }}
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <div class="flex flex-wrap gap-2">
-                                        @foreach ($produk->varian_opsi_array as $opsi)
-                                            <label
-                                                class="inline-flex cursor-pointer items-center justify-center min-w-[3rem] px-4 py-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--input-bg)] text-[13px] font-bold text-[var(--text-main)] transition-colors has-[:checked]:border-[var(--accent)] has-[:checked]:bg-[var(--accent)] has-[:checked]:text-white"
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name="varian"
-                                                    value="{{ $opsi }}"
-                                                    class="sr-only"
-                                                    {{ old('varian') === $opsi ? 'checked' : '' }}
-                                                />
-                                                {{ $opsi }}
-                                            </label>
-                                        @endforeach
+                                        Pilih Varian
                                     </div>
+                                    @foreach ($produk->variants as $index => $group)
+                                        @php
+                                            $opsiArray = array_filter(array_map('trim', explode(',', $group['options'])));
+                                        @endphp
+                                        <div
+                                            class="border-t border-[var(--border-color)] pt-3"
+                                        >
+                                            <label
+                                                class="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-2"
+                                            >
+                                                {{ $group['label'] }}
+                                                <span class="text-red-500"
+                                                    >*</span
+                                                >
+                                            </label>
+                                            <div class="flex flex-wrap gap-2">
+                                                @foreach ($opsiArray as $opsi)
+                                                    <label
+                                                        class="inline-flex cursor-pointer items-center justify-center min-w-[3rem] px-4 py-2 rounded-xl border border-gray-300 bg-white text-[13px] font-bold text-[var(--text-main)] transition-colors has-[:checked]:border-[var(--accent)] has-[:checked]:bg-[var(--accent)] has-[:checked]:text-white"
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="varian[{{ $index }}]"
+                                                            value="{{ $opsi }}"
+                                                            class="sr-only"
+                                                            {{ (old("varian.{$index}") === $opsi) ? 'checked' : '' }}
+                                                            required
+                                                        />
+                                                        {{ $opsi }}
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
                                     @error ('varian')
                                         <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
                                     @enderror
