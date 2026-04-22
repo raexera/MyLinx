@@ -211,56 +211,88 @@
                                 :key="index"
                             >
                                 <div
-                                    class="p-5 bg-[#f9fafb] border border-[#E8EBED] rounded-2xl relative transition-all"
+                                    class="p-4 bg-white border border-[#E8EBED] rounded-2xl relative transition-all shadow-[0_2px_10px_rgb(0,0,0,0.02)]"
                                 >
-                                    <button
-                                        type="button"
-                                        @click="removeVariant(index)"
-                                        class="absolute top-4 right-4 text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 p-1.5 rounded-lg transition-colors"
+                                    <div
+                                        class="flex items-center justify-between mb-4 pb-3 border-b border-[#E8EBED]/60"
                                     >
-                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                    </button>
+                                        <div class="flex items-center gap-2.5">
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-[#EAF2ED] text-[#2E5136] flex items-center justify-center text-[11px] font-bold"
+                                                x-text="index + 1"
+                                            ></div>
+                                            <h4
+                                                class="text-[13px] font-bold text-[#1A1C19] uppercase tracking-widest"
+                                            >
+                                                Grup Varian
+                                            </h4>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            @click="removeVariant(index)"
+                                            class="text-[11px] font-bold text-red-500 hover:text-red-700 flex items-center gap-1 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg transition-colors"
+                                        >
+                                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            Hapus Grup
+                                        </button>
+                                    </div>
 
-                                    <div class="grid sm:grid-cols-2 gap-4 pr-8">
+                                    <div class="space-y-4">
                                         <div>
                                             <label
-                                                class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2"
-                                                >Nama Grup
-                                                <span x-text="index + 1"></span
-                                            ></label>
+                                                class="block text-[13px] font-bold text-[#1A1C19] mb-1.5"
+                                                >Nama Varian
+                                                <span class="text-red-500"
+                                                    >*</span
+                                                ></label
+                                            >
                                             <input
                                                 type="text"
                                                 :name="`variants[${index}][label]`"
                                                 x-model="variant.label"
-                                                placeholder="mis. Warna"
-                                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
+                                                placeholder="Contoh: Warna, Ukuran, atau Model"
+                                                class="w-full h-11 bg-[#f9fafb] border border-[#E8EBED] rounded-xl px-4 text-[14px] focus:bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors"
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <label
-                                                class="block text-[11px] font-bold text-[#1A1C19] uppercase tracking-widest mb-2"
-                                                >Pilihan (Pisahkan dgn
-                                                koma)</label
+                                            <div
+                                                class="flex flex-wrap sm:flex-nowrap justify-between items-end gap-2 mb-1.5"
                                             >
+                                                <label
+                                                    class="block text-[13px] font-bold text-[#1A1C19]"
+                                                    >Pilihan Varian
+                                                    <span class="text-red-500"
+                                                        >*</span
+                                                    ></label
+                                                >
+                                                <span
+                                                    class="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-md flex items-center gap-1 uppercase tracking-wider"
+                                                >
+                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                                    Pisahkan dengan koma (,)
+                                                </span>
+                                            </div>
                                             <input
                                                 type="text"
                                                 :name="`variants[${index}][options]`"
                                                 x-model="variant.options"
-                                                placeholder="mis. Hitam, Putih"
-                                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
+                                                placeholder="Contoh: Hitam, Putih, Abu-abu"
+                                                class="w-full h-11 bg-[#f9fafb] border border-[#E8EBED] rounded-xl px-4 text-[14px] focus:bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors"
                                                 required
                                             />
                                         </div>
                                     </div>
+
                                     <div
-                                        class="mt-4"
+                                        class="mt-5 pt-4 border-t border-dashed border-[#E8EBED]"
                                         x-show="
                                             parseOptions(variant.options)
                                                 .length > 0
                                         "
+                                        x-cloak
                                     >
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Preview Pilihan:</p>
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Preview Hasil di Checkout:</p>
                                         <div class="flex flex-wrap gap-2">
                                             <template
                                                 x-for="
@@ -272,7 +304,7 @@
                                                 :key="i"
                                             >
                                                 <span
-                                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#DCE2D8] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
+                                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#2E5136]/20 bg-[#EAF2ED] text-[#2E5136] text-[12px] font-bold"
                                                     x-text="opsi"
                                                 ></span>
                                             </template>

@@ -304,7 +304,7 @@
                                             <div class="flex flex-wrap gap-2">
                                                 @foreach ($opsiArray as $opsi)
                                                     <label
-                                                        class="inline-flex cursor-pointer items-center justify-center min-w-[3rem] px-4 py-2 rounded-xl border border-gray-300 bg-white text-[13px] font-bold text-[var(--text-main)] transition-colors has-[:checked]:border-[var(--accent)] has-[:checked]:bg-[var(--accent)] has-[:checked]:text-white"
+                                                        class="inline-flex cursor-pointer items-center justify-center min-w-[3rem] px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--card-bg)] text-[13px] font-bold text-[var(--text-main)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] has-[:checked]:border-[var(--accent)] has-[:checked]:bg-[var(--accent)] has-[:checked]:text-white"
                                                     >
                                                         <input
                                                             type="radio"
