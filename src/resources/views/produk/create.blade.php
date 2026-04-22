@@ -136,7 +136,7 @@
                                 value="{{ old('harga', 0) }}"
                                 min="0"
                                 step="1000"
-                                class="flex-1 bg-transparent border-none outline-none text-[14px] font-bold text-gray-400 p-0 focus:ring-0 focus:text-[#1A1C19] w-full"
+                                class="flex-1 bg-transparent border-none outline-none text-[14px] font-bold text-[#1A1C19] p-0 focus:ring-0 w-full"
                                 required
                             />
                         </div>
@@ -160,7 +160,7 @@
                                 id="stok"
                                 value="{{ old('stok', 0) }}"
                                 min="0"
-                                class="flex-1 bg-transparent border-none outline-none text-[14px] font-bold text-gray-400 p-0 focus:ring-0 focus:text-[#1A1C19] w-full"
+                                class="flex-1 bg-transparent border-none outline-none text-[14px] font-bold text-[#1A1C19] p-0 focus:ring-0 w-full"
                                 required
                             />
                         </div>
@@ -168,154 +168,150 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    <div
-                        x-data="{
-                        variants: {{ old('variants') ? json_encode(old('variants')) : (isset($produk) && $produk->variants ? json_encode($produk->variants) : '[]') }},
-                        addVariant() {
-                            if(this.variants.length < 3) {
-                                this.variants.push({ label: '', options: '' });
-                            }
-                        },
-                        removeVariant(index) {
-                            this.variants.splice(index, 1);
-                        },
-                        parseOptions(optionsStr) {
-                            return (optionsStr || '').split(',').map(s => s.trim()).filter(s => s.length > 0);
+                </div>
+                <div
+                    x-data="{
+                    variants: {{ old('variants') ? json_encode(old('variants')) : (isset($produk) && $produk->variants ? json_encode($produk->variants) : '[]') }},
+                    addVariant() {
+                        if(this.variants.length < 3) {
+                            this.variants.push({ label: '', options: '' });
                         }
-                    }"
-                    >
-                        <div class="flex items-center justify-between mb-3">
-                            <label
-                                class="block font-serif text-[17px] font-bold text-[#1A1C19]"
-                                >Varian Produk (Opsional)</label
-                            >
-                            <button
-                                type="button"
-                                @click="addVariant"
-                                x-show="variants.length < 3"
-                                class="text-[12px] font-bold text-[#2E5136] hover:underline"
-                            >
-                                + Tambah Grup Varian
-                            </button>
-                        </div>
+                    },
+                    removeVariant(index) {
+                        this.variants.splice(index, 1);
+                    },
+                    parseOptions(optionsStr) {
+                        return (optionsStr || '').split(',').map(s => s.trim()).filter(s => s.length > 0);
+                    }
+                }"
+                >
+                    <div class="flex items-center justify-between mb-3">
+                        <label
+                            class="block font-serif text-[17px] font-bold text-[#1A1C19]"
+                            >Varian Produk (Opsional)</label
+                        >
+                        <button
+                            type="button"
+                            @click="addVariant"
+                            x-show="variants.length < 3"
+                            class="text-[12px] font-bold text-[#2E5136] hover:underline"
+                        >
+                            + Tambah Grup Varian
+                        </button>
+                    </div>
 
-                        <div class="space-y-4">
-                            <template
-                                x-for="(variant, index) in variants"
-                                :key="index"
+                    <div class="space-y-4">
+                        <template
+                            x-for="(variant, index) in variants"
+                            :key="index"
+                        >
+                            <div
+                                class="border border-[#E8EBED] rounded-[1.25rem] bg-[#f9fafb] overflow-hidden focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors relative"
                             >
                                 <div
-                                    class="border border-[#E8EBED] rounded-[1.25rem] bg-[#f9fafb] overflow-hidden focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors relative"
+                                    class="flex items-center justify-between px-5 py-3 border-b border-[#E8EBED] bg-[#fcfcfd]"
                                 >
-                                    <div
-                                        class="flex items-center justify-between px-5 py-3 border-b border-[#E8EBED] bg-[#fcfcfd]"
+                                    <span
+                                        class="text-[12px] font-bold text-[#1A1C19] uppercase tracking-widest"
+                                        >Grup Varian
+                                        <span x-text="index + 1"></span
+                                    ></span>
+                                    <button
+                                        type="button"
+                                        @click="removeVariant(index)"
+                                        class="text-[11px] font-bold text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors"
                                     >
-                                        <span
-                                            class="text-[12px] font-bold text-[#1A1C19] uppercase tracking-widest"
-                                            >Grup Varian
-                                            <span x-text="index + 1"></span
-                                        ></span>
-                                        <button
-                                            type="button"
-                                            @click="removeVariant(index)"
-                                            class="text-[11px] font-bold text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors"
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        Hapus
+                                    </button>
+                                </div>
+
+                                <div
+                                    class="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-[#E8EBED]"
+                                >
+                                    <div class="flex-1 p-5">
+                                        <label
+                                            class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5"
+                                            >Nama Varian
+                                            <span class="text-red-500"
+                                                >*</span
+                                            ></label
                                         >
-                                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            Hapus
-                                        </button>
+                                        <input
+                                            type="text"
+                                            :name="`variants[${index}][label]`"
+                                            x-model="variant.label"
+                                            placeholder="Contoh: Warna"
+                                            class="w-full bg-transparent border-none p-0 text-[14.5px] text-[#1A1C19] font-medium focus:ring-0 outline-none placeholder:text-gray-400"
+                                            required
+                                        />
                                     </div>
 
-                                    <div
-                                        class="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-[#E8EBED]"
-                                    >
-                                        <div class="flex-1 p-5">
+                                    <div class="flex-[1.5] p-5">
+                                        <div
+                                            class="flex justify-between items-center mb-1.5 gap-2"
+                                        >
                                             <label
-                                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5"
-                                                >Nama Varian
+                                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest shrink-0"
+                                                >Pilihan
                                                 <span class="text-red-500"
                                                     >*</span
                                                 ></label
                                             >
-                                            <input
-                                                type="text"
-                                                :name="`variants[${index}][label]`"
-                                                x-model="variant.label"
-                                                placeholder="Contoh: Warna"
-                                                class="w-full bg-transparent border-none p-0 text-[14.5px] text-[#1A1C19] font-medium focus:ring-0 outline-none placeholder:text-gray-400"
-                                                required
-                                            />
-                                        </div>
-
-                                        <div class="flex-[1.5] p-5">
-                                            <div
-                                                class="flex justify-between items-center mb-1.5 gap-2"
+                                            <span
+                                                class="text-[9px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0"
+                                                >Pisahkan dgn koma (,)</span
                                             >
-                                                <label
-                                                    class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest shrink-0"
-                                                    >Pilihan
-                                                    <span class="text-red-500"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <span
-                                                    class="text-[9px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0"
-                                                    >Pisahkan dgn koma (,)</span
-                                                >
-                                            </div>
-                                            <input
-                                                type="text"
-                                                :name="`variants[${index}][options]`"
-                                                x-model="variant.options"
-                                                placeholder="Contoh: Hitam, Putih"
-                                                class="w-full bg-transparent border-none p-0 text-[14.5px] text-[#1A1C19] font-medium focus:ring-0 outline-none placeholder:text-gray-400"
-                                                required
-                                            />
                                         </div>
-                                    </div>
-
-                                    <div
-                                        class="px-5 pb-5"
-                                        x-show="
-                                            parseOptions(variant.options)
-                                                .length > 0
-                                        "
-                                        x-cloak
-                                    >
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Preview Hasil di Checkout:</p>
-                                        <div class="flex flex-wrap gap-2">
-                                            <template
-                                                x-for="
-                                                    (opsi, i) in
-                                                    parseOptions(
-                                                        variant.options,
-                                                    )
-                                                "
-                                                :key="i"
-                                            >
-                                                <span
-                                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#E8EBED] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
-                                                    x-text="opsi"
-                                                ></span>
-                                            </template>
-                                        </div>
+                                        <input
+                                            type="text"
+                                            :name="`variants[${index}][options]`"
+                                            x-model="variant.options"
+                                            placeholder="Contoh: Hitam, Putih"
+                                            class="w-full bg-transparent border-none p-0 text-[14.5px] text-[#1A1C19] font-medium focus:ring-0 outline-none placeholder:text-gray-400"
+                                            required
+                                        />
                                     </div>
                                 </div>
-                            </template>
 
-                            <div
-                                x-show="variants.length === 0"
-                                class="border-2 border-dashed border-[#E8EBED] rounded-[1.25rem] p-6 text-center text-gray-400 text-sm font-medium hover:border-[#2E5136]/30 hover:bg-[#f9fafb] transition-colors cursor-pointer"
-                                @click="addVariant"
-                            >
-                                Klik "+ Tambah Grup Varian" jika produk memiliki
-                                pilihan warna atau ukuran.
+                                <div
+                                    class="px-5 pb-5"
+                                    x-show="
+                                        parseOptions(variant.options).length > 0
+                                    "
+                                    x-cloak
+                                >
+                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Preview Hasil di Checkout:</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <template
+                                            x-for="
+                                                (opsi, i) in
+                                                parseOptions(variant.options)
+                                            "
+                                            :key="i"
+                                        >
+                                            <span
+                                                class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#E8EBED] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
+                                                x-text="opsi"
+                                            ></span>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
+                        </template>
+
+                        <div
+                            x-show="variants.length === 0"
+                            class="border-2 border-dashed border-[#E8EBED] rounded-[1.25rem] p-6 text-center text-gray-400 text-sm font-medium hover:border-[#2E5136]/30 hover:bg-[#f9fafb] transition-colors cursor-pointer"
+                            @click="addVariant"
+                        >
+                            Klik "+ Tambah Grup Varian" jika produk memiliki
+                            pilihan warna atau ukuran.
                         </div>
-                        @error ('variants')
-                            <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
-                        @enderror
                     </div>
+                    @error ('variants')
+                        <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="pb-2">
