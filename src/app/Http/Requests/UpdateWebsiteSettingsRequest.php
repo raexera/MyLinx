@@ -59,12 +59,12 @@ class UpdateWebsiteSettingsRequest extends FormRequest
             'accent_color.regex' => 'Warna aksen harus format hex (contoh: #2E5136).',
             'content_order.in' => 'Urutan konten tidak valid.',
             'product_layout.in' => 'Tata letak produk tidak valid.',
-            'nama_tenant.required'   => 'Nama toko wajib diisi.',
-            'nama_tenant.max'        => 'Nama toko maksimal 100 karakter.',
-            'slug.required'          => 'URL toko wajib diisi.',
-            'slug.max'               => 'URL toko maksimal 50 karakter.',
+            'nama_tenant.required' => 'Nama toko wajib diisi.',
+            'nama_tenant.max' => 'Nama toko maksimal 100 karakter.',
+            'slug.required' => 'URL toko wajib diisi.',
+            'slug.max' => 'URL toko maksimal 50 karakter.',
             'background_color.regex' => 'Warna background harus format hex (contoh: #FFFFFF).',
-            'hero_style.in'          => 'Gaya hero tidak valid.',
+            'hero_style.in' => 'Gaya hero tidak valid.',
         ];
     }
 }

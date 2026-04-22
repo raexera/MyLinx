@@ -175,7 +175,13 @@
                         @enderror
                     </div>
                     <div
-                        x-data="{ showVariants: {{ old('varian_label', $produk->varian_label ?? '') ? 'true' : 'false' }} }"
+                        x-data="{
+                            showVariants: {{ old('varian_label', $produk->varian_label ?? '') ? 'true' : 'false' }},
+                            opsiRaw: '{{ old('varian_opsi', $produk->varian_opsi ?? '') }}',
+                            get parsedOpsi() {
+                                return this.opsiRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+                            }
+                        }"
                     >
                         <div class="flex items-center gap-3 mb-3">
                             <label
@@ -184,13 +190,23 @@
                             >
                             <button
                                 type="button"
-                                @click="showVariants = !showVariants"
+                                @click="
+                                    showVariants = !showVariants;
+                                    if (!showVariants) {
+                                        opsiRaw = '';
+                                        document.getElementById(
+                                            'varian_label',
+                                        ).value = '';
+                                    }
+                                "
                                 class="text-[12px] font-bold text-[#2E5136] hover:underline"
                             >
                                 <span x-show="!showVariants"
                                     >+ Tambah varian</span
                                 >
-                                <span x-show="showVariants">− Sembunyikan</span>
+                                <span x-show="showVariants"
+                                    >− Sembunyikan & Hapus</span
+                                >
                             </button>
                         </div>
                         <div
@@ -206,11 +222,16 @@
                                 <input
                                     type="text"
                                     name="varian_label"
+                                    id="varian_label"
                                     value="{{ old('varian_label', $produk->varian_label ?? '') }}"
                                     placeholder="mis. Rasa, Ukuran, Warna"
                                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
                                 />
-                                <p class="mt-1 text-[11px] text-gray-400">Label yang dilihat pembeli.</p>
+                                @error ('varian_label')
+                                    <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
+                                @else
+                                    <p class="mt-1 text-[11px] text-gray-400">Label yang dilihat pembeli.</p>
+                                @enderror
                             </div>
                             <div>
                                 <label
@@ -220,11 +241,34 @@
                                 <input
                                     type="text"
                                     name="varian_opsi"
-                                    value="{{ old('varian_opsi', $produk->varian_opsi ?? '') }}"
+                                    x-model="opsiRaw"
                                     placeholder="mis. Coklat, Stroberi, Vanila"
                                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none"
                                 />
-                                <p class="mt-1 text-[11px] text-gray-400">Pisahkan dengan koma. Stok dan harga tetap sama untuk semua opsi.</p>
+                                @error ('varian_opsi')
+                                    <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
+                                @else
+                                    <p class="mt-1 text-[11px] text-gray-400">Pisahkan dengan koma. Stok dan harga tetap sama untuk semua opsi.</p>
+                                @enderror
+
+                                <div
+                                    class="mt-3"
+                                    x-show="parsedOpsi.length > 0"
+                                    x-cloak
+                                >
+                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Preview Tampilan Checkout:</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <template
+                                            x-for="(opsi, index) in parsedOpsi"
+                                            :key="index"
+                                        >
+                                            <span
+                                                class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#DCE2D8] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
+                                                x-text="opsi"
+                                            ></span>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
