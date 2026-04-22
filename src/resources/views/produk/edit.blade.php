@@ -239,28 +239,6 @@
                     <div
                         class="border border-[#E8EBED] rounded-[1.25rem] bg-[#f9fafb] overflow-hidden focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors relative"
                     >
-                        <div
-                            class="flex items-center gap-4 px-5 py-3 border-b border-[#E8EBED] bg-[#fcfcfd]"
-                        >
-                            <button
-                                type="button"
-                                class="text-gray-700 hover:text-black font-serif font-bold text-[15px]"
-                            >
-                                B
-                            </button>
-                            <button
-                                type="button"
-                                class="text-gray-700 hover:text-black font-serif italic text-[15px]"
-                            >
-                                I
-                            </button>
-                            <button
-                                type="button"
-                                class="text-gray-700 hover:text-black font-serif underline text-[15px] underline-offset-2"
-                            >
-                                U
-                            </button>
-                        </div>
                         <textarea
                             name="deskripsi"
                             id="deskripsi"
@@ -305,9 +283,13 @@
                                     ? 'bg-[#2E5136]'
                                     : 'bg-transparent border-2 border-gray-200'"
                             >
-                                <svg x-show="
-                                        status === '1'
-                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    x-show="status === '1'"
+                                    class="w-4 h-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>
@@ -348,9 +330,13 @@
                                     ? 'bg-[#2E5136]'
                                     : 'bg-transparent border-2 border-gray-200'"
                             >
-                                <svg x-show="
-                                        status === '0'
-                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    x-show="status === '0'"
+                                    class="w-4 h-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>

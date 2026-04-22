@@ -170,35 +170,6 @@
                         <div
                             class="border border-[#E8EBED] rounded-[1.5rem] bg-white overflow-hidden focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors shadow-[0_2px_10px_rgb(0,0,0,0.01)]"
                         >
-                            <div
-                                class="flex items-center gap-4 px-6 py-3.5 border-b border-[#E8EBED]"
-                            >
-                                <button
-                                    type="button"
-                                    class="text-[#2E5136] font-serif font-bold text-[15px]"
-                                >
-                                    B
-                                </button>
-                                <button
-                                    type="button"
-                                    class="text-[#2E5136] font-serif italic text-[15px]"
-                                >
-                                    I
-                                </button>
-                                <button
-                                    type="button"
-                                    class="text-[#2E5136] hover:text-black"
-                                >
-                                    <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16M8 6h.01M8 12h.01M8 18h.01"></path></svg>
-                                </button>
-                                <div class="w-px h-4 bg-[#E8EBED] mx-2"></div>
-                                <button
-                                    type="button"
-                                    class="text-gray-400 hover:text-black"
-                                >
-                                    <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                                </button>
-                            </div>
                             <textarea
                                 name="deskripsi"
                                 id="deskripsi"

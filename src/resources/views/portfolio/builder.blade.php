@@ -223,22 +223,6 @@
                             <div
                                 class="border border-[#E8EBED] rounded-2xl bg-white overflow-hidden shadow-sm focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors"
                             >
-                                <div
-                                    class="flex items-center gap-4 px-5 py-3 border-b border-[#E8EBED] bg-white"
-                                >
-                                    <button
-                                        type="button"
-                                        class="text-gray-600 hover:text-black font-serif font-bold text-sm"
-                                    >
-                                        B
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="text-gray-600 hover:text-black font-serif italic text-sm"
-                                    >
-                                        I
-                                    </button>
-                                </div>
                                 <textarea
                                     name="deskripsi"
                                     id="deskripsi"
