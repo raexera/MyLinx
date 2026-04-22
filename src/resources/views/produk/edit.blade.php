@@ -10,9 +10,7 @@
             </a>
         </div>
     </x-slot>
-    <!-- Main Content -->
     <div class="w-full max-w-[640px] mx-auto pb-16 pt-6">
-        <!-- Header Center -->
         <div class="text-center mb-10">
             <h1
                 class="text-4xl sm:text-[2.75rem] font-serif text-[#1A1C19] tracking-tight leading-none mb-3"
@@ -33,7 +31,6 @@
                 </ul>
             </div>
         @endif
-        <!-- Form Card -->
         <div
             class="bg-white rounded-[2rem] p-8 sm:p-10 shadow-[0_4px_24px_rgb(0,0,0,0.02)] border border-[#E8EBED]"
         >
@@ -45,7 +42,6 @@
             >
                 @csrf
                 @method ('PUT')
-                <!-- Foto Produk -->
                 <div>
                     <label
                         class="block font-serif text-[17px] font-bold text-[#1A1C19] mb-4"
@@ -100,7 +96,6 @@
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Nama Produk -->
                 <div>
                     <label
                         for="nama_produk"
@@ -120,7 +115,6 @@
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Row: Harga & Stok -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                         <label
@@ -211,36 +205,32 @@
                                 :key="index"
                             >
                                 <div
-                                    class="p-4 bg-white border border-[#E8EBED] rounded-2xl relative transition-all shadow-[0_2px_10px_rgb(0,0,0,0.02)]"
+                                    class="border border-[#E8EBED] rounded-[1.25rem] bg-[#f9fafb] overflow-hidden focus-within:border-[#2E5136] focus-within:ring-1 focus-within:ring-[#2E5136] transition-colors relative"
                                 >
                                     <div
-                                        class="flex items-center justify-between mb-4 pb-3 border-b border-[#E8EBED]/60"
+                                        class="flex items-center justify-between px-5 py-3 border-b border-[#E8EBED] bg-[#fcfcfd]"
                                     >
-                                        <div class="flex items-center gap-2.5">
-                                            <div
-                                                class="w-6 h-6 rounded-full bg-[#EAF2ED] text-[#2E5136] flex items-center justify-center text-[11px] font-bold"
-                                                x-text="index + 1"
-                                            ></div>
-                                            <h4
-                                                class="text-[13px] font-bold text-[#1A1C19] uppercase tracking-widest"
-                                            >
-                                                Grup Varian
-                                            </h4>
-                                        </div>
+                                        <span
+                                            class="text-[12px] font-bold text-[#1A1C19] uppercase tracking-widest"
+                                            >Grup Varian
+                                            <span x-text="index + 1"></span
+                                        ></span>
                                         <button
                                             type="button"
                                             @click="removeVariant(index)"
-                                            class="text-[11px] font-bold text-red-500 hover:text-red-700 flex items-center gap-1 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg transition-colors"
+                                            class="text-[11px] font-bold text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors"
                                         >
                                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            Hapus Grup
+                                            Hapus
                                         </button>
                                     </div>
 
-                                    <div class="space-y-4">
-                                        <div>
+                                    <div
+                                        class="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-[#E8EBED]"
+                                    >
+                                        <div class="flex-1 p-5">
                                             <label
-                                                class="block text-[13px] font-bold text-[#1A1C19] mb-1.5"
+                                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5"
                                                 >Nama Varian
                                                 <span class="text-red-500"
                                                     >*</span
@@ -250,42 +240,41 @@
                                                 type="text"
                                                 :name="`variants[${index}][label]`"
                                                 x-model="variant.label"
-                                                placeholder="Contoh: Warna, Ukuran, atau Model"
-                                                class="w-full h-11 bg-[#f9fafb] border border-[#E8EBED] rounded-xl px-4 text-[14px] focus:bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors"
+                                                placeholder="Contoh: Warna"
+                                                class="w-full bg-transparent border-none p-0 text-[14.5px] text-[#1A1C19] font-medium focus:ring-0 outline-none placeholder:text-gray-400"
                                                 required
                                             />
                                         </div>
-                                        <div>
+
+                                        <div class="flex-[1.5] p-5">
                                             <div
-                                                class="flex flex-wrap sm:flex-nowrap justify-between items-end gap-2 mb-1.5"
+                                                class="flex justify-between items-center mb-1.5 gap-2"
                                             >
                                                 <label
-                                                    class="block text-[13px] font-bold text-[#1A1C19]"
-                                                    >Pilihan Varian
+                                                    class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest shrink-0"
+                                                    >Pilihan
                                                     <span class="text-red-500"
                                                         >*</span
                                                     ></label
                                                 >
                                                 <span
-                                                    class="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-md flex items-center gap-1 uppercase tracking-wider"
+                                                    class="text-[9px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0"
+                                                    >Pisahkan dgn koma (,)</span
                                                 >
-                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                                                    Pisahkan dengan koma (,)
-                                                </span>
                                             </div>
                                             <input
                                                 type="text"
                                                 :name="`variants[${index}][options]`"
                                                 x-model="variant.options"
-                                                placeholder="Contoh: Hitam, Putih, Abu-abu"
-                                                class="w-full h-11 bg-[#f9fafb] border border-[#E8EBED] rounded-xl px-4 text-[14px] focus:bg-white focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors"
+                                                placeholder="Contoh: Hitam, Putih"
+                                                class="w-full bg-transparent border-none p-0 text-[14.5px] text-[#1A1C19] font-medium focus:ring-0 outline-none placeholder:text-gray-400"
                                                 required
                                             />
                                         </div>
                                     </div>
 
                                     <div
-                                        class="mt-5 pt-4 border-t border-dashed border-[#E8EBED]"
+                                        class="px-5 pb-5"
                                         x-show="
                                             parseOptions(variant.options)
                                                 .length > 0
@@ -304,7 +293,7 @@
                                                 :key="i"
                                             >
                                                 <span
-                                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#2E5136]/20 bg-[#EAF2ED] text-[#2E5136] text-[12px] font-bold"
+                                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border border-[#E8EBED] bg-white text-[#1A1C19] text-[12px] font-bold shadow-sm"
                                                     x-text="opsi"
                                                 ></span>
                                             </template>
@@ -314,10 +303,11 @@
                             </template>
                             <div
                                 x-show="variants.length === 0"
-                                class="p-6 border-2 border-dashed border-[#E8EBED] rounded-2xl text-center text-gray-400 text-sm font-medium"
+                                class="border-2 border-dashed border-[#E8EBED] rounded-[1.25rem] p-6 text-center text-gray-400 text-sm font-medium hover:border-[#2E5136]/30 hover:bg-[#f9fafb] transition-colors cursor-pointer"
+                                @click="addVariant"
                             >
-                                Klik "+ Tambah Grup Varian" jika produk ini
-                                memiliki pilihan warna, ukuran, dll.
+                                Klik "+ Tambah Grup Varian" jika produk memiliki
+                                pilihan warna atau ukuran.
                             </div>
                         </div>
                         @error ('variants')
@@ -325,7 +315,6 @@
                         @enderror
                     </div>
                 </div>
-                <!-- Deskripsi Lengkap -->
                 <div class="pb-2">
                     <label
                         for="deskripsi"
@@ -349,17 +338,14 @@
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Status Produk -->
                 <div
                     x-data="{ status: '{{ old('status', $produk->status ? '1' : '0') }}' }"
                 >
                     <label
                         class="block font-serif text-[17px] font-bold text-[#1A1C19] mb-4"
+                        >Status Produk</label
                     >
-                        Status Produk
-                    </label>
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Aktif Card -->
                         <label
                             class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
                             :class="status === '1'
@@ -379,15 +365,7 @@
                                     ? 'bg-[#2E5136]'
                                     : 'bg-transparent border-2 border-gray-200'"
                             >
-                                <svg
-                                    x-show="status === '1'"
-                                    class="w-4 h-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
+                                <svg x-show="status === '1'" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
                             <div class="mb-2">
                                 <div
@@ -399,14 +377,8 @@
                                     Aktif
                                 </div>
                             </div>
-                            <p
-                                class="text-[12px] font-medium leading-snug"
-                                :class="status === '1'
-                                    ? 'text-[#2E5136]/70'
-                                    : 'text-gray-500'"
-                            >Produk muncul di storefront dan bisa dipesan pembeli.</p>
+                            <p class="text-[12px] font-medium leading-snug" :class="status === '1' ? 'text-[#2E5136]/70' : 'text-gray-500'">Produk muncul di storefront dan bisa dipesan pembeli.</p>
                         </label>
-                        <!-- Nonaktif Card -->
                         <label
                             class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
                             :class="status === '0'
@@ -426,15 +398,7 @@
                                     ? 'bg-[#2E5136]'
                                     : 'bg-transparent border-2 border-gray-200'"
                             >
-                                <svg
-                                    x-show="status === '0'"
-                                    class="w-4 h-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
+                                <svg x-show="status === '0'" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
                             <div class="mb-2">
                                 <div
@@ -446,19 +410,14 @@
                                     Nonaktif
                                 </div>
                             </div>
-                            <p
-                                class="text-[12px] font-medium leading-snug"
-                                :class="status === '0'
-                                    ? 'text-[#2E5136]/70'
-                                    : 'text-gray-500'"
-                            >Produk disembunyikan dari storefront, tapi data pesanan lama tetap aman.</p>
+                            <p class="text-[12px] font-medium leading-snug" :class="status === '0' ? 'text-[#2E5136]/70' : 'text-gray-500'">Produk disembunyikan dari storefront, tapi pesanan lama tetap aman.</p>
                         </label>
                     </div>
                     @error ('status')
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Submit -->
+
                 <div class="flex flex-col items-center pt-2 gap-4">
                     <button
                         type="submit"
@@ -470,11 +429,16 @@
                     <a
                         href="{{ route('produk.index') }}"
                         class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors"
+                        >Batal & Kembali</a
                     >
-                        Batal & Kembali
-                    </a>
                 </div>
             </form>
+        </div>
+        <div
+            class="flex justify-center items-center gap-1.5 mt-8 text-[11px] font-bold text-gray-400"
+        >
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            Data anda aman dan terenkripsi.
         </div>
     </div>
     <script>
