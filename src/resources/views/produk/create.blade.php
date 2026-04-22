@@ -1,17 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center pt-2 sm:pt-4 w-full">
-            href="{{ route('produk.index') }}" class="flex items-center gap-2
-            text-[14px] font-bold text-[#1A1C19] hover:text-[#2E5136]
-            transition-colors" >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Tambah Produk Baru
+            <a
+                href="{{ route('produk.index') }}"
+                class="flex items-center gap-2 text-[14px] font-bold text-[#1A1C19] hover:text-[#2E5136] transition-colors"
+            >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Tambah Produk Baru
             </a>
         </div>
     </x-slot>
-    <!-- Main Content -->
     <div class="w-full max-w-[640px] mx-auto pb-16 pt-6">
-        <!-- Header Center -->
         <div class="text-center mb-10">
             <h1
                 class="text-4xl sm:text-[2.75rem] font-serif text-[#1A1C19] tracking-tight leading-none mb-3"
@@ -32,7 +31,6 @@
                 </ul>
             </div>
         @endif
-        <!-- Form Card -->
         <div
             class="bg-white rounded-[2rem] p-8 sm:p-10 shadow-[0_4px_24px_rgb(0,0,0,0.02)] border border-[#E8EBED]"
         >
@@ -43,7 +41,6 @@
                 class="space-y-10"
             >
                 @csrf
-                <!-- Foto Produk -->
                 <div>
                     <label
                         class="block font-serif text-[17px] font-bold text-[#1A1C19] mb-4"
@@ -97,7 +94,6 @@
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Nama Produk -->
                 <div>
                     <label
                         for="nama_produk"
@@ -117,9 +113,7 @@
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Row: Harga & Stok -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <!-- Harga -->
                     <div>
                         <label
                             for="harga"
@@ -148,7 +142,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Stok -->
                     <div>
                         <label
                             for="stok"
@@ -228,7 +221,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Deskripsi Lengkap -->
                 <div class="pb-2">
                     <label
                         for="deskripsi"
@@ -300,7 +292,6 @@
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Status Produk -->
                 <div x-data="{ status: '{{ old('status', '1') }}' }">
                     <label
                         class="block font-serif text-[17px] font-bold text-[#1A1C19] mb-4"
@@ -308,7 +299,6 @@
                         Status Produk
                     </label>
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Aktif Card -->
                         <label
                             class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
                             :class="status === '1'
@@ -328,9 +318,13 @@
                                     ? 'bg-[#2E5136]'
                                     : 'bg-transparent border-2 border-gray-200'"
                             >
-                                <svg x-show="
-                                        status === '1'
-                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    x-show="status === '1'"
+                                    class="w-4 h-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>
@@ -351,7 +345,6 @@
                                     : 'text-gray-500'"
                             >Produk muncul di storefront dan bisa dipesan pembeli.</p>
                         </label>
-                        <!-- Nonaktif Card -->
                         <label
                             class="relative cursor-pointer rounded-2xl border-2 p-5 transition-all"
                             :class="status === '0'
@@ -371,9 +364,13 @@
                                     ? 'bg-[#2E5136]'
                                     : 'bg-transparent border-2 border-gray-200'"
                             >
-                                <svg x-show="
-                                        status === '0'
-                                    " class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    x-show="status === '0'"
+                                    class="w-4 h-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>
@@ -399,7 +396,6 @@
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <!-- Submit Action (Inside Card) -->
                 <div class="flex flex-col items-center pt-2 gap-4">
                     <button
                         type="submit"
@@ -409,14 +405,15 @@
                         <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
 
-                    href="{{ route('produk.index') }}" class="text-[12.5px]
-                    font-bold text-gray-400 hover:text-[#1A1C19]
-                    transition-colors" > Batal & Kembali
+                    <a
+                        href="{{ route('produk.index') }}"
+                        class="text-[12.5px] font-bold text-gray-400 hover:text-[#1A1C19] transition-colors"
+                    >
+                        Batal & Kembali
                     </a>
                 </div>
             </form>
         </div>
-        <!-- Footer Text Outside Card -->
         <div
             class="flex justify-center items-center gap-1.5 mt-8 text-[11px] font-bold text-gray-400"
         >
