@@ -240,12 +240,6 @@
                             >{{ old('deskripsi') }}</textarea
                         >
                     </div>
-                    <div class="flex justify-end mt-2 px-1">
-                        <span
-                            class="text-[10px] text-gray-400 font-medium text-right leading-tight tracking-wide"
-                            >0/2000<br />karakter</span
-                        >
-                    </div>
                     @error ('deskripsi')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
