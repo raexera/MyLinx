@@ -166,36 +166,45 @@
                 <div>
                     <label
                         class="block text-[13px] font-bold text-[#1A1C19] mb-2"
-                        >Accent Color</label
+                        >Warna Tema Utama</label
                     >
-                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Applied to buttons, links, and highlights.</p>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Pilih warna untuk tombol, tautan, dan elemen penting.</p>
                     <div class="flex items-center gap-4 flex-wrap">
-                        <input
-                            type="color"
-                            name="accent_color"
-                            x-model="accent"
-                            class="w-14 h-14 rounded-xl border-2 border-[#E8EBED] cursor-pointer shadow-sm"
-                        />
-                        <div
-                            class="flex items-center border border-[#E8EBED] rounded-full h-[46px] px-5 bg-[#fcfcfd] max-w-[140px]"
-                        >
-                            <span
-                                class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]"
-                                x-text="accent"
-                            ></span>
+                        <div class="relative shrink-0">
+                            <input
+                                type="color"
+                                name="accent_color"
+                                x-model="accent"
+                                class="w-12 h-12 rounded-xl border border-[#E8EBED] cursor-pointer shadow-sm p-0 m-0 overflow-hidden"
+                            />
+                            <div
+                                class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[9px] font-bold text-gray-400 uppercase tracking-wide"
+                            >
+                                Custom
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2 flex-wrap">
+
+                        <div class="w-px h-10 bg-[#E8EBED] mx-2"></div>
+
+                        <div class="flex items-center gap-2.5 flex-wrap">
                             <template
                                 x-for="
                                     preset in
                                     [
                                         '#2E5136',
-                                        '#1E40AF',
-                                        '#BE185D',
-                                        '#D97706',
-                                        '#7C3AED',
+                                        '#1E3A8A',
+                                        '#2563EB',
+                                        '#0284C7',
                                         '#0F766E',
+                                        '#16A34A',
+                                        '#65A30D',
+                                        '#D97706',
+                                        '#EA580C',
+                                        '#DC2626',
+                                        '#BE185D',
+                                        '#9333EA',
                                         '#1F2937',
+                                        '#000000',
                                     ]
                                 "
                                 :key="preset"
@@ -204,7 +213,7 @@
                                     type="button"
                                     @click="accent = preset"
                                     :style="`background:${preset}`"
-                                    class="w-8 h-8 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-transform"
+                                    class="w-9 h-9 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-transform"
                                     :class="accent === preset
                                         ? 'ring-2 ring-offset-2 ring-[#1A1C19]'
                                         : ''"
@@ -216,40 +225,49 @@
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <div>
+
+                <div class="pt-4">
                     <label
                         class="block text-[13px] font-bold text-[#1A1C19] mb-2"
-                        >Background Color</label
+                        >Warna Latar Belakang (Background)</label
                     >
-                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Page background of your storefront.</p>
+                    <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Warna dominan untuk halaman toko Anda.</p>
                     <div class="flex items-center gap-4 flex-wrap">
-                        <input
-                            type="color"
-                            name="background_color"
-                            x-model="background"
-                            class="w-14 h-14 rounded-xl border-2 border-[#E8EBED] cursor-pointer shadow-sm"
-                        />
-                        <div
-                            class="flex items-center border border-[#E8EBED] rounded-full h-[46px] px-5 bg-[#fcfcfd] max-w-[140px]"
-                        >
-                            <span
-                                class="text-[13px] font-mono font-bold uppercase text-[#1A1C19]"
-                                x-text="background"
-                            ></span>
+                        <div class="relative shrink-0">
+                            <input
+                                type="color"
+                                name="background_color"
+                                x-model="background"
+                                class="w-12 h-12 rounded-xl border border-[#E8EBED] cursor-pointer shadow-sm p-0 m-0 overflow-hidden"
+                            />
+                            <div
+                                class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[9px] font-bold text-gray-400 uppercase tracking-wide"
+                            >
+                                Custom
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2 flex-wrap">
+
+                        <div class="w-px h-10 bg-[#E8EBED] mx-2"></div>
+
+                        <div class="flex items-center gap-2.5 flex-wrap">
                             <template
                                 x-for="
                                     preset in
                                     [
-                                        '#FBFBF9',
                                         '#FFFFFF',
-                                        '#F5F5F0',
-                                        '#FAF5FF',
+                                        '#FBFBF9',
+                                        '#F3F4F6',
+                                        '#FEF2F2',
                                         '#FFF7ED',
+                                        '#FEFCE8',
+                                        '#F0FDF4',
                                         '#F0F9FF',
+                                        '#EEF2FF',
+                                        '#FAF5FF',
+                                        '#111827',
                                         '#0F172A',
-                                        '#18181B',
+                                        '#171717',
+                                        '#000000',
                                     ]
                                 "
                                 :key="preset"
@@ -258,7 +276,7 @@
                                     type="button"
                                     @click="background = preset"
                                     :style="`background:${preset}`"
-                                    class="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm hover:scale-110 transition-transform"
+                                    class="w-9 h-9 rounded-full border-2 border-gray-200 shadow-sm hover:scale-110 transition-transform"
                                     :class="background === preset
                                         ? 'ring-2 ring-offset-2 ring-[#1A1C19]'
                                         : ''"
@@ -270,8 +288,9 @@
                         <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
+
                 <div
-                    class="rounded-2xl border border-[#E8EBED] p-6 shadow-inner transition-colors duration-300"
+                    class="rounded-2xl border border-[#E8EBED] p-6 shadow-inner transition-colors duration-300 mt-8"
                     :style="`background:${background}`"
                 >
                     <p
@@ -306,8 +325,9 @@
                         >
                     </div>
                 </div>
+
                 <div
-                    class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 border-t border-[#F0F2F3]"
+                    class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-8 mt-8 border-t border-[#F0F2F3]"
                 >
                     <div>
                         <label
