@@ -70,7 +70,7 @@
                 class="max-w-xl"
             >
                 <div
-                    class="flex items-center bg-white border rounded-full p-2 pl-6 shadow-sm transition-all"
+                    class="flex items-center bg-white border rounded-full py-3.5 pl-6 pr-5 shadow-sm transition-all"
                     :class="{
                         'border-[#DCE2D8] focus-within:ring-2 focus-within:ring-[#2E5136]':
                             status === 'idle',
@@ -96,9 +96,12 @@
                         required
                     />
 
-                    <div class="flex items-center gap-2 pr-1" x-cloak>
+                    <div
+                        class="flex items-center justify-center w-6 h-6 shrink-0 ml-2"
+                        x-cloak
+                    >
                         <template x-if="status === 'checking'">
-                            <svg class="w-5 h-5 text-gray-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#2E5136] animate-spin" fill="none" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25" />
                                 <path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z" />
                             </svg>
@@ -111,18 +114,6 @@
                         >
                             <svg class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
                         </template>
-
-                        <button
-                            type="button"
-                            @click="check()"
-                            :disabled="status === 'checking'"
-                            class="bg-[#2E5136] hover:bg-[#1f3824] text-white p-3 rounded-full transition-colors flex-shrink-0 disabled:opacity-50 ml-2"
-                            title="Check Availability"
-                        >
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </button>
                     </div>
                 </div>
 
