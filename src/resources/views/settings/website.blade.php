@@ -111,17 +111,6 @@
                         </template>
                     </div>
                 </div>
-                <button
-                    type="button"
-                    @click="check()"
-                    :disabled="status === 'checking'"
-                    class="bg-[#F4F6F9] hover:bg-[#e6eaf0] text-[#1A1C19] text-[13.5px] font-bold px-7 h-[54px] rounded-full transition-colors whitespace-nowrap shadow-sm disabled:opacity-50"
-                >
-                    <span x-show="status !== 'checking'"
-                        >Check Availability</span
-                    >
-                    <span x-show="status === 'checking'">Checking…</span>
-                </button>
             </div>
             <div class="mt-3 px-2 min-h-[20px]" x-cloak>
                 <p
@@ -229,7 +218,7 @@
                 <div class="pt-4">
                     <label
                         class="block text-[13px] font-bold text-[#1A1C19] mb-2"
-                        >Warna Latar Belakang (Background)</label
+                        >Warna Latar Belakang</label
                     >
                     <p class="text-[12px] text-[#6A7B8C] font-medium mb-4">Warna dominan untuk halaman toko Anda.</p>
                     <div class="flex items-center gap-4 flex-wrap">
