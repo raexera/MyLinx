@@ -56,80 +56,96 @@
                 <p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>
             @enderror
         </div>
+
         <div class="mb-14">
             <h2
                 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight"
             >
-                Shop Subdomain
+                Shop Address
             </h2>
-            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Choose a unique address for your online store.</p>
+            <p class="text-[13.5px] text-[#6A7B8C] font-medium mb-5">Choose a unique URL for your online store.</p>
+
             <div
                 x-data="slugChecker('{{ $tenant->slug }}', '{{ route('settings.website.check-slug') }}')"
-                class="flex flex-col sm:flex-row gap-4 sm:gap-3"
+                class="max-w-xl"
             >
                 <div
-                    class="flex items-center flex-1 border rounded-[1rem] bg-white h-[54px] px-5 shadow-sm transition-colors"
+                    class="flex items-center bg-white border rounded-full p-2 pl-6 shadow-sm transition-all"
                     :class="{
-                        'border-[#E8EBED]': status === 'idle',
-                        'border-[#2E5136] ring-1 ring-[#2E5136]':
+                        'border-[#DCE2D8] focus-within:ring-2 focus-within:ring-[#2E5136]':
+                            status === 'idle',
+                        'border-[#2E5136] ring-2 ring-[#2E5136]':
                             status === 'checking',
-                        'border-green-500 ring-1 ring-green-500':
+                        'border-green-500 ring-2 ring-green-500':
                             status === 'available',
-                        'border-red-400 ring-1 ring-red-400':
+                        'border-red-400 ring-2 ring-red-400':
                             status === 'taken' || status === 'invalid',
                     }"
                 >
-                    <svg class="w-[18px] h-[18px] text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    <span class="text-gray-400 text-[15px] sm:text-lg"
+                        >mylinx.tech/</span
+                    >
                     <input
                         type="text"
                         name="slug"
                         value="{{ old('slug', $tenant->slug) }}"
                         x-model="slug"
                         @input.debounce.500ms="check()"
-                        class="flex-1 bg-transparent border-none outline-none text-[14.5px] font-medium text-[#1A1C19] p-0 focus:ring-0 placeholder:text-gray-300 w-full"
-                        placeholder="your-store-name"
+                        class="w-full bg-transparent border-none focus:ring-0 text-[15px] sm:text-lg text-[#1A1C19] font-medium placeholder-gray-300 p-0 ml-1"
+                        placeholder="namatokomu"
                         required
                     />
-                    <span
-                        class="text-[14.5px] font-medium text-gray-400 pl-2 opacity-80"
-                        >.mylinx.tech</span
-                    >
-                    <div class="pl-3" x-cloak>
+
+                    <div class="flex items-center gap-2 pr-1" x-cloak>
                         <template x-if="status === 'checking'">
-                            <svg class="w-4 h-4 text-gray-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-400 animate-spin" fill="none" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25" />
                                 <path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z" />
                             </svg>
                         </template>
                         <template x-if="status === 'available'">
-                            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                            <svg class="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
                         </template>
                         <template
                             x-if="status === 'taken' || status === 'invalid'"
                         >
-                            <svg class="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <svg class="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
                         </template>
+
+                        <button
+                            type="button"
+                            @click="check()"
+                            :disabled="status === 'checking'"
+                            class="bg-[#2E5136] hover:bg-[#1f3824] text-white p-3 rounded-full transition-colors flex-shrink-0 disabled:opacity-50 ml-2"
+                            title="Check Availability"
+                        >
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
+
+                <div class="mt-3 px-4 min-h-[20px]" x-cloak>
+                    <p
+                        x-show="status === 'available'"
+                        class="text-[12.5px] font-semibold text-green-600 flex items-center gap-1.5"
+                    >
+                        <span>✓</span> <span x-text="message"></span>
+                    </p>
+                    <p
+                        x-show="status === 'taken' || status === 'invalid'"
+                        class="text-[12.5px] font-semibold text-red-500 flex items-center gap-1.5"
+                    >
+                        <span>✕</span> <span x-text="message"></span>
+                    </p>
+                </div>
+                @error ('slug')
+                    <p class="text-xs text-red-500 mt-2 px-4">{{ $message }}</p>
+                @enderror
             </div>
-            <div class="mt-3 px-2 min-h-[20px]" x-cloak>
-                <p
-                    x-show="status === 'available'"
-                    class="text-[12.5px] font-semibold text-green-600 flex items-center gap-1.5"
-                >
-                    <span>✓</span> <span x-text="message"></span>
-                </p>
-                <p
-                    x-show="status === 'taken' || status === 'invalid'"
-                    class="text-[12.5px] font-semibold text-red-500 flex items-center gap-1.5"
-                >
-                    <span>✕</span> <span x-text="message"></span>
-                </p>
-            </div>
-            @error ('slug')
-                <p class="text-xs text-red-500 mt-2 px-2">{{ $message }}</p>
-            @enderror
         </div>
+
         <div class="mb-14">
             <h2
                 class="text-[1.75rem] font-serif text-[#1A1C19] mb-1.5 leading-tight"
@@ -458,7 +474,7 @@
                         const data = await res.json();
                         if (data.available) {
                             this.status = "available";
-                            this.message = `URL tersedia! "${data.slug}.mylinx.tech" siap dipakai.`;
+                            this.message = `URL tersedia! "mylinx.tech/${data.slug}" siap dipakai.`;
                         } else {
                             this.status = "taken";
                             this.message = data.reason || "URL sudah dipakai.";
