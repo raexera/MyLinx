@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1777930536.08453 "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" "conference.pdf" "conference" 1777930536.7318 0
+["pdflatex"] 1778045054.25524 "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" "conference.pdf" "conference" 1778045054.98467 0
   "C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/times/ptmb7t.tfm" 1136747054 2172 fd0c924230362ff848a33632ed45dc23 ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/times/ptmb8r.tfm" 1136747054 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -25,7 +25,6 @@
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmr8.tfm" 1136765053 1292 21c1c5bfeaebccffdb478fd231a0997d ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
-  "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1247596666 32716 08e384dc442464e7285e891af9f45947 ""
   "C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb" 1136828148 44729 fea0975e20ec51c992338362f05f1146 ""
   "C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb" 1136828148 44656 0cbca70e0534538582128f6b54593cca ""
   "C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb" 1136828148 46026 687528a208fbfc1f00832bb96cccebbb ""
@@ -57,14 +56,14 @@
   "C:/Program Files/MiKTeX/tex/latex/graphics/trig.sty" 1749322634 4023 e66acf578d6b564c4670fb57ff336a7a ""
   "C:/Program Files/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1761202581 30662 bfd6e864f4ffc5018b0e2b6260c3181c ""
   "C:/Program Files/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "C:/Users/Rahmadyan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1777300406 82507 a9eef8696c92627b87e9975edea03b2a ""
+  "C:/Users/Rahmadyan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1778045019 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/Rahmadyan/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1777299572 13323432 709f75fca48ebd8b9f2d67b4829b0bc4 ""
   "C:/Users/Rahmadyan/AppData/Roaming/MiKTeX/tex/latex/cite/cite.sty" 1425353482 26218 19edeff8cdc2bcb704e8051dc55eb5a7 ""
   "C:/Users/Rahmadyan/AppData/Roaming/MiKTeX/tex/latex/ieeetran/IEEEtran.cls" 1440627644 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
   "C:/Users/Rahmadyan/AppData/Roaming/MiKTeX/tex/latex/psnfss/ot1ptm.fd" 1585253778 1007 15056f4a61917ceed3a44e4ac11fcc52 ""
-  "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" 1777930535 10620 41336f281d2e726d67552c98547beb07 ""
-  "conference.aux" 1777930536 1705 54992dc1e5f7dca68b1a2bd10776c8d7 "pdflatex"
-  "conference.tex" 1777930535 10620 41336f281d2e726d67552c98547beb07 ""
+  "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" 1778045052 16730 4b603c37834ac8c0fa1c8fa9408aebf2 ""
+  "conference.aux" 1778045054 2583 849b560a62b9bf89d7d17e27315bab8d "pdflatex"
+  "conference.tex" 1778045052 16730 4b603c37834ac8c0fa1c8fa9408aebf2 ""
   (generated)
   "conference.aux"
   "conference.log"
