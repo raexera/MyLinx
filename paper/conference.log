@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  6 MAY 2026 12:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  6 MAY 2026 12:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -278,12 +278,9 @@ Underfull \hbox (badness 1521) in paragraph at lines 151--152
 <assets/1-Reseach Procedure.png, id=12, 450.68375pt x 141.52875pt>
 File: assets/1-Reseach Procedure.png Graphic file (type png)
 <use assets/1-Reseach Procedure.png>
-Package pdftex.def Info: assets/1-Reseach Procedure.png  used on input line 226.
+Package pdftex.def Info: assets/1-Reseach Procedure.png  used on input line 224.
 (pdftex.def)             Requested size: 252.0pt x 79.13678pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
+ [3 <./assets/1-Reseach Procedure.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -295,7 +292,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3 <./assets/1-Reseach Procedure.png>] (conference.aux)
+[4
+
+] (conference.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -310,9 +309,9 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  57i,11n,65p,969b,348s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on conference.pdf (3 pages, 81222 bytes).
+Output written on conference.pdf (4 pages, 82429 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
+ 39 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
