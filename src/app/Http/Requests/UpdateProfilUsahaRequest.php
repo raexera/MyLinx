@@ -32,7 +32,7 @@ class UpdateProfilUsahaRequest extends FormRequest
                 'image',
                 'mimes:jpg,jpeg,png',
                 'max:2048',
-                'dimensions:max_width=2000,max_height=2000',
+                'dimensions:min_width=300,min_height=300,max_width=2000,max_height=3000',
                 $this->qrisValidationRule(),
             ],
         ];
@@ -69,7 +69,7 @@ class UpdateProfilUsahaRequest extends FormRequest
             'qris_image.image' => 'QRIS harus berupa file gambar.',
             'qris_image.mimes' => 'Format QRIS harus JPG, JPEG, atau PNG.',
             'qris_image.max' => 'Ukuran gambar QRIS maksimal 2MB.',
-            'qris_image.dimensions' => 'Dimensi QRIS maksimal 2000x2000 pixel.',
+            'qris_image.dimensions' => 'Dimensi QRIS maksimal 2000x3000 pixel.',
         ];
     }
 
