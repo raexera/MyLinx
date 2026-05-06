@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1778045477.14079 "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" "conference.pdf" "conference" 1778045478.19152 0
+["pdflatex"] 1778046325.70926 "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" "conference.pdf" "conference" 1778046326.80953 0
   "C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/times/ptmb7t.tfm" 1136747054 2172 fd0c924230362ff848a33632ed45dc23 ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/times/ptmb8r.tfm" 1136747054 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -61,9 +61,10 @@
   "C:/Users/Rahmadyan/AppData/Roaming/MiKTeX/tex/latex/cite/cite.sty" 1425353482 26218 19edeff8cdc2bcb704e8051dc55eb5a7 ""
   "C:/Users/Rahmadyan/AppData/Roaming/MiKTeX/tex/latex/ieeetran/IEEEtran.cls" 1440627644 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
   "C:/Users/Rahmadyan/AppData/Roaming/MiKTeX/tex/latex/psnfss/ot1ptm.fd" 1585253778 1007 15056f4a61917ceed3a44e4ac11fcc52 ""
-  "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" 1778045476 16733 d152d567ac9ee021812c53cc05d979c2 ""
-  "conference.aux" 1778045477 2583 849b560a62b9bf89d7d17e27315bab8d "pdflatex"
-  "conference.tex" 1778045476 16733 d152d567ac9ee021812c53cc05d979c2 ""
+  "assets/1-Reseach Procedure.png" 1778046110 13304 09209eedbf42bdd833f4ca0ec2359073 ""
+  "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" 1778046324 16930 ac56d521143f30862c11b70b29a49600 ""
+  "conference.aux" 1778046326 2765 4f39646ea7ed339cd3e31adf30a462dc "pdflatex"
+  "conference.tex" 1778046324 16930 ac56d521143f30862c11b70b29a49600 ""
   (generated)
   "conference.aux"
   "conference.log"

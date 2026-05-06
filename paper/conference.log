@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  6 MAY 2026 12:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  6 MAY 2026 12:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -275,6 +275,15 @@ Underfull \hbox (badness 1521) in paragraph at lines 151--152
  []
 
 [2]
+<assets/1-Reseach Procedure.png, id=12, 450.68375pt x 141.52875pt>
+File: assets/1-Reseach Procedure.png Graphic file (type png)
+<use assets/1-Reseach Procedure.png>
+Package pdftex.def Info: assets/1-Reseach Procedure.png  used on input line 226.
+(pdftex.def)             Requested size: 252.0pt x 79.13678pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -286,24 +295,24 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3] (conference.aux)
+[3 <./assets/1-Reseach Procedure.png>] (conference.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3986 strings out of 467871
- 61788 string characters out of 5428431
- 483345 words of memory out of 5000000
- 32840 multiletter control sequences out of 15000+600000
+ 3996 strings out of 467871
+ 62126 string characters out of 5428431
+ 483367 words of memory out of 5000000
+ 32850 multiletter control sequences out of 15000+600000
  666248 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,11n,65p,969b,348s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on conference.pdf (3 pages, 77074 bytes).
+Output written on conference.pdf (3 pages, 81222 bytes).
 PDF statistics:
- 33 PDF objects out of 1000 (max. 8388607)
+ 36 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
