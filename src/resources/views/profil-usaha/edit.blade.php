@@ -13,7 +13,6 @@
             </div>
         </div>
     </x-slot>
-    <!-- Content wrapper -->
     <div class="w-full lg:pr-4 xl:pr-8 pb-16 flex flex-col mt-8 relative z-10">
         @if (session('success'))
             <div
@@ -47,7 +46,6 @@
             @csrf
             @method ('PATCH')
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Visual Identity -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2
@@ -69,7 +67,6 @@
                         onclick="document.getElementById('logo').click()"
                         class="bg-white rounded-[2rem] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.015)] group cursor-pointer hover:border-[#2E5136]/30 transition-colors"
                     >
-                        <!-- Upload Circle / Current Logo -->
                         <div
                             class="w-[120px] h-[120px] rounded-full border-2 border-dashed border-[#d1d5db] group-hover:border-[#2E5136]/50 flex items-center justify-center shrink-0 bg-[#f9fafb] group-hover:bg-[#f2f4f3] transition-colors relative overflow-hidden"
                         >
@@ -111,7 +108,6 @@
                 </div>
             </div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Core Info -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
@@ -120,7 +116,6 @@
                     <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">Tell your story. A compelling description helps customers connect with your brand.</p>
                 </div>
                 <div class="flex-1 space-y-8">
-                    <!-- Nama Usaha -->
                     <div>
                         <label
                             for="nama_usaha"
@@ -140,7 +135,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Alamat -->
                     <div>
                         <label
                             for="alamat"
@@ -160,7 +154,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Deskripsi Brand -->
                     <div>
                         <label
                             for="deskripsi"
@@ -187,7 +180,6 @@
             </div>
             <div class="h-4"></div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Contact & Social -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-8">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
@@ -198,7 +190,6 @@
                 <div
                     class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8"
                 >
-                    <!-- WhatsApp Kontak -->
                     <div
                         x-data="{
                         localNumber: '{{ old('no_hp_local', preg_replace('/^(\+?62|0+)/', '', old('no_hp', $profil->no_hp ?? ''))) }}',
@@ -252,7 +243,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Email Bisnis (read-only, from auth user) -->
                     <div>
                         <label
                             class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
@@ -273,7 +263,6 @@
                 </div>
             </div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Pembayaran QRIS -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
@@ -428,7 +417,70 @@
                     @enderror
                 </div>
             </div>
-            <!-- Submit -->
+            <div class="w-full h-px bg-[#E8EBED] mb-12 mt-8"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
+                <div class="md:w-[260px] shrink-0">
+                    <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
+                        Transfer Manual
+                    </h2>
+                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">
+                        Alternatif jika kamu tidak memiliki QRIS. Masukkan detail rekening agar pelanggan bisa transfer manual.
+                    </p>
+                </div>
+                <div class="flex-1 space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5">
+                                NAMA BANK / E-WALLET
+                            </label>
+                            <select
+                                name="nama_bank"
+                                class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors appearance-none"
+                            >
+                                <option value="">-- Pilih Bank --</option>
+                                @php
+                                    $banks = ['BCA', 'Bank Mandiri', 'BNI', 'BRI', 'BSI', 'Bank Syariah Indonesia', 'CIMB Niaga', 'Permata Bank', 'Bank Neo Commerce (BNC)', 'SeaBank', 'GoPay', 'DANA', 'OVO', 'ShopeePay'];
+                                @endphp
+                                @foreach($banks as $bank)
+                                    <option value="{{ $bank }}" {{ old('nama_bank', $profil->nama_bank) == $bank ? 'selected' : '' }}>{{ $bank }}</option>
+                                @endforeach
+                            </select>
+                            @error ('nama_bank') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5">
+                                NOMOR REKENING
+                            </label>
+                            <input
+                                type="text"
+                                name="nomor_rekening"
+                                value="{{ old('nomor_rekening', $profil->nomor_rekening) }}"
+                                placeholder="e.g. 1234567890"
+                                inputmode="numeric"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
+                            />
+                            @error ('nomor_rekening') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5">
+                            ATAS NAMA (PEMILIK REKENING)
+                        </label>
+                        <input
+                            type="text"
+                            name="atas_nama_rekening"
+                            value="{{ old('atas_nama_rekening', $profil->atas_nama_rekening) }}"
+                            placeholder="e.g. Budi Santoso"
+                            class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
+                        />
+                        @error ('atas_nama_rekening') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+            </div>
+
             <div
                 class="flex items-center justify-end gap-6 border-t border-[#E8EBED] pt-8 mb-4 flex-col sm:flex-row"
             >
