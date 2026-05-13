@@ -423,14 +423,14 @@
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
                         Transfer Manual
                     </h2>
-                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">
-                        Alternatif jika kamu tidak memiliki QRIS. Masukkan detail rekening agar pelanggan bisa transfer manual.
-                    </p>
+                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">Alternatif jika kamu tidak memiliki QRIS. Masukkan detail rekening agar pelanggan bisa transfer manual.</p>
                 </div>
                 <div class="flex-1 space-y-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5">
+                            <label
+                                class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                            >
                                 NAMA BANK / E-WALLET
                             </label>
                             <select
@@ -441,15 +441,23 @@
                                 @php
                                     $banks = ['BCA', 'Bank Mandiri', 'BNI', 'BRI', 'BSI', 'Bank Syariah Indonesia', 'CIMB Niaga', 'Permata Bank', 'Bank Neo Commerce (BNC)', 'SeaBank', 'GoPay', 'DANA', 'OVO', 'ShopeePay'];
                                 @endphp
-                                @foreach($banks as $bank)
-                                    <option value="{{ $bank }}" {{ old('nama_bank', $profil->nama_bank) == $bank ? 'selected' : '' }}>{{ $bank }}</option>
+                                @foreach ($banks as $bank)
+                                    <option
+                                        value="{{ $bank }}"
+                                        {{ old('nama_bank', $profil->nama_bank) == $bank ? 'selected' : '' }}
+                                        >{{ $bank }}
+                                    </option>
                                 @endforeach
                             </select>
-                            @error ('nama_bank') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                            @error ('nama_bank')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
-                            <label class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5">
+                            <label
+                                class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                            >
                                 NOMOR REKENING
                             </label>
                             <input
@@ -458,15 +466,24 @@
                                 value="{{ old('nomor_rekening', $profil->nomor_rekening) }}"
                                 placeholder="e.g. 1234567890"
                                 inputmode="numeric"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                oninput="
+                                    this.value = this.value.replace(
+                                        /[^0-9]/g,
+                                        '',
+                                    )
+                                "
                                 class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
                             />
-                            @error ('nomor_rekening') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                            @error ('nomor_rekening')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5">
+                        <label
+                            class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                        >
                             ATAS NAMA (PEMILIK REKENING)
                         </label>
                         <input
@@ -476,7 +493,9 @@
                             placeholder="e.g. Budi Santoso"
                             class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
                         />
-                        @error ('atas_nama_rekening') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        @error ('atas_nama_rekening')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>

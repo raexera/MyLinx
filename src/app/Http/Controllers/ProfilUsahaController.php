@@ -23,10 +23,10 @@ class ProfilUsahaController extends Controller
         $tenant = auth()->user()->tenant;
         $profil = $tenant->profilUsaha ?? $tenant->profilUsaha()->create([]);
 
-$data = $request->only([
-    'nama_usaha', 'deskripsi', 'alamat', 'no_hp',
-    'nama_bank', 'nomor_rekening', 'atas_nama_rekening'
-]);
+        $data = $request->only([
+            'nama_usaha', 'deskripsi', 'alamat', 'no_hp',
+            'nama_bank', 'nomor_rekening', 'atas_nama_rekening',
+        ]);
 
         if ($request->hasFile('logo')) {
             if ($profil->logo) {

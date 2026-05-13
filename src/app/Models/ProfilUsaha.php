@@ -13,7 +13,7 @@ class ProfilUsaha extends Model
 
     protected $table = 'profil_usahas';
 
-protected $fillable = [
+    protected $fillable = [
         'tenant_id',
         'nama_usaha',
         'deskripsi',

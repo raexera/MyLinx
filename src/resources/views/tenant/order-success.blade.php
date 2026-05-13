@@ -124,30 +124,57 @@
                 <strong class="font-mono">{{ $order->kode_order }}</strong>
             </p>
         </div>
-@if ($profil?->qris_image || ($profil?->nama_bank && $profil?->nomor_rekening))
-            <div class="mb-8 rounded-3xl bg-[var(--card-bg)] p-6 sm:p-8 border border-[var(--border-color)] shadow-sm">
+        @if ($profil?->qris_image || ($profil?->nama_bank && $profil?->nomor_rekening))
+            <div
+                class="mb-8 rounded-3xl bg-[var(--card-bg)] p-6 sm:p-8 border border-[var(--border-color)] shadow-sm"
+            >
                 <div class="text-center mb-6">
-                    <div class="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 bg-amber-50 border border-amber-100">
-                        <span class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 bg-amber-50 border border-amber-100"
+                    >
+                        <span
+                            class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"
+                        ></span>
                         Menunggu Pembayaran
                     </div>
-                    <h2 class="mt-5 text-xl font-bold text-[var(--text-main)]">Selesaikan Pembayaran</h2>
+                    <h2 class="mt-5 text-xl font-bold text-[var(--text-main)]">
+                        Selesaikan Pembayaran
+                    </h2>
                 </div>
 
-                <div class="rounded-2xl bg-[var(--input-bg)] p-5 text-center border border-[var(--border-color)] mb-6">
-                    <div class="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1.5">Bayar Sebesar</div>
-                    <div class="text-3xl font-bold text-[var(--text-main)]">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</div>
-                    <div class="mt-3 text-[11.5px] font-medium text-amber-600 bg-amber-50/50 inline-block px-3 py-1.5 rounded-lg border border-amber-100/50">
-                        ⚠️ Belum termasuk ongkir. Penjual akan infokan ongkir di WA.
+                <div
+                    class="rounded-2xl bg-[var(--input-bg)] p-5 text-center border border-[var(--border-color)] mb-6"
+                >
+                    <div
+                        class="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1.5"
+                    >
+                        Bayar Sebesar
+                    </div>
+                    <div class="text-3xl font-bold text-[var(--text-main)]">
+                        Rp {{ number_format($order->total_harga, 0, ',', '.') }}
+                    </div>
+                    <div
+                        class="mt-3 text-[11.5px] font-medium text-amber-600 bg-amber-50/50 inline-block px-3 py-1.5 rounded-lg border border-amber-100/50"
+                    >
+                        ⚠️ Belum termasuk ongkir. Penjual akan infokan ongkir di
+                        WA.
                     </div>
                 </div>
 
                 @if ($profil?->qris_image)
-                    <div class="border-t border-[var(--border-color)] pt-6 mt-6">
+                    <div
+                        class="border-t border-[var(--border-color)] pt-6 mt-6"
+                    >
                         <p class="text-center text-[13px] font-bold text-[var(--text-main)] mb-4">Opsi 1: Scan QRIS</p>
                         <div class="flex justify-center">
-                            <div class="rounded-3xl border-4 border-dashed border-[var(--border-color)] bg-white p-5 w-[220px] h-[220px] shadow-sm">
-                                <img src="{{ asset('storage/' . $profil->qris_image) }}" alt="QRIS" class="h-full w-full object-contain" />
+                            <div
+                                class="rounded-3xl border-4 border-dashed border-[var(--border-color)] bg-white p-5 w-[220px] h-[220px] shadow-sm"
+                            >
+                                <img
+                                    src="{{ asset('storage/' . $profil->qris_image) }}"
+                                    alt="QRIS"
+                                    class="h-full w-full object-contain"
+                                />
                             </div>
                         </div>
                         @if ($profil->qris_merchant_name)
@@ -157,35 +184,55 @@
                 @endif
 
                 @if ($profil?->nama_bank && $profil?->nomor_rekening)
-                    <div class="border-t border-[var(--border-color)] pt-6 mt-6">
+                    <div
+                        class="border-t border-[var(--border-color)] pt-6 mt-6"
+                    >
                         <p class="text-center text-[13px] font-bold text-[var(--text-main)] mb-4">{{ $profil?->qris_image ? 'Opsi 2: Transfer Manual' : 'Transfer Manual' }}</p>
 
-                        <div class="bg-white border border-[var(--border-color)] rounded-xl p-4 flex items-center justify-between gap-4" x-data="{ copied: false }">
-                            <div>
-                                <p class="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">{{ $profil->nama_bank }}</p>
-                                <p class="text-[18px] font-mono font-bold text-[var(--text-main)]" id="norek-text">{{ $profil->nomor_rekening }}</p>
-                                <p class="text-[12px] text-[var(--text-muted)] mt-1">a.n. <strong class="text-[var(--text-main)]">{{ $profil->atas_nama_rekening }}</strong></p>
+                        <div
+                            class="bg-white border border-[var(--border-color)] rounded-xl p-5 shadow-sm"
+                            x-data="{ copied: false }"
+                        >
+                            <div class="mb-4 text-center sm:text-left">
+                                <p class="text-[16px] font-bold text-[var(--text-main)] uppercase tracking-wide">{{ $profil->nama_bank }}</p>
+                                <p class="text-[14px] text-[var(--text-muted)] mt-1">a.n. <strong class="text-[var(--text-main)]">{{ $profil->atas_nama_rekening }}</strong></p>
                             </div>
 
-                            <button
-                                @click="
-                                    navigator.clipboard.writeText('{{ $profil->nomor_rekening }}');
-                                    copied = true;
-                                    setTimeout(() => copied = false, 2000);
-                                "
-                                class="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] font-bold transition-colors"
-                                :class="copied ? 'bg-green-50 text-green-600 border border-green-200' : 'bg-[var(--input-bg)] text-[var(--text-main)] hover:bg-[var(--border-color)] border border-transparent'"
+                            <div
+                                class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--input-bg)] p-4 rounded-lg border border-[var(--border-color)]"
                             >
-                                <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                <svg x-show="copied" x-cloak class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                <span x-text="copied ? 'Tersalin' : 'Salin'"></span>
-                            </button>
+                                <p class="text-[22px] font-mono font-bold text-[var(--text-main)] tracking-widest" id="norek-text">{{ $profil->nomor_rekening }}</p>
+
+                                <button
+                                    @click="
+                                        navigator.clipboard.writeText('{{ $profil->nomor_rekening }}');
+                                        copied = true;
+                                        setTimeout(() => copied = false, 2000);
+                                    "
+                                    class="w-full sm:w-auto shrink-0 flex justify-center items-center gap-2 px-4 py-2.5 rounded-md text-[13px] font-bold transition-all"
+                                    :class="copied
+                                        ? 'bg-green-100 text-green-700 border-transparent'
+                                        : 'bg-white text-[var(--text-main)] hover:bg-gray-50 border border-[var(--border-color)] shadow-sm'"
+                                >
+                                    <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    <svg x-show="copied" x-cloak class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                    <span
+                                        x-text="
+                                            copied
+                                                ? 'Tersalin'
+                                                : 'Salin Rekening'
+                                        "
+                                    ></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endif
             </div>
         @else
-            <div class="mb-8 rounded-2xl border border-amber-200/50 bg-amber-50/50 p-6 text-center shadow-sm">
+            <div
+                class="mb-8 rounded-2xl border border-amber-200/50 bg-amber-50/50 p-6 text-center shadow-sm"
+            >
                 <p class="text-[14px] font-bold text-amber-900 mb-1">Penjual belum mengatur Metode Pembayaran.</p>
                 <p class="text-[12.5px] font-medium text-amber-800">Silakan hubungi penjual via WhatsApp untuk instruksi transfer.</p>
             </div>
