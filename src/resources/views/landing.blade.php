@@ -9,7 +9,7 @@
     <title>MyLinx - Platform Digitalisasi untuk UMKM Indonesia</title>
     <meta
         name="description"
-        content="Solusi Low-Code gratis untuk UMKM Indonesia yang ingin go-digital. Bikin website katalog produk, terima pesanan via WhatsApp & QRIS, tanpa biaya hosting & maintenance yang mahal."
+        content="Solusi Low-Code gratis untuk UMKM Indonesia yang ingin go-digital. Bikin website katalog produk, terima pesanan via WhatsApp, QRIS, & Transfer Manual, tanpa biaya hosting & maintenance yang mahal."
     />
     <link
         rel="apple-touch-icon"
@@ -127,7 +127,7 @@
                     <span class="italic text-[#6A7B8C]">Tanpa</span><br />
                     Biaya IT.
                 </h1>
-                <p class="text-[#6A7B8C] text-[15px] font-medium leading-relaxed mb-8 max-w-md">Bikin website katalog produk, terima pesanan lewat WhatsApp & QRIS, semuanya dari nol rupiah. Tanpa coding, tanpa hosting mahal, tanpa ribet maintenance.</p>
+                <p class="text-[#6A7B8C] text-[15px] font-medium leading-relaxed mb-8 max-w-md">Bikin website katalog produk, terima pesanan lewat WhatsApp, QRIS, & Transfer Manual, semuanya dari nol rupiah. Tanpa coding, tanpa hosting mahal, tanpa ribet maintenance.</p>
                 <ul
                     class="space-y-3 text-[#1A1C19] text-[15px] font-medium mb-10"
                 >
@@ -141,7 +141,7 @@
                     </li>
                     <li class="flex items-start gap-3">
                         <svg class="w-5 h-5 text-[#2E5136] mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        Bebas dari komisi marketplace & biaya admin
+                        Terima pembayaran via QRIS & Transfer Manual
                     </li>
                 </ul>
                 <div class="relative max-w-md">
@@ -167,6 +167,7 @@
                     <p class="text-xs text-gray-500 mt-3 ml-4">*Daftar gratis, langsung jadi.</p>
                 </div>
             </div>
+
             <div
                 class="relative w-full aspect-square md:aspect-auto md:h-[600px] flex items-center justify-center"
             >
@@ -174,18 +175,17 @@
                     class="absolute w-[400px] h-[400px] md:w-[500px] md:h-[500px] bg-[#EBE7DF] rounded-full -right-10 top-1/2 -translate-y-1/2"
                 ></div>
                 <div
-                    class="relative w-[280px] h-[580px] bg-white border-[10px] border-[#1A1C19] rounded-[2.5rem] shadow-2xl overflow-hidden shadow-gray-900/10 rotate-2 hover:rotate-0 transition-transform duration-500"
+                    class="relative w-[280px] h-[580px] bg-[#FAFAFA] border-[10px] border-[#1A1C19] rounded-[3rem] shadow-2xl overflow-hidden shadow-gray-900/10 rotate-2 hover:rotate-0 transition-transform duration-500"
                 >
-                    <div
-                        class="absolute top-0 inset-x-0 h-6 bg-white z-20 flex justify-center rounded-t-3xl"
-                    >
-                        <div class="w-20 h-4 bg-[#1A1C19] rounded-b-xl"></div>
+                    <div class="absolute top-0 inset-x-0 flex justify-center z-20 pointer-events-none">
+                        <div class="w-24 h-5 bg-[#1A1C19] rounded-b-[1rem]"></div>
                     </div>
+
                     <div
-                        class="w-full h-full bg-[#FAFAFA] pt-12 p-4 pb-20 overflow-hidden relative"
+                        class="w-full h-full pt-10 p-4 pb-20 overflow-y-auto hide-scroll relative"
                     >
                         <div
-                            class="w-full h-48 bg-[#E6CDBC] rounded-xl mb-4 relative overflow-hidden flex items-end justify-center pb-4 shadow-sm border border-gray-100"
+                            class="w-full h-48 bg-[#E6CDBC] rounded-xl mb-4 relative overflow-hidden flex items-end justify-center pb-4 shadow-sm border border-gray-100 mt-2"
                         >
                             <div
                                 class="w-24 h-24 bg-white/70 rounded-full backdrop-blur-md translate-y-8"
@@ -224,6 +224,7 @@
             </div>
         </div>
     </section>
+
     <section class="py-24 lg:py-32 px-6 bg-white border-y border-[#E8EBED]">
         <div class="max-w-[1240px] mx-auto">
             <div class="text-center mb-16">
@@ -273,6 +274,7 @@
             </div>
         </div>
     </section>
+
     <section id="fitur" class="py-24 lg:py-32 px-6 bg-[#FBFBF9]">
         <div class="max-w-[1240px] mx-auto">
             <div class="text-center mb-16 lg:mb-20">
@@ -318,6 +320,7 @@
                     </h4>
                     <p class="text-sm text-gray-500 leading-relaxed">Pelanggan klik "Beli", kamu terima detail pesanan di WhatsApp. Sesuai kebiasaan belanja orang Indonesia.</p>
                 </div>
+
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -327,10 +330,11 @@
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                     </div>
                     <h4 class="text-lg font-serif text-[#1A1C19] mb-2">
-                        Pembayaran QRIS
+                        Pembayaran QRIS & Transfer
                     </h4>
-                    <p class="text-sm text-gray-500 leading-relaxed">Upload QR QRIS usaha kamu sekali, pelanggan scan dan bayar. Tanpa biaya aggregator, tanpa setup rumit.</p>
+                    <p class="text-sm text-gray-500 leading-relaxed">Upload QRIS atau cantumkan nomor rekening usahamu. Pelanggan bebas pilih cara bayar tanpa biaya potongan sedikitpun.</p>
                 </div>
+
                 <div
                     class="bg-white rounded-3xl p-7 border border-[#E8EBED] shadow-sm"
                 >
@@ -397,7 +401,7 @@
                     class="space-y-5 text-[15px] text-gray-600 leading-relaxed"
                 >
                     <p>UMKM menyumbang <span class="font-bold text-[#1A1C19]">61% PDB Indonesia</span> dan menyerap <span class="font-bold text-[#1A1C19]">97% tenaga kerja nasional</span>. Mereka adalah tulang punggung ekonomi kita. Tapi di era ekonomi digital yang tumbuh pesat, justru pelaku UMKM yang paling kesulitan ikut merasakan manfaatnya.</p>
-                    <p>Masalahnya bukan karena mereka tidak mau berubah. Masalahnya adalah pilihan yang tersedia hari ini tidak cocok untuk mereka - <span class="font-bold text-[#1A1C19]">marketplace memotong komisi yang besar</span>, sementara <span class="font-bold text-[#1A1C19]">CMS seperti WordPress terlalu rumit secara teknis</span>. Alat dari luar negeri pun jarang paham kebiasaan pasar lokal, seperti jualan via WhatsApp atau bayar pakai QRIS.</p>
+                    <p>Masalahnya bukan karena mereka tidak mau berubah. Masalahnya adalah pilihan yang tersedia hari ini tidak cocok untuk mereka - <span class="font-bold text-[#1A1C19]">marketplace memotong komisi yang besar</span>, sementara <span class="font-bold text-[#1A1C19]">CMS seperti WordPress terlalu rumit secara teknis</span>. Alat dari luar negeri pun jarang paham kebiasaan pasar lokal, seperti jualan via WhatsApp atau bayar pakai QRIS & transfer bank.</p>
                     <p>
                         <span class="font-bold text-[#1A1C19]"
                             >MyLinx hadir untuk mengisi celah itu.</span
@@ -449,7 +453,7 @@
                                 >
                                     Lokal, Bukan Impor
                                 </h4>
-                                <p class="text-[13px] text-gray-500 leading-relaxed">QRIS dan WhatsApp bukan add-on, tapi fitur inti sejak hari pertama.</p>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">QRIS, Transfer Bank, dan WhatsApp bukan add-on, tapi fitur inti sejak hari pertama.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
