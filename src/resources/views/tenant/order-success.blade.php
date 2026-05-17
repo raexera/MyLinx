@@ -477,7 +477,7 @@
                 </div>
                 <div class="pt-3 border-t border-[var(--border-color)] mt-2">
                     <a
-                        href="{{ route('public.invoice', $order->public_token) }}"
+                        href="{{ route('public.invoice', $order->public_token) }}?v={{ time() }}"
                         target="_blank"
                         class="inline-flex w-full sm:w-auto justify-center items-center gap-1.5 text-[12px] font-bold text-[var(--accent)] hover:underline border border-transparent active:bg-[var(--border-color)] sm:hover:border-[var(--accent)]/30 bg-[var(--accent-soft)] px-3 py-2.5 rounded-lg transition-colors"
                     >

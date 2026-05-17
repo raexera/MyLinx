@@ -413,7 +413,7 @@
                         Link invoice publik (bisa dibagikan ke pembeli):
                     </div>
                     <a
-                        href="{{ route('public.invoice', $order->public_token) }}"
+                        href="{{ route('public.invoice', $order->public_token) }}?v={{ time() }}"
                         target="_blank"
                         class="text-[12px] font-bold text-[#2E5136] hover:underline flex items-center gap-1"
                     >

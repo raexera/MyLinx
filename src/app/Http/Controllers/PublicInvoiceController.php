@@ -21,6 +21,12 @@ class PublicInvoiceController extends Controller
             'invoice' => $order->invoice,
         ])->setPaper('a4');
 
-        return $pdf->stream('Invoice-'.$order->invoice->nomor_invoice.'.pdf');
+        return response($pdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="Invoice-'.$order->invoice->nomor_invoice.'.pdf"',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
     }
 }
