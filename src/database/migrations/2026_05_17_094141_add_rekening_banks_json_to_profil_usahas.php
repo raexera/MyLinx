@@ -9,7 +9,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('profil_usahas', function (Blueprint $table) {
-            // Kita hapus kolom lama, dan buat 1 kolom JSON sakti
             $table->dropColumn(['nama_bank', 'nomor_rekening', 'atas_nama_rekening']);
             $table->json('rekening_banks')->nullable();
         });
