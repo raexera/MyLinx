@@ -27,7 +27,10 @@
 <html lang="id">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
     <title>
         Pesanan Berhasil - {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
     </title>
@@ -73,9 +76,9 @@
     class="min-h-screen antialiased flex flex-col {{ $isDark ? 'is-dark' : '' }}"
 >
     <header
-        class="bg-[var(--card-bg)] shadow-sm border-b border-[var(--border-color)]"
+        class="bg-[var(--card-bg)] shadow-sm border-b border-[var(--border-color)] sticky top-0 z-50"
     >
-        <div class="mx-auto max-w-3xl px-6 py-5">
+        <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-5">
             <div class="flex items-center gap-3">
                 @if ($profil?->logo)
                     <img
@@ -91,16 +94,16 @@
                 @endif
                 <a
                     href="{{ route('tenant.show', $tenant) }}"
-                    class="font-bold text-[var(--text-main)] hover:text-[var(--accent)] transition-colors"
+                    class="font-bold text-[var(--text-main)] text-[15px] sm:text-[16px] hover:text-[var(--accent)] transition-colors truncate"
                 >
                     {{ $profil?->nama_usaha ?? $tenant->nama_tenant }}
                 </a>
             </div>
         </div>
     </header>
-    <main class="mx-auto max-w-3xl px-6 py-10 flex-1 w-full">
+    <main class="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10 flex-1 w-full">
         <div
-            class="mb-8 flex flex-col items-center rounded-3xl px-6 py-8 text-center border"
+            class="mb-8 flex flex-col items-center rounded-3xl px-5 py-8 text-center border"
             style="
                 background: var(--accent-soft);
                 border-color: color-mix(
@@ -111,156 +114,213 @@
             "
         >
             <div
-                class="flex h-14 w-14 items-center justify-center rounded-full text-2xl mb-4 bg-[var(--card-bg)] shadow-sm"
+                class="flex h-14 w-14 items-center justify-center rounded-full mb-4 bg-[var(--card-bg)] shadow-sm border border-[var(--accent)]/20"
             >
-                🎉
+                <svg class="w-7 h-7 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h1 class="text-[22px] font-bold text-[var(--accent)] mb-1">
+            <h1
+                class="text-[20px] sm:text-[22px] font-bold text-[var(--accent)] mb-1"
+            >
                 Pesanan Dibuat!
             </h1>
-            <p class="text-[13.5px] font-medium text-[var(--text-main)] opacity-80">
-                Terima kasih, <strong>{{ $order->nama_pembeli }}</strong>.
-                Pesananmu:
-                <strong class="font-mono">{{ $order->kode_order }}</strong>
+            <p class="text-[13px] sm:text-[13.5px] font-medium text-[var(--text-main)] opacity-80 max-w-[280px]">
+                Terima kasih, <strong>{{ $order->nama_pembeli }}</strong>.<br />
+                No Pesanan:
+                <strong
+                    class="font-mono bg-[var(--card-bg)] px-1.5 py-0.5 rounded ml-1"
+                    >{{ $order->kode_order }}</strong
+                >
             </p>
         </div>
-        @if ($profil?->qris_image || ($profil?->nama_bank && $profil?->nomor_rekening))
-            <div
-                class="mb-8 rounded-3xl bg-[var(--card-bg)] p-6 sm:p-8 border border-[var(--border-color)] shadow-sm"
-            >
-                <div class="text-center mb-6">
-                    <div
-                        class="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 bg-amber-50 border border-amber-100"
-                    >
-                        <span
-                            class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"
-                        ></span>
-                        Menunggu Pembayaran
-                    </div>
-                    <h2 class="mt-5 text-xl font-bold text-[var(--text-main)]">
-                        Selesaikan Pembayaran
-                    </h2>
-                </div>
-
+        @php
+            $banks = $profil?->rekening_banks ?? [];
+            $hasPayment = $profil?->qris_image || count($banks) > 0;
+            $defaultTab = $profil?->qris_image ? 'qris' : (count($banks) > 0 ? 'bank-0' : '');
+        @endphp
+        @if ($hasPayment)
+            <div class="text-center mb-5">
                 <div
-                    class="rounded-2xl bg-[var(--input-bg)] p-5 text-center border border-[var(--border-color)] mb-6"
+                    class="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 bg-amber-50 border border-amber-100"
                 >
-                    <div
-                        class="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1.5"
-                    >
-                        Bayar Sebesar
-                    </div>
-                    <div class="text-3xl font-bold text-[var(--text-main)]">
-                        Rp {{ number_format($order->total_harga, 0, ',', '.') }}
-                    </div>
-                    <div
-                        class="mt-3 text-[11.5px] font-medium text-amber-600 bg-amber-50/50 inline-block px-3 py-1.5 rounded-lg border border-amber-100/50"
-                    >
-                        ⚠️ Belum termasuk ongkir. Penjual akan infokan ongkir di
-                        WA.
-                    </div>
+                    <span
+                        class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"
+                    ></span>
+                    Menunggu Pembayaran
                 </div>
-
+                <h2
+                    class="mt-4 text-[18px] sm:text-xl font-bold text-[var(--text-main)]"
+                >
+                    Pilih Cara Bayar
+                </h2>
+                <p class="mt-1 text-[13px] text-[var(--text-muted)]">Pilih salah satu metode di bawah ini</p>
+            </div>
+            <div
+                class="mb-8 space-y-4"
+                x-data="{ activeTab: '{{ $defaultTab }}' }"
+            >
                 @if ($profil?->qris_image)
                     <div
-                        class="border-t border-[var(--border-color)] pt-6 mt-6"
+                        class="rounded-[1.25rem] border border-[var(--border-color)] bg-[var(--card-bg)] shadow-sm overflow-hidden"
                     >
-                        <p class="text-center text-[13px] font-bold text-[var(--text-main)] mb-4">Opsi 1: Scan QRIS</p>
-                        <div class="flex justify-center">
-                            <div
-                                class="rounded-3xl border-4 border-dashed border-[var(--border-color)] bg-white p-5 w-[220px] h-[220px] shadow-sm"
-                            >
-                                <img
-                                    src="{{ asset('storage/' . $profil->qris_image) }}"
-                                    alt="QRIS"
-                                    class="h-full w-full object-contain"
-                                />
+                        <button
+                            @click="
+                                activeTab = activeTab === 'qris' ? '' : 'qris'
+                            "
+                            class="w-full flex items-center justify-between p-4 sm:p-5 bg-[var(--card-bg)] active:bg-[var(--input-bg)] transition-colors"
+                        >
+                            <div class="flex items-center gap-3.5">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0"
+                                >
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-[14px] font-bold text-[var(--text-main)] leading-tight">Bayar via QRIS</p>
+                                    <p class="text-[11.5px] font-medium text-[var(--text-muted)] mt-0.5">OVO, GoPay, Dana, dll</p>
+                                </div>
+                            </div>
+                            <svg :class="activeTab === 'qris' ? 'rotate-180' : ''" class="w-5 h-5 text-[var(--text-muted)] transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div
+                            x-show="activeTab === 'qris'"
+                            x-collapse.duration.200ms
+                            class="border-t border-[var(--border-color)] bg-[var(--input-bg)]"
+                        >
+                            <div class="p-4 sm:p-7">
+                                <div class="flex justify-center">
+                                    <div
+                                        class="bg-white p-2 sm:p-4 rounded-xl sm:rounded-2xl sm:border-[3px] sm:border-dashed border-[var(--border-color)] w-full max-w-[300px] aspect-square shadow-sm"
+                                    >
+                                        <img
+                                            src="{{ asset('storage/' . $profil->qris_image) }}"
+                                            alt="QRIS"
+                                            class="w-full h-full object-contain mix-blend-multiply"
+                                        />
+                                    </div>
+                                </div>
+                                @if ($profil->qris_merchant_name)
+                                    <div class="mt-5 text-center">
+                                        <p class="text-[10.5px] text-[var(--text-muted)] uppercase tracking-wider font-bold mb-1">A.N MERCHANT</p>
+                                        <p class="text-[14px] font-bold text-[var(--text-main)] bg-white border border-[var(--border-color)] inline-block px-4 py-1.5 rounded-lg shadow-sm">{{ $profil->qris_merchant_name }}</p>
+                                    </div>
+                                @endif
+                                <p class="text-center text-[12px] text-[var(--text-muted)] mt-4 max-w-[280px] mx-auto leading-relaxed">Simpan (<span class="font-semibold text-[var(--text-main)]">Screenshot</span>) gambar QRIS ini, lalu buka aplikasi e-Wallet / m-Banking Anda untuk membayar.</p>
                             </div>
                         </div>
-                        @if ($profil->qris_merchant_name)
-                            <p class="mt-4 text-center text-[12px] font-medium text-[var(--text-muted)]">Atas nama: <strong class="text-[var(--text-main)]">{{ $profil->qris_merchant_name }}</strong></p>
-                        @endif
                     </div>
                 @endif
-
-                @if ($profil?->nama_bank && $profil?->nomor_rekening)
+                @foreach ($banks as $index => $bank)
                     <div
-                        class="border-t border-[var(--border-color)] pt-6 mt-6"
+                        class="rounded-[1.25rem] border border-[var(--border-color)] bg-[var(--card-bg)] shadow-sm overflow-hidden"
                     >
-                        <p class="text-center text-[13px] font-bold text-[var(--text-main)] mb-4">{{ $profil?->qris_image ? 'Opsi 2: Transfer Manual' : 'Transfer Manual' }}</p>
-
+                        <button
+                            @click="activeTab = activeTab === 'bank-{{$index}}' ? '' : 'bank-{{$index}}'"
+                            class="w-full flex items-center justify-between p-4 sm:p-5 bg-[var(--card-bg)] active:bg-[var(--input-bg)] transition-colors"
+                        >
+                            <div class="flex items-center gap-3.5">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shrink-0"
+                                >
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-[14px] font-bold text-[var(--text-main)] leading-tight">Transfer {{ $bank['nama_bank'] }}</p>
+                                    <p class="text-[11.5px] font-medium text-[var(--text-muted)] mt-0.5">Transfer Manual</p>
+                                </div>
+                            </div>
+                            <svg :class="activeTab === 'bank-{{$index}}' ? 'rotate-180' : ''" class="w-5 h-5 text-[var(--text-muted)] transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
                         <div
-                            class="bg-white border border-[var(--border-color)] rounded-xl p-5 shadow-sm"
+                            x-show="activeTab === 'bank-{{$index}}'"
+                            x-collapse.duration.200ms
+                            class="border-t border-[var(--border-color)] bg-[var(--input-bg)]"
                             x-data="{ copied: false }"
                         >
-                            <div class="mb-4 text-center sm:text-left">
-                                <p class="text-[16px] font-bold text-[var(--text-main)] uppercase tracking-wide">{{ $profil->nama_bank }}</p>
-                                <p class="text-[14px] text-[var(--text-muted)] mt-1">a.n. <strong class="text-[var(--text-main)]">{{ $profil->atas_nama_rekening }}</strong></p>
-                            </div>
-
-                            <div
-                                class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--input-bg)] p-4 rounded-lg border border-[var(--border-color)]"
-                            >
-                                <p class="text-[22px] font-mono font-bold text-[var(--text-main)] tracking-widest" id="norek-text">{{ $profil->nomor_rekening }}</p>
-
-                                <button
-                                    @click="
-                                        navigator.clipboard.writeText('{{ $profil->nomor_rekening }}');
-                                        copied = true;
-                                        setTimeout(() => copied = false, 2000);
-                                    "
-                                    class="w-full sm:w-auto shrink-0 flex justify-center items-center gap-2 px-4 py-2.5 rounded-md text-[13px] font-bold transition-all"
-                                    :class="copied
-                                        ? 'bg-green-100 text-green-700 border-transparent'
-                                        : 'bg-white text-[var(--text-main)] hover:bg-gray-50 border border-[var(--border-color)] shadow-sm'"
+                            <div class="p-5 sm:p-6">
+                                <div class="mb-4 text-center sm:text-left">
+                                    <p class="text-[14px] font-bold text-[var(--text-main)] uppercase tracking-wide">{{ $bank['nama_bank'] }}</p>
+                                    <p class="text-[13px] text-[var(--text-muted)] mt-1">a.n. <strong class="text-[var(--text-main)]">{{ $bank['atas_nama'] }}</strong></p>
+                                </div>
+                                <div
+                                    class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--card-bg)] p-3 sm:pl-4 rounded-xl border border-[var(--border-color)] shadow-sm"
                                 >
-                                    <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                    <svg x-show="copied" x-cloak class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                    <span
-                                        x-text="
-                                            copied
-                                                ? 'Tersalin'
-                                                : 'Salin Rekening'
-                                        "
-                                    ></span>
-                                </button>
+                                    <p class="text-[24px] font-mono font-bold text-[var(--text-main)] tracking-widest break-all text-center sm:text-left">{{ $bank['nomor_rekening'] }}</p>
+                                    <button
+                                        @click="navigator.clipboard.writeText('{{ $bank['nomor_rekening'] }}'); copied = true; setTimeout(() => copied = false, 2000);"
+                                        class="w-full sm:w-auto shrink-0 flex justify-center items-center gap-2 px-5 py-3 rounded-lg text-[13px] font-bold transition-all border"
+                                        :class="copied
+                                            ? 'bg-green-50 text-green-700 border-green-200'
+                                            : 'bg-[var(--bg)] text-[var(--text-main)] border-[var(--border-color)] active:bg-gray-200'"
+                                    >
+                                        <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                        <svg x-show="copied" x-cloak class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                        <span
+                                            x-text="
+                                                copied ? 'Tersalin!' : 'Salin'
+                                            "
+                                        ></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                @endif
+                @endforeach
+            </div>
+            <div
+                class="mb-8 rounded-[1.25rem] bg-[var(--card-bg)] p-5 text-center border border-[var(--border-color)] shadow-sm"
+            >
+                <div
+                    class="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] mb-2"
+                >
+                    Total Tagihan
+                </div>
+                <div
+                    class="text-[28px] sm:text-3xl font-bold text-[var(--text-main)]"
+                >
+                    Rp {{ number_format($order->total_harga, 0, ',', '.') }}
+                </div>
+                <div
+                    class="mt-3 text-[11px] sm:text-[11.5px] font-medium text-amber-700 bg-amber-50 inline-block px-3 py-1.5 rounded-lg border border-amber-100"
+                >
+                    ⚠️ Belum termasuk ongkir. Penjual akan infokan ongkir di WA.
+                </div>
             </div>
         @else
             <div
-                class="mb-8 rounded-2xl border border-amber-200/50 bg-amber-50/50 p-6 text-center shadow-sm"
+                class="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-center shadow-sm"
             >
-                <p class="text-[14px] font-bold text-amber-900 mb-1">Penjual belum mengatur Metode Pembayaran.</p>
-                <p class="text-[12.5px] font-medium text-amber-800">Silakan hubungi penjual via WhatsApp untuk instruksi transfer.</p>
+                <p class="text-[14px] font-bold text-amber-900 mb-1">Metode Pembayaran Belum Diatur</p>
+                <p class="text-[12.5px] font-medium text-amber-800">Silakan hubungi penjual via WhatsApp untuk instruksi transfer selanjutnya.</p>
             </div>
         @endif
         @if ($waLink)
-            <a
-                href="{{ $waLink }}"
-                target="_blank"
-                class="flex w-full items-center justify-center gap-2.5 rounded-2xl btn-accent px-6 py-4 text-[15px] font-bold shadow-[0_8px_16px_rgba(0,0,0,0.1)] transition-all transform hover:-translate-y-0.5"
+            <div
+                class="fixed bottom-0 left-0 right-0 p-4 bg-[var(--bg)] border-t border-[var(--border-color)] sm:relative sm:border-0 sm:bg-transparent sm:p-0 z-40"
             >
-                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-                </svg>
-                Selesai Bayar? Konfirmasi via WhatsApp
-            </a>
-            <p class="mt-3 text-center text-[12px] font-medium text-[var(--text-muted)]">Chat WA akan otomatis terbuka dengan detail pesanan.</p>
+                <a
+                    href="{{ $waLink }}"
+                    target="_blank"
+                    class="flex w-full mx-auto max-w-3xl items-center justify-center gap-2.5 rounded-[1.25rem] btn-accent px-6 py-4 text-[14px] sm:text-[15px] font-bold shadow-[0_4px_12px_rgba(0,0,0,0.1)] active:scale-[0.98] transition-all"
+                >
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                    </svg>
+                    Selesai Bayar? Lanjut ke WhatsApp
+                </a>
+            </div>
+            <p class="mt-4 text-center text-[12px] font-medium text-[var(--text-muted)] pb-20 sm:pb-0">Pesan otomatis berisi detail order akan dikirim ke penjual.</p>
         @else
             <div
-                class="rounded-xl border border-red-200 bg-red-50 p-4 text-center text-sm font-bold text-red-700"
+                class="rounded-xl border border-red-200 bg-red-50 p-4 text-center text-sm font-bold text-red-700 pb-20 sm:pb-0"
             >
                 Penjual belum mengisi nomor WhatsApp. Silakan hubungi via email: {{ $profil->no_hp ?? '-' }}
             </div>
         @endif
         <details
-            class="mt-8 rounded-2xl bg-[var(--card-bg)] shadow-sm border border-[var(--border-color)]"
+            class="mt-6 sm:mt-8 rounded-2xl bg-[var(--card-bg)] shadow-sm border border-[var(--border-color)]"
         >
             <summary
-                class="cursor-pointer list-none px-6 py-5 text-[14px] font-bold text-[var(--text-main)] hover:bg-[var(--input-bg)] transition-colors rounded-2xl"
+                class="cursor-pointer list-none px-5 py-4 text-[13.5px] font-bold text-[var(--text-main)] active:bg-[var(--input-bg)] sm:hover:bg-[var(--input-bg)] transition-colors rounded-2xl"
             >
                 <span class="inline-flex items-center gap-2.5">
                     <svg class="h-4 w-4 text-[var(--text-muted)] transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg>
@@ -268,7 +328,7 @@
                 </span>
             </summary>
             <div
-                class="border-t border-[var(--border-color)] px-6 py-6 space-y-3.5 text-[13px] font-medium"
+                class="border-t border-[var(--border-color)] px-5 py-5 space-y-3.5 text-[12.5px] sm:text-[13px] font-medium"
             >
                 <div class="flex justify-between">
                     <span class="text-[var(--text-muted)]">Nomor Invoice</span>
@@ -290,62 +350,45 @@
                         Item Dibeli
                     </div>
                     @foreach ($order->orderItems as $item)
-                        <div class="flex justify-between py-1.5">
+                        <div class="flex justify-between py-1.5 gap-2">
                             <span class="text-[var(--text-main)] font-bold">
                                 {{ $item->produk->nama_produk }}
                                 @if ($item->varian)
                                     <span
-                                        class="text-[var(--text-muted)] font-medium ml-1"
+                                        class="text-[var(--text-muted)] font-medium ml-0.5 block sm:inline"
                                         >- {{ $item->varian }}</span
                                     >
                                 @endif
-                                <span class="text-[var(--text-muted)] ml-2"
+                                <span class="text-[var(--text-muted)] ml-1"
                                     >× {{ $item->jumlah }}</span
                                 >
                             </span>
-                            <span class="font-bold text-[var(--text-main)]"
+                            <span
+                                class="font-bold text-[var(--text-main)] shrink-0"
                                 >Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span
                             >
                         </div>
                     @endforeach
                 </div>
-                <div
-                    class="flex justify-between border-t border-[var(--border-color)] pt-4 mt-2 font-bold text-[14px]"
-                >
-                    <span class="text-[var(--text-main)]">Total Produk</span>
-                    <span class="text-[var(--accent)]"
-                        >Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span
-                    >
-                </div>
-                <div class="pt-3">
+                <div class="pt-3 border-t border-[var(--border-color)] mt-2">
                     <a
                         href="{{ route('public.invoice', $order->public_token) }}"
                         target="_blank"
-                        class="inline-flex items-center gap-1.5 text-[12px] font-bold text-[var(--accent)] hover:underline border border-transparent hover:border-[var(--accent)]/30 bg-[var(--accent-soft)] px-3 py-1.5 rounded-lg"
+                        class="inline-flex w-full sm:w-auto justify-center items-center gap-1.5 text-[12px] font-bold text-[var(--accent)] hover:underline border border-transparent active:bg-[var(--border-color)] sm:hover:border-[var(--accent)]/30 bg-[var(--accent-soft)] px-3 py-2.5 rounded-lg transition-colors"
                     >
                         Lihat Draft Invoice PDF →
                     </a>
                 </div>
             </div>
         </details>
-        <div class="mt-10 text-center">
+        <div class="mt-8 text-center pb-8 sm:pb-0">
             <a
                 href="{{ route('tenant.show', $tenant) }}"
-                class="text-[13px] font-bold text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+                class="text-[13px] font-bold text-[var(--text-muted)] active:text-[var(--accent)] transition-colors inline-block p-2"
             >
-                ← Kembali ke Halaman Utama
+                ← Kembali ke Toko
             </a>
         </div>
     </main>
-    <footer
-        class="border-t border-[var(--border-color)] bg-[var(--card-bg)] py-6 text-center text-sm font-medium text-[var(--text-muted)] mt-auto"
-    >
-        Dibuat dengan
-        <a
-            href="{{ route('landing') }}"
-            class="font-bold text-[var(--accent)] hover:underline"
-            >MyLinx</a
-        >
-    </footer>
 </body>
 </html>

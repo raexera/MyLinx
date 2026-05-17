@@ -35,9 +35,10 @@ class UpdateProfilUsahaRequest extends FormRequest
                 'dimensions:min_width=300,min_height=300,max_width=2000,max_height=3000',
                 $this->qrisValidationRule(),
             ],
-            'nama_bank' => ['nullable', 'string', 'max:50'],
-            'nomor_rekening' => ['nullable', 'string', 'max:50', 'regex:/^[0-9]+$/'],
-            'atas_nama_rekening' => ['nullable', 'string', 'max:100'],
+            'rekening_banks' => ['nullable', 'array', 'max:5'],
+            'rekening_banks.*.nama_bank' => ['required', 'string', 'max:50'],
+            'rekening_banks.*.nomor_rekening' => ['required', 'string', 'max:50', 'regex:/^[0-9]+$/'],
+            'rekening_banks.*.atas_nama' => ['required', 'string', 'max:100'],
         ];
     }
 
@@ -50,9 +51,9 @@ class UpdateProfilUsahaRequest extends FormRequest
             'no_hp' => 'nomor WhatsApp',
             'logo' => 'logo usaha',
             'qris_image' => 'gambar QRIS',
-            'nama_bank' => 'nama bank',
-            'nomor_rekening' => 'nomor rekening',
-            'atas_nama_rekening' => 'atas nama rekening',
+            'rekening_banks.*.nama_bank' => 'nama bank',
+            'rekening_banks.*.nomor_rekening' => 'nomor rekening',
+            'rekening_banks.*.atas_nama' => 'atas nama rekening',
         ];
     }
 
@@ -76,7 +77,7 @@ class UpdateProfilUsahaRequest extends FormRequest
             'qris_image.mimes' => 'Format QRIS harus JPG, JPEG, atau PNG.',
             'qris_image.max' => 'Ukuran gambar QRIS maksimal 2MB.',
             'qris_image.dimensions' => 'Dimensi QRIS maksimal 2000x3000 pixel.',
-            'nomor_rekening.regex' => 'Nomor rekening hanya boleh berisi angka.',
+            'rekening_banks.*.nomor_rekening.regex' => 'Nomor rekening hanya boleh berisi angka.',
         ];
     }
 

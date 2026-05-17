@@ -47,6 +47,18 @@ class DatabaseSeeder extends Seeder
             'alamat' => 'Jl. Sudirman No. 123, Jakarta Selatan',
             'no_hp' => '+6281234567890',
             'logo' => null,
+            'rekening_banks' => [
+                [
+                    'nama_bank' => 'BCA',
+                    'nomor_rekening' => '1234567890',
+                    'atas_nama' => 'Ahmad Rizky',
+                ],
+                [
+                    'nama_bank' => 'Bank Mandiri',
+                    'nomor_rekening' => '0987654321',
+                    'atas_nama' => 'Toko Baju Jaya',
+                ],
+            ],
         ]);
 
         Portofolio::create([

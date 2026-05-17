@@ -421,82 +421,123 @@
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
-                        Transfer Manual
+                        Transfer Bank & E-Wallet
                     </h2>
-                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">Alternatif jika kamu tidak memiliki QRIS. Masukkan detail rekening agar pelanggan bisa transfer manual.</p>
+                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">Berikan banyak opsi pembayaran. Kamu bisa menambahkan hingga 5 nomor rekening sekaligus.</p>
                 </div>
-                <div class="flex-1 space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label
-                                class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
-                            >
-                                NAMA BANK / E-WALLET
-                            </label>
-                            <select
-                                name="nama_bank"
-                                class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors appearance-none"
-                            >
-                                <option value="">-- Pilih Bank --</option>
-                                @php
-                                    $banks = ['BCA', 'Bank Mandiri', 'BNI', 'BRI', 'BSI', 'Bank Syariah Indonesia', 'CIMB Niaga', 'Permata Bank', 'Bank Neo Commerce (BNC)', 'SeaBank', 'GoPay', 'DANA', 'OVO', 'ShopeePay'];
-                                @endphp
-                                @foreach ($banks as $bank)
-                                    <option
-                                        value="{{ $bank }}"
-                                        {{ old('nama_bank', $profil->nama_bank) == $bank ? 'selected' : '' }}
-                                        >{{ $bank }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error ('nama_bank')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
 
-                        <div>
-                            <label
-                                class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
-                            >
-                                NOMOR REKENING
-                            </label>
-                            <input
-                                type="text"
-                                name="nomor_rekening"
-                                value="{{ old('nomor_rekening', $profil->nomor_rekening) }}"
-                                placeholder="e.g. 1234567890"
-                                inputmode="numeric"
-                                oninput="
-                                    this.value = this.value.replace(
-                                        /[^0-9]/g,
-                                        '',
-                                    )
-                                "
-                                class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
-                            />
-                            @error ('nomor_rekening')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div>
-                        <label
-                            class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                <div
+                    class="flex-1"
+                    x-data="{
+                    banks: {{ json_encode(old('rekening_banks', $profil->rekening_banks ?? [])) }},
+                    addBank() {
+                        if(this.banks.length < 5) {
+                            this.banks.push({nama_bank: '', nomor_rekening: '', atas_nama: ''});
+                        }
+                    },
+                    removeBank(index) {
+                        this.banks.splice(index, 1);
+                    }
+                }"
+                >
+                    <template x-for="(bank, index) in banks" :key="index">
+                        <div
+                            class="relative p-5 sm:p-6 rounded-2xl border border-[#E8EBED] bg-[#FBFBF9] mb-4 shadow-sm group transition-all"
                         >
-                            ATAS NAMA (PEMILIK REKENING)
-                        </label>
-                        <input
-                            type="text"
-                            name="atas_nama_rekening"
-                            value="{{ old('atas_nama_rekening', $profil->atas_nama_rekening) }}"
-                            placeholder="e.g. Budi Santoso"
-                            class="w-full h-14 bg-white border border-[#E8EBED] rounded-[1rem] px-5 text-[14.5px] text-[#1A1C19] font-medium shadow-[0_2px_10px_rgb(0,0,0,0.01)] focus:border-[#2E5136] focus:ring-1 focus:ring-[#2E5136] outline-none transition-colors placeholder:text-gray-300"
-                        />
-                        @error ('atas_nama_rekening')
-                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                            <button
+                                type="button"
+                                @click="removeBank(index)"
+                                class="absolute top-4 right-4 p-1.5 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors"
+                                title="Hapus Rekening"
+                            >
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            </button>
+
+                            <div
+                                class="grid grid-cols-1 sm:grid-cols-2 gap-5 pr-8"
+                            >
+                                <div>
+                                    <label
+                                        class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                                        >Nama Bank</label
+                                    >
+                                    <select
+                                        x-model="bank.nama_bank"
+                                        :name="`rekening_banks[${index}][nama_bank]`"
+                                        class="w-full h-12 bg-white border border-[#E8EBED] rounded-xl px-4 text-[14px] text-[#1A1C19] font-medium focus:border-[#2E5136] focus:ring-[#2E5136] outline-none"
+                                        required
+                                    >
+                                        <option value="">-- Pilih --</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="Bank Mandiri">
+                                            Bank Mandiri
+                                        </option>
+                                        <option value="BNI">BNI</option>
+                                        <option value="BRI">BRI</option>
+                                        <option value="BSI">BSI</option>
+                                        <option value="CIMB Niaga">
+                                            CIMB Niaga
+                                        </option>
+                                        <option value="Permata">
+                                            Permata Bank
+                                        </option>
+                                        <option value="SeaBank">SeaBank</option>
+                                        <option value="BNC">Bank Neo</option>
+                                        <option value="GoPay">GoPay</option>
+                                        <option value="DANA">DANA</option>
+                                        <option value="OVO">OVO</option>
+                                        <option value="ShopeePay">
+                                            ShopeePay
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                                        >No Rekening</label
+                                    >
+                                    <input
+                                        type="text"
+                                        x-model="bank.nomor_rekening"
+                                        :name="`rekening_banks[${index}][nomor_rekening]`"
+                                        class="w-full h-12 bg-white border border-[#E8EBED] rounded-xl px-4 text-[14px] text-[#1A1C19] font-medium focus:border-[#2E5136] focus:ring-[#2E5136] outline-none"
+                                        placeholder="12345678"
+                                        required
+                                        oninput="
+                                            this.value = this.value.replace(
+                                                /[^0-9]/g,
+                                                '',
+                                            )
+                                        "
+                                    />
+                                </div>
+                            </div>
+                            <div class="mt-5 pr-8">
+                                <label
+                                    class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                                    >Atas Nama (Pemilik)</label
+                                >
+                                <input
+                                    type="text"
+                                    x-model="bank.atas_nama"
+                                    :name="`rekening_banks[${index}][atas_nama]`"
+                                    class="w-full h-12 bg-white border border-[#E8EBED] rounded-xl px-4 text-[14px] text-[#1A1C19] font-medium focus:border-[#2E5136] focus:ring-[#2E5136] outline-none"
+                                    placeholder="Budi Santoso"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </template>
+
+                    <button
+                        type="button"
+                        @click="addBank"
+                        x-show="banks.length < 5"
+                        class="w-full h-14 rounded-2xl border-2 border-dashed border-[#DCE2D8] text-[#2E5136] text-[13px] font-bold hover:bg-[#EAF2ED] hover:border-[#2E5136]/30 transition-colors flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                        Tambah Rekening Baru
+                    </button>
                 </div>
             </div>
 
