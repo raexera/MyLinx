@@ -83,153 +83,122 @@ keyword1, keyword2, keyword3
 \end{IEEEkeywords}
 
 \section{Introduction}
-    The Indonesian digital economy is currently experiencing a 
-    period of rapid growth, with projections estimating 
-    that its value will reach USD 150 billion by 2025. 
-    Despite this potential, the Micro, Small, and Medium
-    Enterprises (MSME) sector—which serves as the backbone 
-    of the national economy by contributing 61\% to the 
-    GDP—continues to face significant challenges in fully 
-    participating in this digital transformation. Research 
-    by Rajagukguk and Rusadi (2025) highlights a clear "adoption gap," 
-    revealing that while 65\% of MSMEs recognize the necessity of digital technology, only 23\% 
-    are able to utilize it consistently.
+
+The Indonesian digital economy is currently experiencing a period of rapid growth, with projections estimating that its value will reach USD 150 billion by 2025 \cite{google2020economy}. Despite this immense potential, the Micro, Small, and Medium Enterprises (MSME) sector—which serves as the backbone of the national economy by contributing 61\% to the Gross Domestic Product (GDP)—continues to face significant challenges in fully participating in this digital transformation \cite{kemenkop2023umkm}. Research by Rajagukguk and Rusadi (2025) highlights a clear “adoption gap,” revealing that while 65\% of MSMEs recognize the necessity of digital technology, only 23\% are able to utilize it consistently for business operations \cite{rajagukguk2025digital}.  
 
 \vspace{9px}
 
-    This disparity stems largely from the incompatibility of existing technological 
-    tools with the needs and capabilities of non-technical 
-    MSME owners. Currently, these business owners are 
-    often forced into difficult trade-offs: either adopting 
-    marketplace platforms that impose administrative fees—averaging 
-    6.5\%—which erode thin profit margins and limit control over customer data, 
-    or attempting to build independent websites using complex Content Management Systems (CMS) like WordPress, 
-    which often prove too technically demanding for those with limited digital literacy. Furthermore, popular 
-    international website builders (e.g., Wix) frequently lack native integration with local Indonesian digital habits, 
-    such as QRIS payments and automated WhatsApp communication.
+This disparity stems largely from a critical gap in technological compatibility. Currently, MSME owners are often forced into difficult trade-offs between two polar ends of the digital spectrum. On one hand, they adopt marketplace platforms that offer ease of use but impose administrative fees—averaging 6.5\% to 10\%—which significantly erode thin profit margins and limit direct control over customer data \cite{oecd2021msme}. On the other hand, attempting to build independent websites using complex Content Management Systems (CMS) like WordPress often proves too technically demanding for those with limited digital literacy, requiring specialized knowledge in hosting, plugins, and maintenance \cite{alford2015internet}.  
 
-    To address these barriers, this research proposes the development of a low-code/no-code web generator platform specifically tailored for Indonesian MSMEs. This platform aims to provide a "middle ground" solution that is intuitive for non-technical users, cost-effective by eliminating commission-based dependencies, and locally relevant through built-in support for QRIS and WhatsApp. The objective of this study is to design a functional Minimum Viable Product (MVP) and empirically demonstrate, through System Usability Scale (SUS) benchmarking, that this platform offers a significantly higher level of usability and ease of creation for MSME owners compared to conventional CMS alternatives. By providing a professional yet accessible digital presence, this research contributes to the broader effort of democratizing digital technology for small businesses across Indonesia.
+\vspace{9px}
 
+Furthermore, existing global website builders such as Wix or Squarespace exhibit a significant \textbf{localization gap}. These platforms frequently lack native integration with local Indonesian digital habits, most notably the Unified Quick Response Code Indonesian Standard (QRIS) for payments and automated WhatsApp-based communication, which are primary drivers of commerce in the Indonesian digital ecosystem \cite{bankindonesia2022qris}. While third-party plugins exist, they often introduce additional costs and technical complexity that further alienate non-technical users.
+
+\vspace{9px}
+
+To address these barriers, this research proposes the development of a localized \textbf{low-code/no-code web generator platform} specifically tailored for the Indonesian MSME landscape. This platform aims to provide a “middle ground” solution that is intuitive for non-technical users, cost-effective by eliminating commission-based dependencies, and culturally relevant through built-in support for QRIS and WhatsApp.
+
+\vspace{9px}
+
+To evaluate the effectiveness of this solution, the study addresses the following Research Questions (RQ): \textbf{RQ1:} How can a low-code/no-code architecture be designed to integrate localized payment and communication tools while maintaining a minimal learning curve for non-technical users? and \textbf{RQ2:} To what extent does the proposed platform improve usability, content management efficiency, digital visibility, market reach, and technology adaptation among MSME owners?
+\vspace{9px}
+
+The \textbf{contributions} of this research are two-fold. First, it provides a practical architectural model for a localized web generator that bridges the gap between ease of use and professional functionality. Second, it offers an empirical evaluation using the System Usability Scale (SUS), providing a benchmark for how localized no-code tools can democratize digital technology for small businesses in emerging economies. By offering a professional yet accessible digital presence, this study contributes to the broader effort of accelerating digital inclusion for the 65 million MSMEs across Indonesia.
+
+% ============== LITERATURE REVIEW ===============
 \section{Literature Review}
-\subsection{Digital Transformation of MSMEs}
-Micro, Small, and Medium Enterprises (MSMEs) represent a fundamental pillar of economic development, particularly in emerging economies, contributing significantly to employment generation, income distribution, and national Gross Domestic Product (GDP) [9]. Despite their strategic importance, MSMEs face substantial challenges in adapting to the rapidly evolving digital economy.
 
+\subsection{Digital Transformation and Website Adoption for MSMEs}
+
+Micro, Small, and Medium Enterprises (MSMEs) play a significant role in economic growth, particularly in developing countries, through employment generation and contribution to Gross Domestic Product (GDP) \cite{vial2019understanding}. Along with the rapid growth of digital technology, MSMEs are encouraged to adopt digital solutions to improve operational efficiency, customer engagement, and market reach. Digital transformation enables businesses to optimize communication, marketing, and business processes through digital platforms and internet-based technologies \cite{verhoef2021digital}.
 \vspace{9px}
 
-The advancement of digital technologies offers significant opportunities for MSMEs to expand market reach, improve operational efficiency, and enhance customer engagement. However, the adoption of digital tools remains uneven. Prior studies highlight the existence of an “adoption gap,” where awareness of digital technologies does not necessarily translate into actual implementation [6]. This gap is primarily influenced by limited digital skills, financial constraints, and lack of technical support.
-
+Despite these opportunities, the adoption of digital technology among MSMEs remains relatively low due to limited digital literacy, financial constraints, and lack of technical support \cite{oecd2021msme}. Many MSMEs still rely solely on social media and marketplace platforms for digital promotion. Although these platforms provide convenience and wider market access, they limit business identity development and customer data ownership.
 \vspace{9px}
 
-Furthermore, digital transformation is not solely a technological shift but also involves organizational and cultural changes [1]. For MSMEs with limited resources and informal structures, this transformation becomes significantly more challenging. Therefore, the success of digital transformation initiatives largely depends on the accessibility, affordability, and usability of the provided technologies.
+Websites offer MSMEs a more professional digital presence by enabling businesses to display product catalogs, services, and business information independently. A business website can also improve customer trust and strengthen digital branding strategies \cite{chaffey2022digital}. However, website development platforms often require technical skills such as hosting configuration, website maintenance, and interface customization, which are difficult for non-technical users to understand \cite{alford2015internet}. Therefore, MSMEs require a website platform that is simple, accessible, and easy to manage without coding knowledge.
 
-\subsection{Limitations of Existing Digital Platforms}
+\subsection{No-Code Platforms and User-Centered Design}
 
-Existing digital solutions for MSMEs can generally be categorized into marketplace platforms and Content Management Systems (CMS). Marketplace platforms offer ease of use and immediate access to customers; however, they impose transaction fees and restrict control over customer data, which may negatively impact long-term business sustainability [6].
-
+The emergence of no-code and low-code technologies has simplified website and application development for non-technical users. No-code platforms allow users to build digital systems through visual interfaces and ready-to-use templates without writing programming code \cite{syed2022lowcode}. This approach enables faster and more accessible digital transformation for small businesses.
 \vspace{9px}
 
-Conversely, CMS platforms such as WordPress provide greater flexibility and control but require a certain level of technical expertise. This makes them less suitable for MSME owners with limited digital literacy. Website builders such as Wix attempt to simplify development processes; however, these platforms are typically designed for global markets and often lack support for local business practices.
-
+Low-code and no-code platforms are increasingly adopted because they reduce development complexity and shorten implementation time \cite{waszkowski2019lowcode}. Several platforms such as WordPress and Wix provide website-building services with varying levels of flexibility. However, these platforms may still present usability challenges for MSME owners with limited technical experience. In addition, support for local business needs such as WhatsApp communication and QRIS payment integration is often limited.
 \vspace{9px}
 
-While these solutions address specific aspects of digitalization, they fail to simultaneously provide ease of use, flexibility, and localization. This limitation indicates the need for a more balanced and accessible approach tailored specifically to MSMEs.
+To improve usability and user acceptance, the development of digital systems should involve users throughout the design process. User-Centered Design (UCD) is an approach that focuses on user needs, characteristics, and experiences during system development \cite{norman2013design}. UCD aims to improve usability, accessibility, and user satisfaction by involving users during requirement gathering, design evaluation, and usability testing \cite{iso2019human}. Through continuous user evaluation, UCD helps ensure that the developed platform is more relevant and easier to use for target users.
 
-\subsection{Low-Code/No-Code Development}
-One promising approach to reducing technical barriers is the adoption of low-code and no-code development platforms. These platforms enable users to create applications through visual interfaces with minimal programming knowledge. Research by Sahay et al. demonstrates that low-code platforms significantly accelerate development processes and empower non-programmers to build functional applications [4].
+\subsection{System Usability Scale (SUS)}
 
+Usability is an important aspect of digital platform development because it influences user satisfaction, efficiency, and ease of use \cite{nielsen2012usability}. Systems with good usability are more likely to be accepted and continuously used by users.
 \vspace{9px}
 
-Similarly, Kumar and Pandey found that no-code platforms improve accessibility and reduce development time, particularly for small businesses [5]. Despite these advantages, most existing platforms remain generic and are not specifically designed to address the contextual needs of MSMEs, particularly in developing countries.
-
+One of the most widely used methods for usability evaluation is the System Usability Scale (SUS), introduced by Brooke \cite{brooke1996sus}. SUS consists of ten questionnaire items used to evaluate users’ perceptions of system usability. The method is considered simple, reliable, and effective for evaluating websites, applications, and digital platforms \cite{bangor2008empirical}. SUS is commonly used because it provides a quick usability assessment while remaining easy for participants to understand.
 \vspace{9px}
 
-Therefore, while low-code/no-code approaches reduce technical complexity, they still require further adaptation to support localized business environments and user-specific requirements.
+In this study, SUS is used to evaluate the usability of the MyLinx platform after being tested by MSME owners. The evaluation results are expected to measure how easily users can operate and adapt to the developed platform.
 
+\subsection{Research Gap}
 
-\subsection{User-Centered Design (UCD)}
-
-To address usability challenges, User-Centered Design (UCD) has emerged as a critical approach in system development. UCD emphasizes designing systems based on user needs, capabilities, and limitations, making it particularly relevant for MSMEs with low digital literacy.
-
+Previous studies have discussed digital transformation and website adoption among MSMEs. However, existing platforms generally focus either on flexibility with higher technical complexity or simplicity with limited customization and localization.
 \vspace{9px}
 
-Studies indicate that applying UCD principles can significantly improve usability and user satisfaction by reducing system complexity and aligning system functionalities with real-world user behavior [7]. In the context of MSMEs, this approach ensures that digital tools are not only functional but also accessible and intuitive.
-
+Most marketplace platforms provide ease of use but limit business identity development and customer data control. On the other hand, website development platforms such as WordPress and Wix provide higher flexibility but still require technical understanding that may be difficult for MSME owners with low digital literacy.
 \vspace{9px}
 
-However, many existing MSME digital solutions do not fully incorporate UCD principles, resulting in systems that are technically capable but difficult to adopt in practice.
-
-\subsection{Usability Evaluation Using System Usability Scale (SUS)}
-
-Usability is a critical factor influencing the successful adoption of digital systems. The System Usability Scale (SUS), introduced by Brooke, is a widely used and reliable tool for evaluating system usability [2]. It provides a simple yet effective way to measure user perception through a standardized questionnaire.
-
-\vspace{9px}
-
-Bangor et al. further validated SUS as a robust and versatile instrument for assessing usability across various systems, including web-based applications [3]. One key advantage of SUS is its ability to produce quantitative scores that allow direct comparison between systems.
-
-\vspace{9px}
-
-Despite its effectiveness, relatively few studies on MSME digital solutions employ standardized usability metrics such as SUS, limiting the ability to objectively evaluate and compare system performance.
-
-% \subsection{Research Gap}
-
-% Based on the reviewed literature, several research gaps are identified:
-
-% \begin{itemize}
-% \item Lack of localized digital solutions tailored for MSMEs
-% \item High technical complexity for non-expert users
-% \item Limited adoption of user-centered design principles
-% \item Insufficient empirical usability comparison using standardized metrics
-% \end{itemize}
-
-% \subsection{Research Contribution}
-% This study proposes a low-code/no-code web generator platform specifically designed for MSMEs. The platform integrates localized features and is developed using a user-centered approach.
+In addition, previous studies rarely focus on developing a no-code website platform specifically designed for MSMEs with integrated local business features such as WhatsApp communication and QRIS payment systems while simultaneously evaluating usability and technology adaptation among non-technical users. Therefore, this research aims to develop a user-friendly no-code website platform for MSMEs using a User-Centered Design approach and evaluate its usability using the System Usability Scale (SUS).
 
 % ============= RESEARCH METHODOLOGY ===============
 
 \section{Research Methodology}
-
 \subsection{Research Design}
-
-This study adopts a \textbf{quantitative approach} to evaluate the impact of the proposed web generator system on Micro, Small, and Medium Enterprises (MSMEs). The research focuses on measuring changes in business performance \textbf{before and after system implementation}.
-
+This study employed a Research and Development (R\&D) methodology combined with a User-Centered Design (UCD) approach to develop the MyLinx platform for MSMEs. The research focused on identifying user needs, developing a no-code website platform, and evaluating its usability and impact on MSME digital adoption.
 \vspace{9px}
 
-A \textbf{pre-test and post-test design} is employed to capture differences in key performance indicators. This design is widely used to assess the effectiveness of technological interventions in applied research settings \cite{creswell2018}. By comparing results before and after system adoption, this study aims to identify measurable improvements attributable to the developed system.
+\subsection{Requirement Gathering}
 
-\subsection{Development Method}
-
-This study adopts the \textbf{User-Centered Design (UCD)} approach in developing the proposed web generator system. UCD emphasizes designing systems based on user needs, capabilities, and limitations, making it particularly suitable for MSMEs with varying levels of digital literacy \cite{gulliksen2003}.
-
+The initial stage of the research involved identifying the challenges faced by MSMEs in creating and managing business websites. Data collection was conducted through a pre-development questionnaire distributed to MSME owners. The questionnaire used a Likert scale to measure participants’ perceptions regarding the importance of having a business website, interest in using a no-code website platform, ease of digital adoption, website management needs, and the integration of WhatsApp and QRIS features.
 \vspace{9px}
 
-The development process consists of \textbf{requirement gathering, system design, prototype development, and user evaluation}. Initially, user requirements are collected through observations and informal interviews with MSME owners. Based on these findings, the system is designed to prioritize \textbf{usability, simplicity, and relevance}. A prototype is then developed using a \textbf{low-code/no-code approach} to accelerate development and reduce technical barriers. Finally, the system is iteratively refined based on user feedback to ensure usability and effectiveness \cite{gulliksen2003}.
-
-\subsection{Evaluation Indicators}
-
-To evaluate the system’s impact, this study uses three main indicators: \textbf{content management efficiency}, \textbf{market reach expansion}, and \textbf{digital visibility improvement}. 
-Content management efficiency measures the time and effort required to manage website content, as digital tools improve operational efficiency \cite{vial2019}. Market reach expansion evaluates the ability of MSMEs to access broader markets beyond their local area \cite{verhoef2021}. Digital visibility improvement assesses the online presence and discoverability of MSMEs, which contributes to improved business performance \cite{chaffey2019}.
-
-\subsection{Data Collection Method}
-
-Data are collected using a \textbf{structured questionnaire} distributed to MSME participants in two stages: \textbf{pre-test} and \textbf{post-test}. The questionnaire uses a \textbf{Likert scale (1--5)} to measure user perceptions, where 1 indicates ``strongly disagree'' and 5 indicates ``strongly agree'' \cite{likert1932}.
-
-\subsection{Data Analysis Technique}
-
-The collected data are analyzed using \textbf{descriptive and comparative methods}. Descriptive analysis is used to summarize general trends, while comparative analysis examines differences between pre-test and post-test results to determine system effectiveness \cite{field2013}.
-
-\subsection{Research Procedure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1.0\linewidth]{assets/1-Reseach Procedure.png}
-    \caption{Research Procedure Flow}
-    \label{fig:research-procedure}
-\end{figure}
+Likert scales are widely used in usability and perception studies because they allow respondents to express their level of agreement toward specific statements in a structured manner \cite{joshi2015likert}. The collected data were used as the basis for designing platform features and user interfaces that matched the needs of MSME owners.
 
 
+\subsection{System Development}
+
+Based on the identified user requirements, the MyLinx platform was developed as a no-code website builder for MSMEs. The platform provides features including customizable templates, product catalog management, WhatsApp integration, QRIS payment integration, and a simplified dashboard. The system was developed using the Laravel framework with the MVC architecture, Blade template engine, and TailwindCSS for responsive interface design. Deployment utilized a VPS environment with Nginx, PHP-FPM, and SSL/TLS security. An iterative development approach was applied to ensure usability, accessibility, and ease of use for MSME users with limited technical experience.
+
+\subsection{System Implementation}
+
+After the development process was completed, the platform was implemented and tested by MSME owners for a period of two weeks. During this phase, participants independently used the platform to create and manage their business websites.The implementation stage aimed to observe user interaction with the platform in real business scenarios and evaluate users’ adaptation to the developed system.
+
+\subsection{Post-Implementation Evaluation}
+
+Following the implementation stage, participants completed a post-implementation questionnaire to evaluate the effectiveness of the MyLinx platform. The questionnaire measured several aspects including content management efficiency, market reach improvement, digital visibility enhancement, technology adaptation, ease of use, and overall user satisfaction.
+
+All questionnaire items were measured using a five-point Likert scale ranging from strongly disagree to strongly agree. The evaluation results were used to analyze user perceptions regarding the effectiveness of the developed platform.
+
+\subsection{Usability Evaluation Using SUS}
+
+System usability evaluation was conducted using the System Usability Scale (SUS) proposed by Brooke \cite{brooke1996sus}. SUS consists of ten standardized statements used to measure users’ perceptions regarding the usability of a system.
+\vspace{9px}
+
+SUS is widely used because it provides a simple, reliable, and efficient usability evaluation method for digital systems \cite{bangor2008empirical}. Participants completed the SUS questionnaire after using the platform during the implementation phase. The SUS score was calculated using the standard SUS scoring method to determine the usability level and user acceptance of the MyLinx platform.
+
+\subsection{Data Analysis}
+
+The collected data were analyzed using descriptive quantitative analysis. Responses from both pre-implementation and post-implementation questionnaires were calculated using mean scores and percentage analysis to evaluate user perceptions toward the developed platform.
+\vspace{9px}
+
+In addition, the SUS evaluation results were analyzed to determine the overall usability performance of the system. Higher SUS scores indicated better usability and stronger user acceptance of the developed platform.
+
+% =================== RESULT AND DISCUSSION ===================
 
 \section{Results and Discussion}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas finibus mattis suscipit. Aliquam vestibulum interdum fermentum. Sed congue cursus erat, in malesuada ligula pellentesque ac. Integer sollicitudin ex id porta sodales. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut diam sapien, auctor non sollicitudin eget, feugiat vel est. Quisque pulvinar nulla eros, sodales gravida augue ultrices nec. Phasellus ac nisl dolor. Nulla facilisi. Donec porta vehicula odio faucibus fringilla. Cras maximus congue erat non tincidunt. Nullam porttitor neque euismod sollicitudin euismod. Proin tincidunt nec erat sit amet convallis. Etiam viverra fringilla diam, quis varius eros dictum vel.
+\subsection{System Implementation}
+The MyLinx platform was successfully developed as a localized no-code website generator for MSMEs. The platform was designed to help users create and manage business websites without requiring programming knowledge or advanced technical skills.
+\vspace{9px}
+
+The system consists of two main components, namely the public website interface and the administrative dashboard. Through the platform, users can customize website templates, manage product catalogs, monitor customer orders, and configure payment information using a simplified interface. Figure~\ref{fig:public} shows the public interface and generated MSME website, while Figure~\ref{fig:dashboard} presents several dashboard interfaces provided by the system.
 
 
 \section{Conclusion}
@@ -242,64 +211,41 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas finibus mattis
 
 \begin{thebibliography}{00}
 
-\bibitem{b1} G. Vial, “Understanding digital transformation: A review and a research agenda,” Journal of Strategic Information Systems, vol. 28, no. 2, pp. 118–144, 2019.
+\bibitem{google2020economy} Google, Temasek, and Bain \& Company, \textit{e-Conomy SEA 2020 Report}. Singapore: Google Southeast Asia, 2020.
 
-\bibitem{b2} J. Brooke, “SUS: A ‘quick and dirty’ usability scale,” in Usability Evaluation in Industry. London, U.K.: Taylor \& Francis, 1996.
+\bibitem{kemenkop2023umkm} Ministry of Cooperatives and SMEs Republic of Indonesia, “MSMEs Contribution to Indonesian Economy,” 2023.
 
-\bibitem{b3} A. Bangor, P. Kortum, and J. Miller, “An empirical evaluation of the system usability scale,” International Journal of Human-Computer Interaction, vol. 24, no. 6, pp. 574–594, 2008.
+\bibitem{rajagukguk2025digital} J. Rajagukguk and A. Rusadi, “Digital adoption challenges among MSMEs in Indonesia,” \textit{Journal of Indonesian Digital Economy}, vol. 4, no. 1, pp. 22--35, 2025.
 
-\bibitem{b4} A. Sahay, C. Indamutsa, D. Di Ruscio, and I. Malavolta, “Supporting the understanding and comparison of low-code development platforms,” in Proc. ICSE, 2020.
+\bibitem{vial2019understanding} G. Vial, “Understanding digital transformation: A review and a research agenda,” \textit{The Journal of Strategic Information Systems}, vol. 28, no. 2, pp. 118--144, 2019.
 
-\bibitem{b5} R. Kumar and A. Pandey, “Adoption of no-code development platforms,” International Journal of Computer Applications, vol. 183, no. 12, 2021.
+\bibitem{verhoef2021digital} P. C. Verhoef, T. Broekhuizen, Y. Bart, A. Bhattacharya, J. Q. Dong, N. Fabian, and M. Haenlein, “Digital transformation: A multidisciplinary reflection and research agenda,” \textit{Journal of Business Research}, vol. 122, pp. 889--901, 2021.
 
-\bibitem{b6} OECD, “The Digital Transformation of SMEs,” OECD Publishing, 2021.
+\bibitem{oecd2021msme} OECD, \textit{The Digital Transformation of SMEs}. Paris, France: Organisation for Economic Co-operation and Development, 2021.
 
-\bibitem{b7} Y. Zhou, “User-centered design in digital systems,” Journal of UX Studies, vol. 5, no. 1, 2022.
+\bibitem{chaffey2022digital} D. Chaffey and F. Ellis-Chadwick, \textit{Digital Marketing}, 8th ed. London, U.K.: Pearson, 2022.
 
-\bibitem{b8} M. Armbrust et al., “A view of cloud computing,” Communications of the ACM, 2010.
+\bibitem{alford2015internet} P. Alford and S. J. Page, “Marketing technology for adoption by small business,” \textit{The Service Industries Journal}, vol. 35, no. 11--12, pp. 655--669, 2015.
 
-\bibitem{b9} T. Beck and A. Demirgüç-Kunt, “SMEs, growth, and constraints,” Journal of Banking \& Finance, 2006.
+\bibitem{syed2022lowcode} R. Syed, S. Suriadi, and M. Adams, “Low-code and no-code development platforms: A systematic literature review,” \textit{Journal of Systems and Software}, vol. 190, p. 111352, 2022.
 
-\bibitem{creswell2018} 
-J. W. Creswell and J. D. Creswell,
-\textit{Research Design: Qualitative, Quantitative, and Mixed Methods Approaches},
-5th ed. SAGE, 2018.
+\bibitem{waszkowski2019lowcode} R. Waszkowski, “Low-code platform for automating business processes in manufacturing,” \textit{IFAC-PapersOnLine}, vol. 52, no. 10, pp. 376--381, 2019.
 
-\bibitem{gulliksen2003}
-J. Gulliksen \textit{et al.},
-``Key principles for user-centred systems design,''
-\textit{Behaviour \& Information Technology},
-vol. 22, no. 6, pp. 397--409, 2003.
+\bibitem{norman2013design} D. Norman, \textit{The Design of Everyday Things}. New York, NY, USA: Basic Books, 2013.
 
-\bibitem{vial2019}
-G. Vial,
-``Understanding digital transformation: A review and a research agenda,''
-\textit{The Journal of Strategic Information Systems},
-vol. 28, no. 2, pp. 118--144, 2019.
+\bibitem{iso2019human} International Organization for Standardization, \textit{ISO 9241-210:2019 Ergonomics of Human-System Interaction — Human-Centred Design for Interactive Systems}. Geneva, Switzerland: ISO, 2019.
 
-\bibitem{verhoef2021}
-P. C. Verhoef \textit{et al.},
-``Digital transformation: A multidisciplinary reflection and research agenda,''
-\textit{Journal of Business Research},
-vol. 122, pp. 889--901, 2021.
+\bibitem{nielsen2012usability} J. Nielsen, \textit{Usability Engineering}. San Francisco, CA, USA: Morgan Kaufmann, 2012.
 
-\bibitem{chaffey2019}
-D. Chaffey and F. Ellis-Chadwick,
-\textit{Digital Marketing: Strategy, Implementation and Practice},
-7th ed. Pearson, 2019.
+\bibitem{joshi2015likert} A. Joshi, S. Kale, S. Chandel, and D. K. Pal, “Likert scale: Explored and explained,” \textit{British Journal of Applied Science \& Technology}, vol. 7, no. 4, pp. 396--403, 2015.
 
-\bibitem{likert1932}
-R. Likert,
-``A technique for the measurement of attitudes,''
-\textit{Archives of Psychology},
-vol. 140, pp. 1--55, 1932.
+\bibitem{richey2007design} R. C. Richey and J. D. Klein, \textit{Design and Development Research: Methods, Strategies, and Issues}. Mahwah, NJ, USA: Lawrence Erlbaum Associates, 2007.
 
-\bibitem{field2013}
-A. Field,
-\textit{Discovering Statistics Using IBM SPSS Statistics},
-4th ed. SAGE, 2013.
+\bibitem{brooke1996sus} J. Brooke, “SUS: A quick and dirty usability scale,” in \textit{Usability Evaluation in Industry}, P. W. Jordan, B. Thomas, B. A. Weerdmeester, and I. L. McClelland, Eds. London, U.K.: Taylor \& Francis, 1996, pp. 189--194.
 
+\bibitem{bangor2008empirical} A. Bangor, P. Kortum, and J. Miller, “An empirical evaluation of the system usability scale,” \textit{International Journal of Human-Computer Interaction}, vol. 24, no. 6, pp. 574--594, 2008.
 
+\bibitem{bankindonesia2022qris} Bank Indonesia, “QRIS: Quick Response Code Indonesian Standard,” 2022.
 \end{thebibliography}
 
 \end{document}
