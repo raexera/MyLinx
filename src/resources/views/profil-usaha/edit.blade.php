@@ -13,7 +13,6 @@
             </div>
         </div>
     </x-slot>
-    <!-- Content wrapper -->
     <div class="w-full lg:pr-4 xl:pr-8 pb-16 flex flex-col mt-8 relative z-10">
         @if (session('success'))
             <div
@@ -47,7 +46,6 @@
             @csrf
             @method ('PATCH')
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Visual Identity -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2
@@ -69,7 +67,6 @@
                         onclick="document.getElementById('logo').click()"
                         class="bg-white rounded-[2rem] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 border border-[#E8EBED] shadow-[0_4px_20px_rgb(0,0,0,0.015)] group cursor-pointer hover:border-[#2E5136]/30 transition-colors"
                     >
-                        <!-- Upload Circle / Current Logo -->
                         <div
                             class="w-[120px] h-[120px] rounded-full border-2 border-dashed border-[#d1d5db] group-hover:border-[#2E5136]/50 flex items-center justify-center shrink-0 bg-[#f9fafb] group-hover:bg-[#f2f4f3] transition-colors relative overflow-hidden"
                         >
@@ -111,7 +108,6 @@
                 </div>
             </div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Core Info -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
@@ -120,7 +116,6 @@
                     <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">Tell your story. A compelling description helps customers connect with your brand.</p>
                 </div>
                 <div class="flex-1 space-y-8">
-                    <!-- Nama Usaha -->
                     <div>
                         <label
                             for="nama_usaha"
@@ -140,7 +135,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Alamat -->
                     <div>
                         <label
                             for="alamat"
@@ -160,7 +154,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Deskripsi Brand -->
                     <div>
                         <label
                             for="deskripsi"
@@ -187,7 +180,6 @@
             </div>
             <div class="h-4"></div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Contact & Social -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-8">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
@@ -198,7 +190,6 @@
                 <div
                     class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8"
                 >
-                    <!-- WhatsApp Kontak -->
                     <div
                         x-data="{
                         localNumber: '{{ old('no_hp_local', preg_replace('/^(\+?62|0+)/', '', old('no_hp', $profil->no_hp ?? ''))) }}',
@@ -252,7 +243,6 @@
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Email Bisnis (read-only, from auth user) -->
                     <div>
                         <label
                             class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
@@ -273,7 +263,6 @@
                 </div>
             </div>
             <div class="w-full h-px bg-[#E8EBED] mb-12"></div>
-            <!-- Pembayaran QRIS -->
             <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
                 <div class="md:w-[260px] shrink-0">
                     <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
@@ -428,7 +417,130 @@
                     @enderror
                 </div>
             </div>
-            <!-- Submit -->
+            <div class="w-full h-px bg-[#E8EBED] mb-12 mt-8"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16 mb-12">
+                <div class="md:w-[260px] shrink-0">
+                    <h2 class="text-[1.35rem] font-serif text-[#1A1C19] mb-2">
+                        Transfer Bank & E-Wallet
+                    </h2>
+                    <p class="text-[12.5px] font-medium text-[#2E5136] opacity-70 leading-relaxed max-w-[220px]">Berikan banyak opsi pembayaran. Kamu bisa menambahkan hingga 5 nomor rekening sekaligus.</p>
+                </div>
+
+                <div
+                    class="flex-1"
+                    x-data="{
+                    banks: {{ json_encode(old('rekening_banks', $profil->rekening_banks ?? [])) }},
+                    addBank() {
+                        if(this.banks.length < 5) {
+                            this.banks.push({nama_bank: '', nomor_rekening: '', atas_nama: ''});
+                        }
+                    },
+                    removeBank(index) {
+                        this.banks.splice(index, 1);
+                    }
+                }"
+                >
+                    <template x-for="(bank, index) in banks" :key="index">
+                        <div
+                            class="relative p-5 sm:p-6 rounded-2xl border border-[#E8EBED] bg-[#FBFBF9] mb-4 shadow-sm group transition-all"
+                        >
+                            <button
+                                type="button"
+                                @click="removeBank(index)"
+                                class="absolute top-4 right-4 p-1.5 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors"
+                                title="Hapus Rekening"
+                            >
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            </button>
+
+                            <div
+                                class="grid grid-cols-1 sm:grid-cols-2 gap-5 pr-8"
+                            >
+                                <div>
+                                    <label
+                                        class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                                        >Nama Bank</label
+                                    >
+                                    <select
+                                        x-model="bank.nama_bank"
+                                        :name="`rekening_banks[${index}][nama_bank]`"
+                                        class="w-full h-12 bg-white border border-[#E8EBED] rounded-xl px-4 text-[14px] text-[#1A1C19] font-medium focus:border-[#2E5136] focus:ring-[#2E5136] outline-none"
+                                        required
+                                    >
+                                        <option value="">-- Pilih --</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="Bank Mandiri">
+                                            Bank Mandiri
+                                        </option>
+                                        <option value="BNI">BNI</option>
+                                        <option value="BRI">BRI</option>
+                                        <option value="BSI">BSI</option>
+                                        <option value="CIMB Niaga">
+                                            CIMB Niaga
+                                        </option>
+                                        <option value="Permata">
+                                            Permata Bank
+                                        </option>
+                                        <option value="SeaBank">SeaBank</option>
+                                        <option value="BNC">Bank Neo</option>
+                                        <option value="GoPay">GoPay</option>
+                                        <option value="DANA">DANA</option>
+                                        <option value="OVO">OVO</option>
+                                        <option value="ShopeePay">
+                                            ShopeePay
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                                        >No Rekening</label
+                                    >
+                                    <input
+                                        type="text"
+                                        x-model="bank.nomor_rekening"
+                                        :name="`rekening_banks[${index}][nomor_rekening]`"
+                                        class="w-full h-12 bg-white border border-[#E8EBED] rounded-xl px-4 text-[14px] text-[#1A1C19] font-medium focus:border-[#2E5136] focus:ring-[#2E5136] outline-none"
+                                        placeholder="12345678"
+                                        required
+                                        oninput="
+                                            this.value = this.value.replace(
+                                                /[^0-9]/g,
+                                                '',
+                                            )
+                                        "
+                                    />
+                                </div>
+                            </div>
+                            <div class="mt-5 pr-8">
+                                <label
+                                    class="block text-[10.5px] font-bold text-[#1A1C19] uppercase tracking-[0.15em] mb-2.5"
+                                    >Atas Nama (Pemilik)</label
+                                >
+                                <input
+                                    type="text"
+                                    x-model="bank.atas_nama"
+                                    :name="`rekening_banks[${index}][atas_nama]`"
+                                    class="w-full h-12 bg-white border border-[#E8EBED] rounded-xl px-4 text-[14px] text-[#1A1C19] font-medium focus:border-[#2E5136] focus:ring-[#2E5136] outline-none"
+                                    placeholder="Budi Santoso"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </template>
+
+                    <button
+                        type="button"
+                        @click="addBank"
+                        x-show="banks.length < 5"
+                        class="w-full h-14 rounded-2xl border-2 border-dashed border-[#DCE2D8] text-[#2E5136] text-[13px] font-bold hover:bg-[#EAF2ED] hover:border-[#2E5136]/30 transition-colors flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                        Tambah Rekening Baru
+                    </button>
+                </div>
+            </div>
+
             <div
                 class="flex items-center justify-end gap-6 border-t border-[#E8EBED] pt-8 mb-4 flex-col sm:flex-row"
             >

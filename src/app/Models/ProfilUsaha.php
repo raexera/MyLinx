@@ -23,6 +23,11 @@ class ProfilUsaha extends Model
         'qris_image',
         'qris_merchant_name',
         'qris_nmid',
+        'rekening_banks',
+    ];
+
+    protected $casts = [
+        'rekening_banks' => 'array',
     ];
 
     public function tenant(): BelongsTo

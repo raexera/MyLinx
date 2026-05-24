@@ -1,99 +1,120 @@
 <x-guest-layout>
-    <div class="w-full sm:max-w-[420px] mx-auto text-center">
-        <div class="mb-12">
-            <h1
-                class="text-[2.75rem] font-serif font-bold text-[#2E5136] tracking-tight mb-3"
-            >
+    <div
+        class="w-full sm:max-w-[420px] mx-auto bg-white rounded-[2.5rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100/50 relative overflow-hidden"
+    >
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold tracking-tight text-[#1A1C19] mb-2">
                 MyLinx
             </h1>
-            <p class="text-sm font-medium text-[#6A7B8C]">Buat website impianmu sekarang</p>
+            <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-[#789D84]">Buat Akun Baru</p>
         </div>
-        <form
-            method="POST"
-            action="{{ route('register') }}"
-            class="space-y-5 text-left"
-        >
+
+        <form method="POST" action="{{ route('register') }}" class="space-y-5">
             @csrf
+
             <div>
+                <label
+                    for="name"
+                    class="block text-xs font-semibold text-gray-700 mb-1.5 ml-1"
+                    >Nama Lengkap</label
+                >
                 <div class="relative">
                     <div
-                        class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none"
+                        class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
                     >
-                        <svg class="h-[18px] w-[18px] text-[#A6B2A8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-4 w-4 text-[#789D84]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
                     <input
                         id="name"
-                        class="block w-full pl-12 pr-4 py-[14px] border border-[#DCE2D8] rounded-[24px] text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#A6B2A8]"
+                        class="block w-full pl-11 pr-4 py-3 border border-gray-200 rounded-full text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#789D84]/60"
                         type="text"
                         name="nama"
                         :value="old('nama')"
                         required
                         autofocus
                         autocomplete="name"
-                        placeholder="Nama Lengkap"
+                        placeholder="Masukkan nama lengkap"
                     />
                 </div>
                 <x-input-error :messages="$errors->get('nama')" class="mt-2" />
             </div>
+
             <div>
+                <label
+                    for="email"
+                    class="block text-xs font-semibold text-gray-700 mb-1.5 ml-1"
+                    >Email Bisnis</label
+                >
                 <div class="relative">
                     <div
-                        class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none"
+                        class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
                     >
-                        <svg class="h-[18px] w-[18px] text-[#A6B2A8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-4 w-4 text-[#789D84]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                     </div>
                     <input
                         id="email"
-                        class="block w-full pl-12 pr-4 py-[14px] border border-[#DCE2D8] rounded-[24px] text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#A6B2A8]"
+                        class="block w-full pl-11 pr-4 py-3 border border-gray-200 rounded-full text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#789D84]/60"
                         type="email"
                         name="email"
                         :value="old('email')"
                         required
                         autocomplete="username"
-                        placeholder="Email Bisnis"
+                        placeholder="name@example.com"
                     />
                 </div>
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
+
             <div>
+                <label
+                    for="store"
+                    class="block text-xs font-semibold text-gray-700 mb-1.5 ml-1"
+                    >Nama Usaha</label
+                >
                 <div class="relative">
                     <div
-                        class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none"
+                        class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
                     >
-                        <svg class="h-[18px] w-[18px] text-[#A6B2A8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-4 w-4 text-[#789D84]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V10l-2.5-4a2 2 0 00-1.7-.93H9.2a2 2 0 00-1.7.93L5 10v11M3 21h18M5 10h14M8 10v4M12 10v4m4-4v4" />
                         </svg>
                     </div>
                     <input
                         id="store"
-                        class="block w-full pl-12 pr-4 py-[14px] border border-[#DCE2D8] rounded-[24px] text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#A6B2A8]"
+                        class="block w-full pl-11 pr-4 py-3 border border-gray-200 rounded-full text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#789D84]/60"
                         type="text"
                         name="store_name"
-                        placeholder="Nama Usaha"
+                        placeholder="e.g. Kopi Senja"
                     />
                 </div>
             </div>
+
             <div>
+                <label
+                    for="password"
+                    class="block text-xs font-semibold text-gray-700 mb-1.5 ml-1"
+                    >Kata Sandi</label
+                >
                 <div class="relative" x-data="{ show: false }">
                     <div
-                        class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none"
+                        class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
                     >
-                        <svg class="h-[18px] w-[18px] text-[#A6B2A8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-4 w-4 text-[#789D84]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                     </div>
                     <input
                         id="password"
-                        class="block w-full pl-12 pr-12 py-[14px] border border-[#DCE2D8] rounded-[24px] text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#A6B2A8]"
+                        class="block w-full pl-11 pr-11 py-3 border border-gray-200 rounded-full text-sm text-[#1A1C19] bg-white focus:border-[#2E5136] focus:ring-[#2E5136] transition-colors placeholder:text-[#789D84]/60"
                         :type="show ? 'text' : 'password'"
                         name="password"
                         required
                         autocomplete="new-password"
-                        placeholder="Kata Sandi"
+                        placeholder="Buat kata sandi yang aman"
                     />
                     <input
                         type="hidden"
@@ -103,7 +124,7 @@
                     <button
                         type="button"
                         @click="show = !show"
-                        class="absolute inset-y-0 right-0 pr-[18px] flex items-center cursor-pointer text-[#A6B2A8] hover:text-[#2E5136] focus:outline-none"
+                        class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer text-[#789D84] hover:text-[#2E5136] focus:outline-none"
                     >
                         <svg x-show="
                                 show
@@ -123,23 +144,25 @@
                     class="mt-2"
                 />
             </div>
-            <div>
+
+            <div class="pt-2">
                 <button
                     type="submit"
-                    class="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-[24px] shadow-[0_10px_30px_rgb(46,81,54,0.15)] text-[15px] font-bold text-white bg-[#2E5136] hover:bg-[#1f3824] focus:outline-none transition-all transform hover:-translate-y-0.5"
+                    class="w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-[#2E5136] hover:bg-[#1f3824] focus:outline-none transition-colors"
                 >
-                    Buat Akun
+                    Daftar Sekarang
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                 </button>
             </div>
-            <div class="text-center pt-6">
-                <p class="text-[13px] text-gray-500">
+
+            <div class="text-center pt-2">
+                <p class="text-xs text-gray-500">
                     Sudah punya akun?
                     <a
                         href="{{ route('login') }}"
-                        class="font-bold text-[#2E5136] hover:text-[#1A1C19] transition-colors"
+                        class="font-bold text-[#1A1C19] hover:text-[#2E5136] transition-colors"
                         >Masuk di sini</a
                     >
                 </p>
