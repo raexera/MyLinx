@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  25 MAY 2026 14:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  25 MAY 2026 15:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -217,9 +217,18 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count302
+\float@exts=\toks24
+\float@box=\box57
+\@float@everytoks=\toks25
+\@floatcapt=\box58
+) (C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex/latex/placeins\placeins.sty
+Package: placeins 2005/04/18  v 2.2
 ) (C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count302
+\l__color_backend_stack_int=\count303
 ) (conference.aux)
 \openout1 = `conference.aux'.
 
@@ -241,17 +250,17 @@ LaTeX Font Info:    ... okay on input line 14.
 -- Lines per column: 56 (exact).
 (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count303
+\scratchcounter=\count304
 \scratchdimen=\dimen183
-\scratchbox=\box57
-\nofMPsegments=\count304
-\nofMParguments=\count305
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count306
+\scratchbox=\box59
+\nofMPsegments=\count305
+\nofMParguments=\count306
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count307
 \MPscratchDim=\dimen184
-\MPnumerator=\count307
-\makeMPintoPDFobject=\count308
-\everyMPtoPDFconversion=\toks25
+\MPnumerator=\count308
+\makeMPintoPDFobject=\count309
+\everyMPtoPDFconversion=\toks27
 ) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -266,26 +275,63 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 67.
  (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Underfull \vbox (badness 3568) has occurred while \output is active []
-
- [1{C:/Users/Rahmadyan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}
+) [1{C:/Users/Rahmadyan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ] [2]
-Underfull \hbox (badness 2042) in paragraph at lines 204--206
+Underfull \hbox (badness 2042) in paragraph at lines 184--185
 []\OT1/ptm/m/n/10 Based on the ques-tion-naire re-sults, most re-spon-dents
  []
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 [3]
-Overfull \hbox (3.22485pt too wide) in paragraph at lines 247--263
+Overfull \hbox (3.22485pt too wide) in paragraph at lines 224--240
  [][] 
  []
 
-[4]
+<assets/hero_page.png, id=15, 1903.86281pt x 950.04938pt>
+File: assets/hero_page.png Graphic file (type png)
+<use assets/hero_page.png>
+Package pdftex.def Info: assets/hero_page.png  used on input line 289.
+(pdftex.def)             Requested size: 247.6778pt x 123.58324pt.
+
+Underfull \vbox (badness 1442) has occurred while \output is active []
+
+ [4]
+<assets/dashboard.png, id=20, 1912.89656pt x 941.76843pt>
+File: assets/dashboard.png Graphic file (type png)
+<use assets/dashboard.png>
+Package pdftex.def Info: assets/dashboard.png  used on input line 297.
+(pdftex.def)             Requested size: 247.6778pt x 121.93123pt.
+<assets/daftar_produk.png, id=21, 1925.69438pt x 934.99312pt>
+File: assets/daftar_produk.png Graphic file (type png)
+<use assets/daftar_produk.png>
+Package pdftex.def Info: assets/daftar_produk.png  used on input line 306.
+(pdftex.def)             Requested size: 247.6778pt x 120.25508pt.
+<assets/daftar_pesanan.png, id=22, 1924.18875pt x 934.99312pt>
+File: assets/daftar_pesanan.png Graphic file (type png)
+<use assets/daftar_pesanan.png>
+Package pdftex.def Info: assets/daftar_pesanan.png  used on input line 315.
+(pdftex.def)             Requested size: 247.6778pt x 120.34068pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+<assets/portofolio_builder.png, id=23, 1921.93031pt x 933.4875pt>
+File: assets/portofolio_builder.png Graphic file (type png)
+<use assets/portofolio_builder.png>
+Package pdftex.def Info: assets/portofolio_builder.png  used on input line 324.
+(pdftex.def)             Requested size: 232.19843pt x 112.76859pt.
+<assets/Website_settings.png, id=24, 1194.4625pt x 1326.9575pt>
+File: assets/Website_settings.png Graphic file (type png)
+<use assets/Website_settings.png>
+Package pdftex.def Info: assets/Website_settings.png  used on input line 333.
+(pdftex.def)             Requested size: 232.19843pt x 257.95589pt.
+ [5 <./assets/hero_page.png> <./assets/dashboard.png> <./assets/daftar_produk.png> <./assets/daftar_pesanan.png> <./assets/portofolio_builder.png> <./assets/Website_settings.png (PNG copy)>]
+<assets/Store_front.png, id=33, 863.225pt x 1835.85875pt>
+File: assets/Store_front.png Graphic file (type png)
+<use assets/Store_front.png>
+Package pdftex.def Info: assets/Store_front.png  used on input line 342.
+(pdftex.def)             Requested size: 232.19843pt x 493.81163pt.
+ [6 <./assets/Store_front.png (PNG copy)>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -297,24 +343,26 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[5] (conference.aux)
+[7
+
+] (conference.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4022 strings out of 467871
- 62463 string characters out of 5428431
- 492419 words of memory out of 5000000
- 32866 multiletter control sequences out of 15000+600000
+ 4181 strings out of 467871
+ 65997 string characters out of 5428431
+ 490090 words of memory out of 5000000
+ 33017 multiletter control sequences out of 15000+600000
  674535 words of font info for 131 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,11n,65p,860b,348s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on conference.pdf (5 pages, 85760 bytes).
+Output written on conference.pdf (7 pages, 3398368 bytes).
 PDF statistics:
- 39 PDF objects out of 1000 (max. 8388607)
+ 60 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
