@@ -22,6 +22,10 @@ The platform is built around a specific pain point cited in the page's research:
 
 The platform is driven by three main principles:
 
-1.  Simple First: Designed specifically so non-technical users can adopt it easily.
-2.  Local Context: Building natively around Indonesian commerce habits (WhatsApp and QRIS) rather than forcing imported Western checkout flows.
-3.  Data Ownership: Ensuring the merchant maintains total control over their business and customer relationships.
+1. Simple First: Designed specifically so non-technical users can adopt it easily.
+2. Local Context: Building natively around Indonesian commerce habits (WhatsApp and QRIS) rather than forcing imported Western checkout flows.
+3. Data Ownership: Ensuring the merchant maintains total control over their business and customer relationships.
+
+## Getting Started
+
+For complete local development and production deployment instructions, please refer to the [Installation Guide](./INSTALLATION.md).
