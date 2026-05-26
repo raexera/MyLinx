@@ -7,6 +7,8 @@
 \usepackage{xcolor}
 \usepackage{float}
 \usepackage{placeins}
+\usepackage[caption=false,font=footnotesize]{subfig}
+
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -69,16 +71,21 @@ muhammad.Rahmadyan@binus.ac.id}
 
 
 \begin{abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sed dapibus erat, nec varius nulla. Ut vitae nunc lorem. 
-Etiam non ornare velit, sed rutrum odio. Vivamus a lacinia velit. Integer fringilla tincidunt rhoncus. Etiam hendrerit 
-pharetra dapibus. Curabitur in luctus enim. Aenean lacus lectus, imperdiet ut lectus sit amet, mollis convallis enim. 
-Ut tempor elit laoreet nulla tempus iaculis. Aliquam erat volutpat. Aliquam nec turpis ut metus venenatis dapibus et in justo.
-
+Abstract— The Micro, Small, and Medium Enterprises (MSME) sector plays a crucial role in 
+the Indonesian economy but faces significant barriers in digital adoption due to the technical 
+complexity of traditional Content Management Systems and the high fees of 
+marketplace platforms. Furthermore, global website builders often 
+lack native integration with local digital habits, such as QRIS payments 
+and WhatsApp communication. This study aims to bridge this gap by developing "MyLinx," a localized no-code 
+web generator tailored for Indonesian MSMEs using a User-Centered Design (UCD) approach. Initial 
+requirements were gathered from 34 MSME owners, followed by system development and a pilot implementation involving 8 participants. 
+The platform's usability was evaluated using the System Usability Scale (SUS), yielding an average score of 85.0 (Excellent/Acceptable). 
+The findings indicate that a localized no-code architecture significantly reduces the technical barrier to entry, offering MSMEs an intuitive, cost-effective, and culturally relevant tool to establish a professional digital presence.
 \end{abstract}
 
 
 \begin{IEEEkeywords}
-keyword1, keyword2, keyword3
+ MSME, No-Code Platform, Web Generator, QRIS, System Usability Scale
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -211,7 +218,7 @@ In addition, respondents also showed strong interest in using a no-code website 
 
 \subsection{Post-Implementation Evaluation}
 
-Following the implementation stage, the developed MyLinx platform was evaluated by 8 MSME participants through a post-implementation questionnaire. This evaluation aimed to measure user perceptions regarding the effectiveness and usability of the platform after direct usage.
+Following the implementation stage, the developed MyLinx platform was evaluated through a pilot study involving 8 MSME participants. While the sample size is relatively small, this aligns with established usability engineering principles; according to Nielsen \cite{nielsen2012usability}, testing a system with 5 to 8 users is generally sufficient to uncover approximately 80--85\% of core usability problems. This pilot evaluation aimed to measure user perceptions regarding the effectiveness and usability of the platform after direct usage.
 
 The questionnaire evaluated several aspects, including content management efficiency, market reach improvement, digital visibility enhancement, ease of technology adoption, ease of use, and overall user satisfaction. All questionnaire items were measured using a five-point Likert scale ranging from strongly disagree to strongly agree.
 
@@ -278,80 +285,60 @@ Based on Table \ref{tab:sus_result}, the MyLinx platform obtained an average SUS
 In addition, most respondents stated that the system was easy to learn, simple to operate, and provided confidence during usage. Therefore, the usability aspect of the MyLinx platform can be considered successful in meeting user expectations and supporting MSME digitalization activities.
 
 \subsection{System Implementation}
-Based on the identified user requirements, the MyLinx platform was developed as a no-code website generator specifically designed for MSMEs. The platform provides several main features, including customizable website templates, product catalog management, order management, portfolio builder, WhatsApp integration, QRIS payment integration, and dashboard management.
 
-The system was developed using the Laravel framework with the Model-View-Controller (MVC) architectural pattern. The implementation process focused on creating a user-friendly interface that allows MSME users to build and manage business websites without requiring coding skills.
+Based on the identified user requirements, the MyLinx platform was developed as a no-code website generator specifically designed for MSMEs. The platform provides several main features, including customizable website templates, product catalog management, order management, portfolio builder, WhatsApp integration, QRIS payment integration, and dashboard management. The system was developed using the Laravel framework with the Model-View-Controller (MVC) architectural pattern. The implementation process focused on creating a user-friendly interface that allows MSME users to build and manage business websites without requiring coding skills.
 
-Figure \ref{fig:hero_page} shows the landing page of the MyLinx platform. This page provides an overview of the platform’s main features, including product catalog creation, WhatsApp ordering integration, and digital payment support.
-
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=0.48\textwidth]{assets/hero_page.png}
-\caption{MyLinx Landing Page}
-\label{fig:hero_page}
-\end{figure}
 
-Figure \ref{fig:dashboard} presents the dashboard interface used by MSME users to monitor business activities such as product statistics, orders, and storefront visitors.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.48\textwidth]{assets/dashboard.png}
-\caption{Dashboard Interface}
+\subfloat[Dashboard Interface]{
+\includegraphics[width=0.78\columnwidth]{assets/dashboard.png}
 \label{fig:dashboard}
-\end{figure}
+}
 
-Figure \ref{fig:product_management} shows the product management feature that allows users to add, edit, and manage product information through a simple interface.
+\vspace{0.15cm}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.48\textwidth]{assets/daftar_produk.png}
-\caption{Product Management Interface}
+\subfloat[Product Management]{
+\includegraphics[width=0.78\columnwidth]{assets/daftar_produk.png}
 \label{fig:product_management}
-\end{figure}
+}
 
-Figure \ref{fig:order_management} illustrates the order management feature used to monitor incoming customer orders and transaction status.
+\vspace{0.15cm}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.48\textwidth]{assets/daftar_pesanan.png}
-\caption{Order Management Interface}
+\subfloat[Order Management]{
+\includegraphics[width=0.78\columnwidth]{assets/daftar_pesanan.png}
 \label{fig:order_management}
+}
+
+\caption{Core System Interfaces of the MyLinx Platform}
+\label{fig:system_interfaces}
+
 \end{figure}
 
-Figure \ref{fig:portfolio_builder} presents the portfolio builder feature that enables users to showcase their business projects and services visually.
+Figure \ref{fig:system_interfaces} presents several core interfaces implemented in the MyLinx platform, including the dashboard interface, product management feature, and order management feature. The dashboard interface enables MSME users to monitor business activities such as product statistics, customer visits, and transaction summaries in a centralized view. The product management feature allows users to add, edit, and organize product information through a simple and user-friendly interface. Meanwhile, the order management feature helps users monitor incoming customer orders and transaction statuses efficiently.
 
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=0.45\textwidth]{assets/portofolio_builder.png}
-\caption{Portfolio Builder Feature}
-\label{fig:portfolio_builder}
-\end{figure}
-
-Figure \ref{fig:website_settings} shows the website customization settings page. This feature allows users to modify website appearance, themes, layout configurations, and storefront identity according to their business preferences.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.45\textwidth]{assets/Website_settings.png}
+\includegraphics[width=0.72\columnwidth]{assets/Website_settings.png}
 \caption{Website Settings and Customization}
 \label{fig:website_settings}
 \end{figure}
 
-Figure \ref{fig:storefront} shows an example of the generated storefront website created using the MyLinx platform. The storefront displays business information, portfolio content, product catalogs, and integrated customer communication features.
+Figure \ref{fig:website_settings} shows the website customization settings page. This feature allows users to modify website appearance, themes, layout configurations, and storefront identity according to their business preferences.
 
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=0.45\textwidth]{assets/Store_front.png}
+\includegraphics[width=0.72\columnwidth]{assets/Store_front.png}
 \caption{Generated Storefront Website}
 \label{fig:storefront}
 \end{figure}
 
-
+Figure \ref{fig:storefront} shows an example of the generated storefront website created using the MyLinx platform. The storefront displays business information, portfolio content, product catalogs, and integrated customer communication features.
 
 \section{Conclusion}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas finibus mattis suscipit. Aliquam vestibulum interdum fermentum. Sed congue cursus erat, in malesuada ligula pellentesque ac. Integer sollicitudin ex id porta sodales. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut diam sapien, auctor non sollicitudin eget, feugiat vel est. Quisque pulvinar nulla eros, sodales gravida augue ultrices nec. Phasellus ac nisl dolor. Nulla facilisi. Donec porta vehicula odio faucibus fringilla. Cras maximus congue erat non tincidunt. Nullam porttitor neque euismod sollicitudin euismod. Proin tincidunt nec erat sit amet convallis. Etiam viverra fringilla diam, quis varius eros dictum vel.
+This study successfully developed and evaluated MyLinx, a localized no-code web generator designed to accelerate digital transformation for Indonesian MSMEs. Addressing RQ1, the platform demonstrated that a low-code/no-code architecture can seamlessly integrate essential local commerce tools—specifically WhatsApp and QRIS—while eliminating the need for coding skills. Regarding RQ2, the pilot implementation showed highly positive user feedback in product management and digital visibility, supported by a System Usability Scale (SUS) score of 85.0, which classifies the platform's usability as "Excellent."
 
-
-\section*{Acknowledgment}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas finibus mattis suscipit. Aliquam vestibulum interdum fermentum. Sed congue cursus erat, in malesuada ligula pellentesque ac. Integer sollicitudin ex id porta sodales. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut diam sapien, auctor non sollicitudin eget, feugiat vel est. Quisque pulvinar nulla eros, sodales gravida augue ultrices nec. Phasellus ac nisl dolor. Nulla facilisi. Donec porta vehicula odio faucibus fringilla. Cras maximus congue erat non tincidunt. Nullam porttitor neque euismod sollicitudin euismod. Proin tincidunt nec erat sit amet convallis. Etiam viverra fringilla diam, quis varius eros dictum vel.
+Despite these positive outcomes, this study acknowledges a limitation regarding the sample size used during the post-implementation evaluation. The system was tested by a small pilot group of eight MSME owners, which limits the generalizability of the quantitative business impact metrics (e.g., market reach improvement). Consequently, future work will focus on scaling the deployment of the MyLinx platform to a broader and more diverse spectrum of MSMEs across Indonesia, enabling a comprehensive large-scale empirical analysis to further validate its long-term economic impact.
 
 
 \begin{thebibliography}{00}

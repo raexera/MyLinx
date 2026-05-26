@@ -89,6 +89,10 @@ INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\float\float.sty
 INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\float\float.sty
 INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\placeins\placeins.sty
 INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\placeins\placeins.sty
+INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\subfig\subfig.sty
+INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\subfig\subfig.sty
+INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\caption\caption3.sty
+INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\caption\caption3.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Program Files\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT .\conference.aux
@@ -163,24 +167,17 @@ INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam5.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmrc7t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr9.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi9.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy9.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex9.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT .\assets\hero_page.png
-INPUT .\assets\hero_page.png
-INPUT .\assets\hero_page.png
-INPUT .\assets\hero_page.png
-INPUT .\assets\hero_page.png
-INPUT .\assets\hero_page.png
-INPUT .\assets\hero_page.png
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmrc7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT .\assets\dashboard.png
@@ -204,13 +201,6 @@ INPUT .\assets\daftar_pesanan.png
 INPUT .\assets\daftar_pesanan.png
 INPUT .\assets\daftar_pesanan.png
 INPUT .\assets\daftar_pesanan.png
-INPUT .\assets\portofolio_builder.png
-INPUT .\assets\portofolio_builder.png
-INPUT .\assets\portofolio_builder.png
-INPUT .\assets\portofolio_builder.png
-INPUT .\assets\portofolio_builder.png
-INPUT .\assets\portofolio_builder.png
-INPUT .\assets\portofolio_builder.png
 INPUT .\assets\Website_settings.png
 INPUT .\assets\Website_settings.png
 INPUT .\assets\Website_settings.png
