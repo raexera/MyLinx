@@ -93,6 +93,8 @@ INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\subfig\subfig.sty
 INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\subfig\subfig.sty
 INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\caption\caption3.sty
 INPUT C:\Users\Rahmadyan\AppData\Roaming\MiKTeX\tex\latex\caption\caption3.sty
+INPUT C:\Program Files\MiKTeX\tex\latex\url\url.sty
+INPUT C:\Program Files\MiKTeX\tex\latex\url\url.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Program Files\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT .\conference.aux
@@ -215,6 +217,11 @@ INPUT .\assets\Store_front.png
 INPUT .\assets\Store_front.png
 INPUT .\assets\Store_front.png
 INPUT .\assets\Store_front.png
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam7.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmri7t.vf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmri8r.tfm
 INPUT conference.aux
