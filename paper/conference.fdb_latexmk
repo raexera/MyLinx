@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1780210078.32173 "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" "conference.pdf" "conference" 1780210079.94436 0
+["pdflatex"] 1780462028.23166 "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" "conference.pdf" "conference" 1780462030.7556 0
   "C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/times/ptmb7t.tfm" 1136747054 2172 fd0c924230362ff848a33632ed45dc23 ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/times/ptmb8r.tfm" 1136747054 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -78,9 +78,9 @@
   "assets/daftar_pesanan.png" 1779695788 160768 17676e0fc67dbe0662f389fd6e705f0c ""
   "assets/daftar_produk.png" 1779695737 142154 360c885e41d793298bb2588ac5b32441 ""
   "assets/dashboard.png" 1779695434 161671 79a977e586eb822c9eddf58707e79fba ""
-  "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" 1780210077 31384 ee6cf4cc42c4beac1b71e6c7da4f0666 ""
-  "conference.aux" 1780210079 5647 9f2d9cc7d1ed257e873aea6df652a44b "pdflatex"
-  "conference.tex" 1780210077 31384 ee6cf4cc42c4beac1b71e6c7da4f0666 ""
+  "c:/Users/Rahmadyan/Documents/skirpsi/MyLinx/paper/conference.tex" 1780462027 31711 9de7ab9ff768f753ce48cc81e6c8c988 ""
+  "conference.aux" 1780462030 5191 12764aafc556db3cfb0303fda3003fc4 "pdflatex"
+  "conference.tex" 1780462027 31711 9de7ab9ff768f753ce48cc81e6c8c988 ""
   (generated)
   "conference.aux"
   "conference.log"

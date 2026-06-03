@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  31 MAY 2026 13:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.27)  3 JUN 2026 11:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -311,7 +311,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 71.
  (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 4899) in paragraph at lines 75--87
+Underfull \hbox (badness 4899) in paragraph at lines 75--78
 []\OT1/ptm/b/it/9 Abstract\OT1/ptm/b/n/9 ---The Mi-cro, Small, and Medium En-ter-prises
  []
 
@@ -319,47 +319,54 @@ Underfull \hbox (badness 4899) in paragraph at lines 75--87
 
 
 ] [2]
-Underfull \hbox (badness 2042) in paragraph at lines 194--195
+Underfull \hbox (badness 2772) in paragraph at lines 176--177
+[]\OT1/ptm/m/n/10 The source code, in-stal-la-tion guide, and de-ploy-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
+\OT1/ptm/m/n/10 repos-i-tory at https://github.com/raexera/MyLinx. Users,
+ []
+
+[3]
+Underfull \hbox (badness 2042) in paragraph at lines 206--207
 []\OT1/ptm/m/n/10 Based on the ques-tion-naire re-sults, most re-spon-dents
  []
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[3]
-Overfull \hbox (3.22485pt too wide) in paragraph at lines 234--250
+Overfull \hbox (3.22485pt too wide) in paragraph at lines 246--262
  [][] 
  []
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Underfull \vbox (badness 1253) has occurred while \output is active []
 
-[4]
+ [4]
 <assets/dashboard.png, id=18, 1912.89656pt x 941.76843pt>
 File: assets/dashboard.png Graphic file (type png)
 <use assets/dashboard.png>
-Package pdftex.def Info: assets/dashboard.png  used on input line 300.
-(pdftex.def)             Requested size: 196.5597pt x 96.769pt.
+Package pdftex.def Info: assets/dashboard.png  used on input line 310.
+(pdftex.def)             Requested size: 138.60077pt x 68.22975pt.
 <assets/daftar_produk.png, id=20, 1925.69438pt x 934.99312pt>
 File: assets/daftar_produk.png Graphic file (type png)
 <use assets/daftar_produk.png>
-Package pdftex.def Info: assets/daftar_produk.png  used on input line 307.
-(pdftex.def)             Requested size: 196.5597pt x 95.4308pt.
+Package pdftex.def Info: assets/daftar_produk.png  used on input line 317.
+(pdftex.def)             Requested size: 138.60077pt x 67.28235pt.
 <assets/daftar_pesanan.png, id=21, 1924.18875pt x 934.99312pt>
 File: assets/daftar_pesanan.png Graphic file (type png)
 <use assets/daftar_pesanan.png>
-Package pdftex.def Info: assets/daftar_pesanan.png  used on input line 314.
-(pdftex.def)             Requested size: 196.5597pt x 95.50214pt.
+Package pdftex.def Info: assets/daftar_pesanan.png  used on input line 324.
+(pdftex.def)             Requested size: 138.60077pt x 67.33942pt.
 <assets/Website_settings.png, id=22, 1194.4625pt x 1326.9575pt>
 File: assets/Website_settings.png Graphic file (type png)
 <use assets/Website_settings.png>
-Package pdftex.def Info: assets/Website_settings.png  used on input line 325.
-(pdftex.def)             Requested size: 181.4403pt x 201.566pt.
+Package pdftex.def Info: assets/Website_settings.png  used on input line 335.
+(pdftex.def)             Requested size: 153.72015pt x 170.76923pt.
 <assets/Store_front.png, id=23, 863.225pt x 1835.85875pt>
 File: assets/Store_front.png Graphic file (type png)
 <use assets/Store_front.png>
-Package pdftex.def Info: assets/Store_front.png  used on input line 334.
-(pdftex.def)             Requested size: 163.79846pt x 348.34056pt.
+Package pdftex.def Info: assets/Store_front.png  used on input line 344.
+(pdftex.def)             Requested size: 126.0pt x 267.94351pt.
  [5 <./assets/dashboard.png> <./assets/daftar_produk.png> <./assets/daftar_pesanan.png> <./assets/Website_settings.png (PNG copy)> <./assets/Store_front.png (PNG copy)>]
 
 ** Conference Paper **
@@ -379,15 +386,15 @@ L3 programming layer <2025-12-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5268 strings out of 467871
- 86802 string characters out of 5428431
- 514976 words of memory out of 5000000
- 34092 multiletter control sequences out of 15000+600000
- 675589 words of font info for 136 fonts, out of 8000000 for 9000
+ 5264 strings out of 467871
+ 86763 string characters out of 5428431
+ 512998 words of memory out of 5000000
+ 34089 multiletter control sequences out of 15000+600000
+ 673457 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,11n,65p,860b,372s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,11n,65p,1188b,372s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on conference.pdf (6 pages, 2961958 bytes).
+Output written on conference.pdf (6 pages, 2962758 bytes).
 PDF statistics:
  51 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

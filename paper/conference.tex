@@ -20,9 +20,9 @@
 
 
 \title{
-{\fontsize{12pt}{16pt}\selectfont
-2026 IEEE International Conference on Something (ICIT)\\
-}
+% {\fontsize{12pt}{16pt}\selectfont
+% 2026 IEEE International Conference on Something (ICIT)\\
+% }
 
 \vspace{0.5cm}
 {\fontsize{45pt}{45pt}\selectfont
@@ -74,16 +74,8 @@ soni.yora@binus.ac.id}
 
 \begin{abstract} 
 
-The Micro, Small, and Medium Enterprises (MSME) sector plays a crucial role in 
-the Indonesian economy but faces significant barriers in digital adoption due to the technical 
-complexity of traditional Content Management Systems and the high fees of 
-marketplace platforms. Furthermore, global website builders often 
-lack native integration with local digital habits, such as QRIS payments 
-and WhatsApp communication. This study aims to bridge this gap by developing "MyLinx" a localized no-code 
-web generator tailored for Indonesian MSMEs using a User-Centered Design (UCD) approach. Initial 
-requirements were gathered from 34 MSME owners, followed by system development and a pilot implementation involving 8 participants. 
-The platform's usability was evaluated using the System Usability Scale (SUS), yielding an average score of 85.0 (Excellent/Acceptable). 
-The findings indicate that a localized no-code architecture significantly reduces the technical barrier to entry, offering MSMEs an intuitive, cost-effective, and culturally relevant tool to establish a professional digital presence.
+The Micro, Small, and Medium Enterprises (MSME) sector plays a crucial role in the Indonesian economy but faces significant barriers in digital adoption due to the technical complexity of traditional Content Management Systems and the high fees of marketplace platforms. Furthermore, global website builders often lack native integration with local digital habits, such as QRIS payments and WhatsApp communication. This study aims to bridge this gap by developing ”MyLinx” a localized no-code web generator tailored for Indonesian MSMEs using a User-Centered Design (UCD) approach. Initial requirements were gathered from 34 MSME owners, followed by system development and a pilot implementation involving 8 participants. The platform’s usability was evaluated using the System Usability Scale (SUS), yielding an average score of 85.0 (Excellent/Acceptable). The findings indicate that a localized no- code architecture significantly reduces the technical barrier to entry, offering MSMEs an intuitive, cost-effective, and culturally relevant tool to establish a professional digital presence.
+
 \end{abstract}
 
 
@@ -92,108 +84,128 @@ The findings indicate that a localized no-code architecture significantly reduce
 \end{IEEEkeywords}
 
 \section{Introduction}
+The Indonesian digital economy is currently experiencing a period of rapid growth, with projections estimating that its value will reach USD 150 billion by 2025 [1]. Despite this immense potential, the Micro, Small, and Medium Enterprises (MSME) sector—which serves as the backbone of the national economy by contributing 61\% to the Gross Domestic Prod- uct (GDP)—continues to face significant challenges in fully participating in this digital transformation [2]. Research by Rajagukguk and Rusadi (2025) highlights a clear “adoption gap,” revealing that while 65\% of MSMEs recognize the necessity of digital technology, only 23\% are able to utilize it consistently for business operations [3].
 
-The Indonesian digital economy is currently experiencing a period of rapid growth, with projections estimating that its value will reach USD 150 billion by 2025 \cite{google2020economy}. Despite this immense potential, the Micro, Small, and Medium Enterprises (MSME) sector—which serves as the backbone of the national economy by contributing 61\% to the Gross Domestic Product (GDP)—continues to face significant challenges in fully participating in this digital transformation \cite{kemenkop2023umkm}. Research by Rajagukguk and Rusadi (2025) highlights a clear “adoption gap,” revealing that while 65\% of MSMEs recognize the necessity of digital technology, only 23\% are able to utilize it consistently for business operations \cite{rajagukguk2025digital}.  
+This disparity stems largely from a critical gap in technolog- ical compatibility. Currently, MSME owners are often forced into difficult trade-offs between two polar ends of the digital spectrum. On one hand, they adopt marketplace platforms that offer ease of use but impose administrative fees—averaging 6.5\% to 10\%—which significantly erode thin profit margins and limit direct control over customer data [6]. On the other hand, attempting to build independent websites using complex Content Management Systems (CMS) like WordPress often proves too technically demanding for those with limited digital literacy, requiring specialized knowledge in hosting, plugins, and maintenance [8].
 
+Furthermore, existing global website builders such as Wix or Squarespace exhibit a significant \textbf{localization gap}. These plat- forms frequently lack native integration with local Indonesian digital habits, most notably the Unified Quick Response Code Indonesian Standard (QRIS) for payments and automated WhatsApp-based communication, which are primary drivers of commerce in the Indonesian digital ecosystem [18]. While third-party plugins exist, they often introduce additional costs and technical complexity that further alienate non-technical users.
 
-This disparity stems largely from a critical gap in technological compatibility. Currently, MSME owners are often forced into difficult trade-offs between two polar ends of the digital spectrum. On one hand, they adopt marketplace platforms that offer ease of use but impose administrative fees—averaging 6.5\% to 10\%—which significantly erode thin profit margins and limit direct control over customer data \cite{oecd2021msme}. On the other hand, attempting to build independent websites using complex Content Management Systems (CMS) like WordPress often proves too technically demanding for those with limited digital literacy, requiring specialized knowledge in hosting, plugins, and maintenance \cite{alford2015internet}.  
+To address these barriers, this research proposes the de- velopment of a localized low-code/no-code web generator platform specifically tailored for the Indonesian MSME land- scape. This platform aims to provide a “middle ground” solution that is intuitive for non-technical users, cost-effective by eliminating commission-based dependencies, and culturally relevant through built-in support for QRIS and WhatsApp.
 
+To evaluate the effectiveness of this solution, the study addresses the following Research Questions (RQ): \textbf{RQ1:} How can a low-code/no-code architecture be designed to integrate localized payment and communication tools while maintaining a minimal learning curve for non-technical users? and \textbf{RQ2:} In what way does the suggested platform help improve the usability, content management, digital visibility, market penetration, and technology adoption among the MSME owners?
 
-Furthermore, existing global website builders such as Wix or Squarespace exhibit a significant \textbf{localization gap}. These platforms frequently lack native integration with local Indonesian digital habits, most notably the Unified Quick Response Code Indonesian Standard (QRIS) for payments and automated WhatsApp-based communication, which are primary drivers of commerce in the Indonesian digital ecosystem \cite{bankindonesia2022qris}. While third-party plugins exist, they often introduce additional costs and technical complexity that further alienate non-technical users.
+The implications of this research are twofold. Firstly, there is the implication in the form of a feasible architecture design for the local web generation service that will close the gap between user-friendliness and professionalism. Secondly, there is the implication in the form of an empirical evaluation based on the System Usability Scale (SUS). It allows one to see the benchmark of how the localization of no-code platforms may be instrumental in facilitating access to digital technologies for small businesses in developing countries.
 
-
-To address these barriers, this research proposes the development of a localized \textbf{low-code/no-code web generator platform} specifically tailored for the Indonesian MSME landscape. This platform aims to provide a “middle ground” solution that is intuitive for non-technical users, cost-effective by eliminating commission-based dependencies, and culturally relevant through built-in support for QRIS and WhatsApp.
-
-
-To evaluate the effectiveness of this solution, the study addresses the following Research Questions (RQ): \textbf{RQ1:} How can a low-code/no-code architecture be designed to integrate localized payment and communication tools while maintaining a minimal learning curve for non-technical users? and \textbf{RQ2:} To what extent does the proposed platform improve usability, content management efficiency, digital visibility, market reach, and technology adaptation among MSME owners?
-
-The \textbf{contributions} of this research are two-fold. First, it provides a practical architectural model for a localized web generator that bridges the gap between ease of use and professional functionality. Second, it offers an empirical evaluation using the System Usability Scale (SUS), providing a benchmark for how localized no-code tools can democratize digital technology for small businesses in emerging economies. By offering a professional yet accessible digital presence, this study contributes to the broader effort of accelerating digital inclusion for the 65 million MSMEs across Indonesia.
-
-% ============== LITERATURE REVIEW ===============
+% % ============== LITERATURE REVIEW ===============
 \section{Literature Review}
 
 \subsection{Digital Transformation and Website Adoption for MSMEs}
+Micro, Small, and Medium Enterprises (MSMEs) contribute significantly to economic growth, especially in developing countries, by employing people and adding to GDP [4]. In addition to the development of digital technology, MSMEs have been encouraged to embrace digital solutions in order to enhance efficiency in communication, marketing, and business. Digital transformation allows organizations to leverage digital technologies in optimizing their communication and marketing as well as streamlining their business activities [5].
 
-Micro, Small, and Medium Enterprises (MSMEs) play a significant role in economic growth, particularly in developing countries, through employment generation and contribution to Gross Domestic Product (GDP) \cite{vial2019understanding}. Along with the rapid growth of digital technology, MSMEs are encouraged to adopt digital solutions to improve operational efficiency, customer engagement, and market reach. Digital transformation enables businesses to optimize communication, marketing, and business processes through digital platforms and internet-based technologies \cite{verhoef2021digital}.
+However, despite these advantages, the uptake of digital technology is low amongst MSMEs because of inadequate digital literacy skills, financial challenges, and lack of technical expertise [6]. Some MSMEs only use social networking sites as a means of promoting their services digitally. Even though this is convenient, it limits their identity development and prevents them from owning data about customers.
 
-Despite these opportunities, the adoption of digital technology among MSMEs remains relatively low due to limited digital literacy, financial constraints, and lack of technical support \cite{oecd2021msme}. Many MSMEs still rely solely on social media and marketplace platforms for digital promotion. Although these platforms provide convenience and wider market access, they limit business identity development and customer data ownership.
-
-Websites offer MSMEs a more professional digital presence by enabling businesses to display product catalogs, services, and business information independently. A business website can also improve customer trust and strengthen digital branding strategies \cite{chaffey2022digital}. However, website development platforms often require technical skills such as hosting configuration, website maintenance, and interface customization, which are difficult for non-technical users to understand \cite{alford2015internet}. Therefore, MSMEs require a website platform that is simple, accessible, and easy to manage without coding knowledge.
+The web sites provide a better digital appearance for MSMEs as they help the business showcase their product catalogues, services, and business details on its own. The business website also helps in gaining customer trust and developing better digital branding approaches [7]. But web sites often demand technical expertise related to setting up the host server, website management, and interface design, making it tough for nontechnical individuals to work on them [8]. Thus, MSMEs need a website portal that is user-friendly and easily manageable without requiring any coding skills.
 
 \subsection{No-Code Platforms and User-Centered Design}
+With the rise of no-code and low-code software, web and app creation has become easier for those without technical skills. The no-code system provides tools that enable users to create applications and web pages without having to write any computer code [9].
 
-The emergence of no-code and low-code technologies has simplified website and application development for non-technical users. No-code platforms allow users to build digital systems through visual interfaces and ready-to-use templates without writing programming code \cite{syed2022lowcode}. This approach enables faster and more accessible digital transformation for small businesses.
+Low-code and no-code platforms are increasingly adopted because they reduce development complexity and shorten implementation time [10]. Several platforms such as Word- Press and Wix provide website-building services with varying levels of flexibility. However, these platforms may still present usability challenges for MSME owners with limited technical experience. In addition, support for local business needs such as WhatsApp communication and QRIS payment integration is often limited.
 
-Low-code and no-code platforms are increasingly adopted because they reduce development complexity and shorten implementation time \cite{waszkowski2019lowcode}. Several platforms such as WordPress and Wix provide website-building services with varying levels of flexibility. However, these platforms may still present usability challenges for MSME owners with limited technical experience. In addition, support for local business needs such as WhatsApp communication and QRIS payment integration is often limited.
-
-To improve usability and user acceptance, the development of digital systems should involve users throughout the design process. User-Centered Design (UCD) is an approach that focuses on user needs, characteristics, and experiences during system development \cite{norman2013design}. UCD aims to improve usability, accessibility, and user satisfaction by involving users during requirement gathering, design evaluation, and usability testing \cite{iso2019human}. Through continuous user evaluation, UCD helps ensure that the developed platform is more relevant and easier to use for target users.
+To improve usability and user acceptance, the development of digital systems should involve users throughout the design process. User-Centered Design (UCD) is an approach that focuses on user needs, characteristics, and experiences during system development [11]. UCD aims to improve usability, accessibility, and user satisfaction by involving users during requirement gathering, design evaluation, and usability testing [12]. Through continuous user evaluation, UCD helps ensure that the developed platform is more relevant and easier to use for target users.
 
 \subsection{System Usability Scale (SUS)}
+Usability is an important aspect of digital platform devel- opment because it influences user satisfaction, efficiency, and ease of use [13]. Systems with good usability are more likely to be accepted and continuously used by users
 
-Usability is an important aspect of digital platform development because it influences user satisfaction, efficiency, and ease of use \cite{nielsen2012usability}. Systems with good usability are more likely to be accepted and continuously used by users.
-
-One of the most widely used methods for usability evaluation is the System Usability Scale (SUS), introduced by Brooke \cite{brooke1996sus}. SUS consists of ten questionnaire items used to evaluate users’ perceptions of system usability. The method is considered simple, reliable, and effective for evaluating websites, applications, and digital platforms \cite{bangor2008empirical}. SUS is commonly used because it provides a quick usability assessment while remaining easy for participants to understand.
+One of the most widely used methods for usability eval- uation is the System Usability Scale (SUS), introduced by Brooke [16]. SUS consists of ten questionnaire items used to evaluate users’ perceptions of system usability. The method is considered simple, reliable, and effective for evaluating websites, applications, and digital platforms [17]. SUS is com- monly used because it provides a quick usability assessment while remaining easy for participants to understand.
 
 In this study, SUS is used to evaluate the usability of the MyLinx platform after being tested by MSME owners. The evaluation results are expected to measure how easily users can operate and adapt to the developed platform.
 
 \subsection{Research Gap}
+Previous studies have discussed digital transformation and website adoption among MSMEs. However, existing platforms generally focus either on flexibility with higher technical complexity or simplicity with limited customization and lo- calization.
 
-Previous studies have discussed digital transformation and website adoption among MSMEs. However, existing platforms generally focus either on flexibility with higher technical complexity or simplicity with limited customization and localization.
+Most marketplace platforms provide ease of use but limit business identity development and customer data control. On the other hand, website development platforms such as WordPress and Wix provide higher flexibility but still require technical understanding that may be difficult for MSME own- ers with low digital literacy.
 
-Most marketplace platforms provide ease of use but limit business identity development and customer data control. On the other hand, website development platforms such as WordPress and Wix provide higher flexibility but still require technical understanding that may be difficult for MSME owners with low digital literacy.
+In addition, previous studies rarely focus on developing a no-code website platform specifically designed for MSMEs
+ 
+with integrated local business features such as WhatsApp com- munication and QRIS payment systems while simultaneously evaluating usability and technology adaptation among non- technical users. Therefore, this research aims to develop a user- friendly no-code website platform for MSMEs using a User- Centered Design approach and evaluate its usability using the System Usability Scale (SUS).
 
-In addition, previous studies rarely focus on developing a no-code website platform specifically designed for MSMEs with integrated local business features such as WhatsApp communication and QRIS payment systems while simultaneously evaluating usability and technology adaptation among non-technical users. Therefore, this research aims to develop a user-friendly no-code website platform for MSMEs using a User-Centered Design approach and evaluate its usability using the System Usability Scale (SUS).
 
-% ============= RESEARCH METHODOLOGY ===============
+% % ============= RESEARCH METHODOLOGY ===============
 
 \section{Research Methodology}
 \subsection{Research Design}
-This study employed a Research and Development (R\&D) methodology combined with a User-Centered Design (UCD) approach to develop the MyLinx platform for MSMEs. The research focused on identifying user needs, developing a no-code website platform, and evaluating its usability and impact on MSME digital adoption.
+This study employed a Research and Development (R\&D) methodology combined with a User-Centered Design (UCD) approach to develop the MyLinx platform for MSMEs. The research focused on identifying user needs, developing a no- code website platform, and evaluating its usability and impact on MSME digital adoption.
+
 
 \subsection{Requirement Gathering}
+In the beginning, challenges associated with the creation and management of MSME businesses' websites were established. Data collection was performed using a pre-development survey distributed among MSME business owners. A Likert scale was used in the survey in order to establish MSME business owners' views on the significance of having a website, interest in no-code website platform, digital adaption ability, need for website management and the use of WhatsApp and QRIS functionalities.
 
-The initial stage of the research involved identifying the challenges faced by MSMEs in creating and managing business websites. Data collection was conducted through a pre-development questionnaire distributed to MSME owners. The questionnaire used a Likert scale to measure participants’ perceptions regarding the importance of having a business website, interest in using a no-code website platform, ease of digital adoption, website management needs, and the integration of WhatsApp and QRIS features.
-
-Likert scales are widely used in usability and perception studies because they allow respondents to express their level of agreement toward specific statements in a structured manner \cite{joshi2015likert}. The collected data were used as the basis for designing platform features and user interfaces that matched the needs of MSME owners.
-
+There is widespread application of the Likert scale technique in the study of user perceptions and usability because it allows for establishing the degree of agreement with certain statements from the part of respondents [14].
 
 \subsection{System Development}
-
-Based on the identified user requirements, the MyLinx platform was developed as a no-code website builder for MSMEs. The platform provides features including customizable templates, product catalog management, WhatsApp integration, QRIS payment integration, and a simplified dashboard. The system was developed using the Laravel framework with the MVC architecture, Blade template engine, and TailwindCSS for responsive interface design. Deployment utilized a VPS environment with Nginx, PHP-FPM, and SSL/TLS security. An iterative development approach was applied to ensure usability, accessibility, and ease of use for MSME users with limited technical experience.
+The MyLinx platform is a result of the user needs identified during the process of its creation and represents a no-code website builder targeted at MSMEs. The features that can be found in the platform include customizable templates, product catalog management, integration with WhatsApp, QRIS payment systems, and a more convenient dashboard. In order to develop the system, Laravel framework and MVC architecture, along with the use of Blade template engine and TailwindCSS were used. VPS deployment environment included such services as Nginx, PHP-FPM, and SSL/TLS protection.
 
 \subsection{System Implementation}
 
-After the development process was completed, the platform was implemented and tested by MSME owners for a period of two weeks. During this phase, participants independently used the platform to create and manage their business websites. The implementation stage aimed to observe user interaction with the platform in real business scenarios and evaluate users’ adaptation to the developed system.
+Following the completion of the development process, the platform was subsequently implemented and tested by MSME owners over a period of two weeks. At this point, participants utilized the platform independently to build their websites for their businesses. The purpose of implementing the platform was to observe how users interact with the platform in real life situations and adapt to the new system.
+
+\begin{table}[H]
+\centering
+\caption{System Requirements for MyLinx}
+\label{tab:requirements}
+
+\begin{tabular}{p{5cm}cc}
+\hline
+\textbf{Component} & \textbf{Requirement} \\
+\hline
+Operating System & Linux-based Server/VPS \\
+Version Control & Git \\
+Container Platform & Docker \\
+Container Orchestration & Docker Compose v2 \\
+Build Automation Tool & GNU Make \\
+Web Server & Nginx \\
+Application Runtime & PHP-FPM \\
+Database Management System & PostgreSQL \\
+Security & SSL/TLS Certificate \\
+\hline
+\end{tabular}
+
+\end{table}
+The MyLinx platform supports both centralized hosting and independent self-deployment. To deploy the system, users must prepare a Linux-based server or Virtual Private Server (VPS) with Git, Docker, Docker Compose v2, and GNU Make installed. These components provide the necessary environ- ment for source code management, container orchestration, and automated deployment processes.
+
+The source code, installation guide, and deployment resources are publicly available through the official GitHub repository at https://github.com/raexera/MyLinx. Users, MSMEs, and organizations can clone the repository and deploy their own isolated instance by following the provided installation documentation.
+
+A live production deployment of MyLinx is accessible at https://mylinx.tech/. This publicly available instance serves as a reference implementation and demonstrates the platform operating in a real-world production environment.
 
 \subsection{Post-Implementation Evaluation}
 
-Following the implementation stage, participants completed a post-implementation questionnaire to evaluate the effectiveness of the MyLinx platform. The questionnaire measured several aspects including content management efficiency, market reach improvement, digital visibility enhancement, technology adaptation, ease of use, and overall user satisfaction.
+After the implementation process, the participants were asked to complete a questionnaire aimed at measuring the effectiveness of the MyLinx platform. Some of the parameters included in the questionnaire included content management, increased reach in the market, improved visibility, tech adaptation, ease of use, and satisfaction levels.
 
 All questionnaire items were measured using a five-point Likert scale ranging from strongly disagree to strongly agree. The evaluation results were used to analyze user perceptions regarding the effectiveness of the developed platform.
 
 \subsection{Usability Evaluation Using SUS}
 
-System usability evaluation was conducted using the System Usability Scale (SUS) proposed by Brooke \cite{brooke1996sus}. SUS consists of ten standardized statements used to measure users’ perceptions regarding the usability of a system.
+System usability evaluation was conducted using the System Usability Scale (SUS) proposed by Brooke [16]. SUS consists of ten standardized statements used to measure users’ percep- tions regarding the usability of a system.
 
-SUS is widely used because it provides a simple, reliable, and efficient usability evaluation method for digital systems \cite{bangor2008empirical}. Participants completed the SUS questionnaire after using the platform during the implementation phase. The SUS score was calculated using the standard SUS scoring method to determine the usability level and user acceptance of the MyLinx platform.
+SUS is widely used because it provides a simple, reliable, and efficient usability evaluation method for digital systems [17]. Participants completed the SUS questionnaire after using the platform during the implementation phase. The SUS score was calculated using the standard SUS scoring method to determine the usability level and user acceptance of the MyLinx platform.
 
 \subsection{Data Analysis}
 
-The collected data were analyzed using descriptive quantitative analysis. Responses from both pre-implementation and post-implementation questionnaires were calculated using mean scores and percentage analysis to evaluate user perceptions toward the developed platform.
+The collected data were analyzed using descriptive quan- titative analysis. Responses from both pre-implementation and post-implementation questionnaires were calculated using mean scores and percentage analysis to evaluate user percep- tions toward the developed platform.
 
 In addition, the SUS evaluation results were analyzed to determine the overall usability performance of the system. Higher SUS scores indicated better usability and stronger user acceptance of the developed platform.
 
-% =================== RESULT AND DISCUSSION ===================
+% % =================== RESULT AND DISCUSSION ===================
 
 \section{Experiments and Results}
 
 \subsection{Requirement Gathering Results}
 
-The requirement gathering process was conducted through questionnaires involving 34 MSME owners from various business sectors. This stage aimed to identify user needs and expectations regarding the development of the MyLinx no-code website generator platform.
+The requirement gathering process was conducted through questionnaires involving 34 MSME owners from various busi- ness sectors. This stage aimed to identify user needs and expectations regarding the development of the MyLinx no-code website generator platform.
 
-Based on the questionnaire results, most respondents showed positive responses toward the idea of an easy-to-use website generator platform for MSMEs. The average score of each indicator is presented in Table \ref{tab:requirement_analysis}.
+Based on the questionnaire results, most respondents showed positive responses toward the idea on an easy-to-use website generator platform for MSMEs. The average score of each indicator is presented in Tabel II
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Requirement Gathering Analysis Results}
 \begin{tabular}{p{4.5cm}cc}
@@ -215,19 +227,19 @@ Impact of integrated websites on sales improvement & 4.53 & Excellent \\
 \label{tab:requirement_analysis}
 \end{table}
 
-Based on Table \ref{tab:requirement_analysis}, all indicators obtained average scores above 4.4, indicating that respondents strongly agreed with the need for a simple and integrated website generator platform for MSMEs. The highest score was obtained for the statement that an easy-to-use website generator application would help business activities, with an average score of 4.71.
+Based on Table II, all indicators obtained average scores above 4.4, indicating that respondents strongly agreed with the need for a simple and integrated website generator platform for MSMEs. The highest score was obtained for the statement that an easy-to-use website generator application would help business activities, with an average score of 4.71.
 
-In addition, respondents also showed strong interest in using a no-code website builder platform and considered WhatsApp and QRIS integration important features to support communication and transaction processes. These findings were used as the basis for determining the main features implemented in the MyLinx platform.
+In addition, respondents also showed strong interest in using a no-code website builder platform and considered WhatsApp and QRIS integration important features to support commu- nication and transaction processes. These findings were used as the basis for determining the main features implemented in the MyLinx platform.
 
 \subsection{Post-Implementation Evaluation}
 
-Following the implementation stage, the developed MyLinx platform was evaluated through a pilot study involving 8 MSME participants. While the sample size is relatively small, this aligns with established usability engineering principles; according to Nielsen \cite{nielsen2012usability}, testing a system with 5 to 8 users is generally sufficient to uncover approximately 80--85\% of core usability problems. This pilot evaluation aimed to measure user perceptions regarding the effectiveness and usability of the platform after direct usage.
+Following the implementation stage, the developed MyLinx platform was evaluated through a pilot study involving 8 MSME participants. However, since the sample size is quite small, this still conforms to accepted practices in usability engineering; Nielsen [13] states that “with five to eight test subjects you can find about 80–85 percent of all usability problems in a system.” This preliminary study sought to determine the perception of users with regards to the effectiveness and usability of the website after using it. 
 
-The questionnaire evaluated several aspects, including content management efficiency, market reach improvement, digital visibility enhancement, ease of technology adoption, ease of use, and overall user satisfaction. All questionnaire items were measured using a five-point Likert scale ranging from strongly disagree to strongly agree.
+The survey was designed to evaluate the following areas: content management effectiveness, improved market access, improved digital presence, ease of adoption of the technology, ease of use, and overall user satisfaction. All questions in the survey were answered using the five-point Likert Scale.
 
-The evaluation results are presented in Table \ref{tab:post_implementation}.
+The evaluation results are presented in Table III.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \caption{Post-Implementation Evaluation Results}
@@ -251,16 +263,16 @@ Ease of use without coding skills & 4.88 & Excellent \\
 
 Based on Table \ref{tab:post_implementation}, all evaluation indicators obtained average scores above 4.5, indicating highly positive responses from users toward the MyLinx platform. The highest scores were obtained for WhatsApp integration, QRIS payment integration, and product management efficiency, demonstrating that these features effectively supported MSME operational activities.
 
-In addition, respondents stated that the platform was easy to use even without coding skills and helped improve the professional appearance and digital visibility of their businesses. These results indicate that the MyLinx platform successfully fulfilled the main user requirements identified during the requirement gathering stage.
+In addition, respondents stated that the platform was easy to use even without coding skills and helped improve the professional appearance and digital visibility of their businesses. These result indicate that MyLinx platform successfully fulfilled the main user requirements identified during the requirement gathering stage.
 
 \subsection{System Usability Scale (SUS) Analysis}
 
-The usability evaluation of the MyLinx platform was conducted using the System Usability Scale (SUS) method involving 8 MSME participants. The SUS questionnaire consisted of 10 statements designed to measure system usability, ease of use, learnability, and user satisfaction.
+The usability evaluation of the MyLinx platform was con- ducted using the System Usability Scale (SUS) method involv- ing 8 MSME participants. The SUS questionnaire consisted of 10 statements designed to measure system usability, ease of use, learnability, and user satisfaction.
 
-Each questionnaire item was measured using a five-point Likert scale ranging from strongly disagree to strongly agree. The SUS score calculation followed the standard SUS formula, where odd-numbered items were reduced by 1 and even-numbered items were subtracted from 5. The total score was then multiplied by 2.5 to obtain the final SUS score for each respondent.
+Each questionnaire item was measured using a five-point Likert scale ranging from strongly disagree to strongly agree. The SUS score calculation followed the standard SUS formula, where odd-numbered items were reduced by 1 and even- numbered items were subtracted from 5. The total score was then multiplied by 2.5 to obtain the final SUS score for each respondent. The SUS calculation results are presented in Table \ref{tab:sus_result}.
 
-The SUS calculation results are presented in Table \ref{tab:sus_result}.
-\begin{table}[h]
+Based on Table IV, the MyLinx platform obtained an average SUS score of 85.0. According to the SUS interpre- tation scale, this score falls into the Excellent category and is classified as Acceptable. This result indicates that the platform has a high level of usability and can be easily used by MSME users without requiring technical or coding skills.
+\begin{table}[H]
 \centering
 \small
 \caption{System Usability Scale (SUS) Results}
@@ -283,33 +295,31 @@ Respondent 8 & 95.0 \\
 \label{tab:sus_result}
 \end{table}
 
-Based on Table \ref{tab:sus_result}, the MyLinx platform obtained an average SUS score of 85.0. According to the SUS interpretation scale, this score falls into the \textit{Excellent} category and is classified as \textit{Acceptable}. This result indicates that the platform has a high level of usability and can be easily used by MSME users without requiring technical or coding skills.
-
-In addition, most respondents stated that the system was easy to learn, simple to operate, and provided confidence during usage. Therefore, the usability aspect of the MyLinx platform can be considered successful in meeting user expectations and supporting MSME digitalization activities.
+In addition, most respondents stated that the system was easy to learn, simple to operate, and provided confidence during usage. Therefore, the usability aspect of the MyLinx platform can be considered successful in meeting user expec- tations and supporting MSME digitalization activities.
 
 \subsection{System Implementation}
 
-Based on the identified user requirements, the MyLinx platform was developed as a no-code website generator specifically designed for MSMEs. The platform provides several main features, including customizable website templates, product catalog management, order management, portfolio builder, WhatsApp integration, QRIS payment integration, and dashboard management. The system was developed using the Laravel framework with the Model-View-Controller (MVC) architectural pattern. The implementation process focused on creating a user-friendly interface that allows MSME users to build and manage business websites without requiring coding skills.
+The following features are based on the established user needs that have enabled the development of the MyLinx platform as a no-code website generator specifically targeted at MSMEs. These features include customizable website templates, product catalog, order management, portfolio building, WhatsApp integration, QRIS payment integration, and dashboard management. The software solution has been built using the Laravel web application framework, following the MVC architectural design pattern. The primary objective of the implementation phase is the creation of a user interface allowing MSME users to develop their websites without programming skills.
 
 \begin{figure}[H]
 \centering
 
 \subfloat[Dashboard Interface]{
-\includegraphics[width=0.78\columnwidth]{assets/dashboard.png}
+\includegraphics[width=0.55\columnwidth]{assets/dashboard.png}
 \label{fig:dashboard}
 }
 
-\vspace{0.15cm}
+% \vspace{0.15cm}
 
 \subfloat[Product Management]{
-\includegraphics[width=0.78\columnwidth]{assets/daftar_produk.png}
+\includegraphics[width=0.55\columnwidth]{assets/daftar_produk.png}
 \label{fig:product_management}
 }
 
-\vspace{0.15cm}
+% \vspace{0.15cm}
 
 \subfloat[Order Management]{
-\includegraphics[width=0.78\columnwidth]{assets/daftar_pesanan.png}
+\includegraphics[width=0.55\columnwidth]{assets/daftar_pesanan.png}
 \label{fig:order_management}
 }
 
@@ -318,39 +328,37 @@ Based on the identified user requirements, the MyLinx platform was developed as 
 
 \end{figure}
 
-Figure \ref{fig:system_interfaces} presents several core interfaces implemented in the MyLinx platform, including the dashboard interface, product management feature, and order management feature. The dashboard interface enables MSME users to monitor business activities such as product statistics, customer visits, and transaction summaries in a centralized view. The product management feature allows users to add, edit, and organize product information through a simple and user-friendly interface. Meanwhile, the order management feature helps users monitor incoming customer orders and transaction statuses efficiently.
+In Figure 1 below, some of the key interfaces used in the MyLinx platform are presented, among which are the dash- board interface, the product management interface, and the order man- agement interface. The dash- board interface facilitates the use by MSMEs for monitoring their business operations, which include product statistics, number of visitors, and transaction reports. On the other hand, the product manage- ment interface facilitates the addition, modification, and management of products using an easy-to-use interface.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.72\columnwidth]{assets/Website_settings.png}
+\includegraphics[width=0.61\columnwidth]{assets/Website_settings.png}
 \caption{Website Settings and Customization}
 \label{fig:website_settings}
 \end{figure}
 
-Figure \ref{fig:website_settings} shows the website customization settings page. This feature allows users to modify website appearance, themes, layout configurations, and storefront identity according to their business preferences.
+The page that displays customization options for websites is illustrated in Figure 2. This enables users to customize their web site's looks, themes, layouts, and storefront images depending on their business preferences.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\columnwidth]{assets/Store_front.png}
+\includegraphics[width=0.50\columnwidth]{assets/Store_front.png}
 \caption{Generated Storefront Website}
 \label{fig:storefront}
 \end{figure}
 
-Figure \ref{fig:storefront} shows an example of the generated storefront website created using the MyLinx platform. The storefront displays business information, portfolio content, product catalogs, and integrated customer communication features.
-
+The figure 3 below represents a case of the generated storefront website using the MyLinx software. The storefront contains information on business, portfolio, catalog of products, and customer communication.
 
 \section{Conclusion}
-This study successfully developed and evaluated MyLinx, a localized no-code web generator designed to accelerate digital transformation for Indonesian MSMEs. Addressing RQ1, the platform demonstrated that a low-code/no-code architecture can seamlessly integrate essential local commerce tools—specifically WhatsApp and QRIS—while eliminating the need for coding skills. Regarding RQ2, the pilot implementation showed highly positive user feedback in product management and digital visibility, supported by a System Usability Scale (SUS) score of 85.0, which classifies the platform's usability as "Excellent."
+MyLinx platform was successfully created and assessed as a localized, no-code web generation solution that allows accelerating digital transformation among Indonesian MSMEs. In relation to research question 1, the platform confirmed that a low-code/no-code architecture can be easily integrated into a local business toolset, namely the usage of WhatsApp and QRIS services while excluding the necessity of coding. In connection with research question 2, the positive results were observed in terms of product management and digital exposure, evidenced by the System Usability Scale score of 85.0 and the ”Excellent” classification of platform usability.
 
-Despite these positive outcomes, this study acknowledges a limitation regarding the sample size used during the post-implementation evaluation. The system was tested by a small pilot group of eight MSME owners, which limits the generalizability of the quantitative business impact metrics (e.g., market reach improvement). Consequently, future work will focus on scaling the deployment of the MyLinx platform to a broader and more diverse spectrum of MSMEs across Indonesia, enabling a comprehensive large-scale empirical analysis to further validate its long-term economic impact.
+While achieving a satisfactory level of success, the current study identifies one major limitation in terms of the sample size utilized in the post-implementation phase. The limited number of participants was represented by only eight MSME owners who have used the system for evaluation purposes, limiting generalization of quantitative business impact indicators (e.g., improvement of market penetration rate). Further research is therefore aimed at scaling the MyLinx platform implementation among Indonesian MSMEs.
 
 \section*{Author Contribution}
-Muhammad Haekal Aditya Rahmadyan contributed mainly to manuscript writing, data analysis, and research documentation. Rayhan Kafi Pratama and Santana Mena contributed primarily to system design and application development. Soni Yora supervised the research process and provided academic guidance. All authors contributed to the discussion, revision, and final approval of the manuscript.
-
+Muhammad Haekal Aditya Rahmadyan contributed mainly to manuscript writing, data analysis, and research documen- tation. Rayhan Kafi Pratama and Santana Mena contributed primarily to system design and application development. Soni Yora supervised the research process and provided academic guidance. All authors contributed to the discussion, revision, and final approval of the manuscript.
 
 \section*{Data Availability}
 
-The implementation source code of the MyLinx platform is publicly available through the GitHub repository at \url{https://github.com/raexera/MyLinx/}. The deployed system can also be accessed through \url{https://mylinx.tech/}.
+The implementation source code of the MyLinx platform is publicly available through the GitHub repository at https://github.com/raexera/MyLinx/. The deployed system can also be accessed through https://mylinx.tech/.
 
 \begin{thebibliography}{00}
 
